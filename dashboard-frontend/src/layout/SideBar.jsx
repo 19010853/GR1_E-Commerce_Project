@@ -1,23 +1,29 @@
-import React, { useState } from "react";
-import { BiLogOutCircle } from "react-icons/bi";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { getNav } from "../navigation/index";
+import { BiLogOutCircle } from "react-icons/bi";
 
-const Sidebar = ({ showSidebar, setShowSidebar }) => {
+const SideBar = ({ showSideBar, setShowSideBar }) => {
   const { pathname } = useLocation();
-  const [allNav] = useState([]);
+  const [allNav, setAllNav] = useState([]);
+  useEffect(() => {
+    const navs = getNav("admin");
+    setAllNav(navs);
+  }, []);
+  // console.log(allNav)
 
   return (
     <div>
       <div
-        onClick={() => setShowSidebar(false)}
+        onClick={() => setShowSideBar(false)}
         className={`fixed duration-200 ${
-          !showSidebar ? "invisible" : "visible"
+          !showSideBar ? "invisible" : "visible"
         } w-screen h-screen bg-[#8cbce780] top-0 left-0 z-10`}
       ></div>
 
       <div
         className={`w-[260px] fixed bg-[#e6e7fb] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${
-          showSidebar ? "left-0" : "-left-[260px] lg:left-0"
+          showSideBar ? "left-0" : "-left-[260px] lg:left-0"
         } `}
       >
         <div className="h-[70px] flex justify-center items-center">
@@ -63,4 +69,4 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;
