@@ -7,6 +7,8 @@ const PaymentRequest = lazy(()=> import('../../views/admin/PaymentRequest'))
 const DeactiveSellers = lazy(()=> import('../../views/admin/DeactiveSellers'))
 const SellersRequest = lazy(()=> import('../../views/admin/SellersRequest'))
 const SellerDetails = lazy(()=> import('../../views/admin/SellerDetails'))
+const ChatSeller = lazy(()=> import('../../views/admin/ChatSeller'))
+const OrderDetails = lazy(() => import('../../views/admin/OrderDetails'))
 
 export const adminRoutes = [
     {
@@ -47,6 +49,16 @@ export const adminRoutes = [
     {
         path: 'admin/dashboard/seller/details/:sellerID',
         element : <SellerDetails/>,
+        role : 'admin'
+    },
+    {
+        path: 'admin/dashboard/chat-seller',
+        element : <ChatSeller/>,
+        role : 'admin'
+    },
+    {
+        path: 'admin/dashboard/order/details/:orderID',
+        element : <OrderDetails/>,
         role : 'admin'
     },
 ]

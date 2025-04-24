@@ -105,12 +105,10 @@ const Category = () => {
                       >
                         <div className="flex justify-start items-center gap-4">
                           <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
-                            {" "}
-                            <FaEdit />{" "}
+                            <FaEdit />
                           </Link>
                           <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
-                            {" "}
-                            <FaTrash />{" "}
+                            <FaTrash />
                           </Link>
                         </div>
                       </td>
@@ -167,7 +165,7 @@ const Category = () => {
                     htmlFor="image"
                   >
                     <span>
-                      <FaImage />{" "}
+                      <FaImage />
                     </span>
                     <span>Select Image</span>
                   </label>

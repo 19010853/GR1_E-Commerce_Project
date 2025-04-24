@@ -81,7 +81,6 @@ const Register = () => {
                 id="checkbox"
               />
               <label htmlFor="checkbox">
-                {" "}
                 I agree to privacy policy & terms
               </label>
             </div>
@@ -94,8 +93,7 @@ const Register = () => {
               <p>
                 Already have an account ?
                 <Link className="font-bold" to="/login">
-                  {" "}
-                  Sign In{" "}
+                  Sign In
                 </Link>
               </p>
             </div>

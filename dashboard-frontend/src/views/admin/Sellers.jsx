@@ -88,7 +88,7 @@ const Sellers = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    Kazi Ariyan{" "}
+                    Kazi Ariyan
                   </td>
                   <td
                     scope="row"
@@ -100,27 +100,27 @@ const Sellers = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>Pending</span>{" "}
+                    <span>Pending</span>
                   </td>
                   <td
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    ariyan@gmail.com{" "}
-                  </td>
-
-                  <td
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    Dhaka{" "}
+                    ariyan@gmail.com
                   </td>
 
                   <td
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    Paltan{" "}
+                    Dhaka
+                  </td>
+
+                  <td
+                    scope="row"
+                    className="py-1 px-4 font-medium whitespace-nowrap"
+                  >
+                    Paltan
                   </td>
 
                   <td
@@ -129,8 +129,7 @@ const Sellers = () => {
                   >
                     <div className="flex justify-start items-center gap-4">
                       <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                        {" "}
-                        <FaEye />{" "}
+                        <FaEye />
                       </Link>
                     </div>
                   </td>
