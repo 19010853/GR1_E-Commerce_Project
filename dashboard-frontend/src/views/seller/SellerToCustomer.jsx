@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FaList } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
-const ChatSeller = () => {
+const SellerToCustomer = () => {
   const [show, setShow] = useState(false);
-  const sellerID = 65;
+  const sellerId = 65;
 
   return (
     <div className="px-2 lg:px-7 py-5">
@@ -17,12 +17,12 @@ const ChatSeller = () => {
           >
             <div className="w-full h-[calc(100vh-177px)] bg-[#9e97e9] md:bg-transparent overflow-y-auto">
               <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
-                <h2>Sellers</h2>
+                <h2>Customers</h2>
                 <span
                   onClick={() => setShow(!show)}
                   className="block cursor-pointer md:hidden"
                 >
-                  <IoMdClose />
+                  <IoMdClose />{" "}
                 </span>
               </div>
 
@@ -87,7 +87,7 @@ const ChatSeller = () => {
 
           <div className="w-full md:w-[calc(100%-200px)] md:pl-4">
             <div className="flex justify-between items-center">
-              {sellerID && (
+              {sellerId && (
                 <div className="flex justify-start items-center gap-3">
                   <div className="relative">
                     <img
@@ -97,6 +97,7 @@ const ChatSeller = () => {
                     />
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   </div>
+                  <h2 className="text-base text-white font-semibold">Kazi</h2>
                 </div>
               )}
 
@@ -105,7 +106,7 @@ const ChatSeller = () => {
                 className="w-[35px] flex md:hidden h-[35px] rounded-sm bg-blue-500 shadow-lg hover:shadow-blue-500/50 justify-center cursor-pointer items-center text-white"
               >
                 <span>
-                  <FaList />
+                  <FaList />{" "}
                 </span>
               </div>
             </div>
@@ -176,4 +177,4 @@ const ChatSeller = () => {
   );
 };
 
-export default ChatSeller;
+export default SellerToCustomer;
