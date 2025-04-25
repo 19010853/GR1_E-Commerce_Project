@@ -4,6 +4,7 @@ import { admin_login, messageClear } from "../../store/Reducers/authReducer";
 import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { overrideStyle } from "../../utils/utils";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -27,15 +28,7 @@ const AdminLogin = () => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(admin_login(state));
-    console.log(state);
-  };
-
-  const overrideStyle = {
-    display: "flex",
-    margin: "0 auto",
-    height: "24px",
-    justifyContent: "center",
-    alignItems: "center",
+    // console.log(state)
   };
 
   useEffect(() => {
@@ -48,7 +41,7 @@ const AdminLogin = () => {
       dispatch(messageClear());
       navigate("/");
     }
-  }, [errorMessage, successMessage, dispatch]);
+  }, [errorMessage, successMessage]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#cdcae9] flex justify-center items-center">
@@ -98,7 +91,7 @@ const AdminLogin = () => {
               className="bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
             >
               {loader ? (
-                <PropagateLoader color="white" cssOverride={overrideStyle} />
+                <PropagateLoader color="#fff" cssOverride={overrideStyle} />
               ) : (
                 "Login"
               )}
