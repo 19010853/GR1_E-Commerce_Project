@@ -4,11 +4,17 @@ import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { get_category } from "../../store/Reducers/categoryReducer";
-import { add_product } from "../../store/Reducers/productReducer";
+import { add_product, messageClear } from "../../store/Reducers/productReducer";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
+  const { loader, successMessage, errorMessage } = useSelector(
+    (state) => state.product
+  );
 
   useEffect(() => {
     dispatch(
@@ -72,6 +78,28 @@ const AddProduct = () => {
   // console.log(images)
   // console.log(imageShow)
 
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      setState({
+        name: "",
+        description: "",
+        discount: "",
+        price: "",
+        brand: "",
+        stock: "",
+      });
+      setImageShow([]);
+      setImages([]);
+      setCategory("");
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
   const changeImage = (img, index) => {
     if (img) {
       let tempUrl = imageShow;
@@ -102,13 +130,12 @@ const AddProduct = () => {
     formData.append("discount", state.discount);
     formData.append("brand", state.brand);
     formData.append("shopName", "EasyShop");
-    formData.append("name", state.name);
     formData.append("category", category);
 
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
-    console.log(state);
+    // console.log(state)
     dispatch(add_product(formData));
   };
 
@@ -309,8 +336,15 @@ const AddProduct = () => {
             </div>
 
             <div className="flex">
-              <button className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
-                Add Product
+              <button
+                disabled={loader ? true : false}
+                className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+              >
+                {loader ? (
+                  <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+                ) : (
+                  "Add Category"
+                )}
               </button>
             </div>
           </form>
