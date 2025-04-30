@@ -26,7 +26,7 @@ const AdminDashboard = () => {
         dashArray: 0,
       },
       xaxis: {
-        categories: [
+        categorys: [
           "Jan",
           "Feb",
           "Mar",

@@ -42,7 +42,7 @@ const SellerDashboard = () => {
         dashArray: 0,
       },
       xaxis: {
-        categories: [
+        categorys: [
           "Jan",
           "Feb",
           "Mar",
@@ -64,7 +64,7 @@ const SellerDashboard = () => {
         {
           breakpoint: 565,
           yaxis: {
-            categories: [
+            categorys: [
               "Jan",
               "Feb",
               "Mar",

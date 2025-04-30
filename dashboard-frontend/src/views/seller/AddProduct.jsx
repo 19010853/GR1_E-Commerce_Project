@@ -1,34 +1,24 @@
-import React, { useState } from "react";
-import { IoMdCloseCircle, IoMdImages } from "react-icons/io";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { IoMdImages } from "react-icons/io";
+import { IoMdCloseCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { get_category } from "../../store/Reducers/categoryReducer";
+import { add_product } from "../../store/Reducers/productReducer";
 
 const AddProduct = () => {
-  const categories = [
-    {
-      id: 1,
-      name: "Sports",
-    },
-    {
-      id: 2,
-      name: "Tshirt",
-    },
-    {
-      id: 3,
-      name: "Mobile",
-    },
-    {
-      id: 4,
-      name: "Computer",
-    },
-    {
-      id: 5,
-      name: "Watch",
-    },
-    {
-      id: 6,
-      name: "Pant",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { categorys } = useSelector((state) => state.category);
+
+  useEffect(() => {
+    dispatch(
+      get_category({
+        searchValue: "",
+        parPage: "",
+        page: "",
+      })
+    );
+  }, []);
 
   const [state, setState] = useState({
     name: "",
@@ -46,22 +36,21 @@ const AddProduct = () => {
     });
   };
 
-  const [categoryShow, setCategoryShow] = useState(false);
+  const [cateShow, setCateShow] = useState(false);
   const [category, setCategory] = useState("");
-  const [allCategory, setAllCategory] = useState(categories);
+  const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
     if (value) {
-      let searchedValue = allCategory.filter(
-        (category) =>
-          category.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+      let srcValue = allCategory.filter(
+        (c) => c.name.toLowerCase().indexOf(value.toLowerCase()) > -1
       );
-      setAllCategory(searchedValue);
+      setAllCategory(srcValue);
     } else {
-      setAllCategory(categories);
+      setAllCategory(categorys);
     }
   };
 
@@ -80,29 +69,52 @@ const AddProduct = () => {
       setImageShow([...imageShow, ...imageUrl]);
     }
   };
+  // console.log(images)
+  // console.log(imageShow)
 
-  console.log("images: ", images);
-  console.log("imageShow: ", imageShow);
-
-  const changeImage = (file, index) => {
-    if (images[index]) {
-      let tempURL = imageShow;
+  const changeImage = (img, index) => {
+    if (img) {
+      let tempUrl = imageShow;
       let tempImages = images;
 
-      tempImages[index] = file;
-      tempURL[index] = { url: URL.createObjectURL(file) };
-      setImageShow([...tempURL]);
+      tempImages[index] = img;
+      tempUrl[index] = { url: URL.createObjectURL(img) };
+      setImageShow([...tempUrl]);
       setImages([...tempImages]);
     }
   };
 
   const removeImage = (i) => {
-    const filterImages = images.filter((img, index) => index !== i);
-    const filterImageURL = imageShow.filter((img, index) => index !== i);
+    const filterImage = images.filter((img, index) => index !== i);
+    const filterImageUrl = imageShow.filter((img, index) => index !== i);
 
-    setImages(filterImages);
-    setImageShow(filterImageURL);
+    setImages(filterImage);
+    setImageShow(filterImageUrl);
   };
+
+  const add = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("description", state.description);
+    formData.append("price", state.price);
+    formData.append("stock", state.stock);
+    formData.append("discount", state.discount);
+    formData.append("brand", state.brand);
+    formData.append("shopName", "EasyShop");
+    formData.append("name", state.name);
+    formData.append("category", category);
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
+    console.log(state);
+    dispatch(add_product(formData));
+  };
+
+  useEffect(() => {
+    setAllCategory(categorys);
+  }, [categorys]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -117,7 +129,7 @@ const AddProduct = () => {
           </Link>
         </div>
         <div>
-          <form>
+          <form onSubmit={add}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product Name</label>
@@ -151,18 +163,18 @@ const AddProduct = () => {
                 <label htmlFor="category">Category</label>
                 <input
                   readOnly
-                  onClick={() => setCategoryShow(!categoryShow)}
+                  onClick={() => setCateShow(!cateShow)}
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
                   value={category}
                   type="text"
                   id="category"
-                  placeholder="Category"
+                  placeholder="--select category--"
                 />
 
                 <div
                   className={`absolute top-[101%] bg-[#475569] w-full transition-all ${
-                    categoryShow ? "scale-100" : "scale-0"
+                    cateShow ? "scale-100" : "scale-0"
                   } `}
                 >
                   <div className="w-full px-4 py-2 fixed">
@@ -171,21 +183,21 @@ const AddProduct = () => {
                       onChange={categorySearch}
                       className="px-3 py-1 w-full focus:border-indigo-500 outline-none bg-transparent border border-slate-700 rounded-md text-[#d0d2d6] overflow-hidden"
                       type="text"
-                      placeholder="Select Category"
+                      placeholder="search"
                     />
                   </div>
                   <div className="pt-14"></div>
-                  <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scroll">
+                  <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scrool">
                     {allCategory.map((c, i) => (
                       <span
-                        className={`px-4 py-2 hover:bg-indigo-500 hover:shadow-lg w-full cursor-pointer ${
-                          category === c.name ? "bg-indigo-500" : ""
+                        className={`px-4 py-2 hover:bg-indigo-500 hover:text-white hover:shadow-lg w-full cursor-pointer ${
+                          category === c.name && "bg-indigo-500"
                         }`}
                         onClick={() => {
-                          setCategoryShow(false);
+                          setCateShow(false);
                           setCategory(c.name);
                           setSearchValue("");
-                          setAllCategory(categories);
+                          setAllCategory(categorys);
                         }}
                       >
                         {c.name}{" "}
@@ -219,11 +231,12 @@ const AddProduct = () => {
                   type="number"
                   name="price"
                   id="price"
-                  placeholder="Price"
+                  placeholder="price"
                 />
               </div>
+
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Discount</label>
+                <label htmlFor="discount">Discount</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -231,13 +244,13 @@ const AddProduct = () => {
                   type="number"
                   name="discount"
                   id="discount"
-                  placeholder="Discount (%)"
+                  placeholder="discount by %"
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="description" className="text-[#d0d2d6] ">
+            <div className="flex flex-col w-full gap-1 mb-5">
+              <label htmlFor="description" className="text-[#d0d2d6]">
                 Description
               </label>
               <textarea
@@ -248,14 +261,14 @@ const AddProduct = () => {
                 id="description"
                 placeholder="Description"
                 cols="10"
-                rows="5"
-              />
+                rows="4"
+              ></textarea>
             </div>
 
-            <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4 ">
-              {imageShow.map((img, index) => (
-                <div className="h-[180px] relative ">
-                  <label htmlFor={index}>
+            <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
+              {imageShow.map((img, i) => (
+                <div className="h-[180px] relative">
+                  <label htmlFor={i}>
                     <img
                       className="w-full h-full rounded-sm"
                       src={img.url}
@@ -263,27 +276,28 @@ const AddProduct = () => {
                     />
                   </label>
                   <input
-                    onChange={(e) => changeImage(e.target.files[0], index)}
+                    onChange={(e) => changeImage(e.target.files[0], i)}
                     type="file"
-                    id={index}
+                    id={i}
                     className="hidden"
                   />
                   <span
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeImage(i)}
                     className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
                   >
                     <IoMdCloseCircle />
                   </span>
                 </div>
               ))}
+
               <label
-                className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-red-500 w-full text-[#d0d2d6] "
+                className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-red-500 w-full text-[#d0d2d6]"
                 htmlFor="image"
               >
                 <span>
                   <IoMdImages />
                 </span>
-                <span>Select Image</span>
+                <span>Select Image </span>
               </label>
               <input
                 className="hidden"
@@ -295,7 +309,7 @@ const AddProduct = () => {
             </div>
 
             <div className="flex">
-              <button className="bg-red-500 hover:shadow-red-500/50 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
+              <button className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
                 Add Product
               </button>
             </div>
