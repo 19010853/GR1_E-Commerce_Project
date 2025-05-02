@@ -73,10 +73,40 @@ class productController {
             }
             
         } catch (error) {
-            
+            console.log(error.message);
         } 
 
     }
+    // end of products_get
+
+    product_get = async (req, res) => {
+        const {productId} = req.params
+        try {
+            const product = await productModel.findById(productId)
+            responseReturn(res, 200,{product})
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+    // end of product_get
+
+    product_update = async (req, res) => {
+        let { name, description, stock, price, discount, brand, productId } = req.body;
+        name = name.trim()
+        const slug = name.split(' ').join('-')
+
+        try {
+            await productModel.findByIdAndUpdate(productId, {
+                name, description, stock, price, discount, brand, slug
+            })
+            const product = await productModel.findById(productId)
+            responseReturn(res, 200, { message: 'Product Updated Successfully', product })
+        } catch (error) {
+            responseReturn(res, 500, { error: error.message })
+        }
+    }
+
+    // end of product_update
 
 }
 
