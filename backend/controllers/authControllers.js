@@ -4,6 +4,8 @@ const sellerCustomerModel  = require('../models/chat/sellerCustomerModel')
 const { responseReturn } = require('../utiles/response')
 const bcrpty = require('bcrypt')
 const { createToken } = require('../utiles/tokenCreate')
+const cloudinary = require('cloudinary').v2
+const formidable = require("formidable")
 
 class authControllers{
    
@@ -107,6 +109,13 @@ class authControllers{
          }
     }
     // End Method 
+
+
+
+
+
+
+
     getUser = async (req, res) => {
         const {id, role} = req;
 
@@ -115,8 +124,8 @@ class authControllers{
                 const user = await adminModel.findById(id)
                 responseReturn(res, 200, {userInfo : user})
             }else {
-                const user = await sellerModel.findById(id)
-                responseReturn(res, 200, {userInfo : user})
+                const seller = await sellerModel.findById(id)
+                responseReturn(res, 200, {userInfo : seller})
             }
             
         } catch (error) {
@@ -126,7 +135,42 @@ class authControllers{
 
     } // End getUser Method 
 
+    profile_image_upload = async(req, res) => {
+        const {id} = req
+        const form = formidable({ multiples: true })
+        form.parse(req, async(err,_,files) => {
+                cloudinary.config({
+                cloud_name: process.env.cloud_name,
+                api_key: process.env.api_key,
+                api_secret: process.env.api_secret,
+                secure: true
+            })
+            const { image } = files
 
+            try {
+                const result = await cloudinary.uploader.upload(image.filepath, { folder: 'profile'})
+                if (result) {
+                    await sellerModel.findByIdAndUpdate(id, {
+                        image: result.url
+                    }) 
+                    const userInfo = await sellerModel.findById(id)
+                    responseReturn(res, 201,{ message : 'Profile Image Upload Successfully',userInfo})
+                } else {
+                    responseReturn(res, 404,{ error : 'Image Upload Failed'})
+                }
+            } catch (error) {
+                responseReturn(res, 500,{ error : error.message })
+            }
+
+
+
+
+
+
+        })
+    }
+
+    // End Method 
 
 
 }
