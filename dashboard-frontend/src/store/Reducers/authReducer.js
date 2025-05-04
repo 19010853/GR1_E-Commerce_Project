@@ -82,6 +82,20 @@ export const get_user_info = createAsyncThunk(
     }
 )
 
+export const profile_info_add = createAsyncThunk(
+    'auth/profile_info_add',
+    async(info,{rejectWithValue, fulfillWithValue}) => { 
+        try { 
+            const {data} = await api.post('/profile-info-add',info,{withCredentials: true}) 
+            return fulfillWithValue(data)
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+// end method 
+
 const returnRole = (token) => {
     if (token) {
         const decodeToken = jwtDecode(localStorage.getItem('accessToken'))
@@ -165,6 +179,14 @@ export const authReducer = createSlice({
                 state.loader = true;
             })
             .addCase(profile_image_upload.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.userInfo = payload.userInfo
+                state.successMessage = payload.message
+            })
+            .addCase(profile_info_add.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(profile_info_add.fulfilled, (state, { payload }) => {
                 state.loader = false;
                 state.userInfo = payload.userInfo
                 state.successMessage = payload.message
