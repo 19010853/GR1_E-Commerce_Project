@@ -84,9 +84,9 @@ export const get_user_info = createAsyncThunk(
 
 export const profile_info_add = createAsyncThunk(
     'auth/profile_info_add',
-    async(info,{rejectWithValue, fulfillWithValue}) => { 
-        try { 
-            const {data} = await api.post('/profile-info-add',info,{withCredentials: true}) 
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/profile-info-add', info, { withCredentials: true })
             return fulfillWithValue(data)
         } catch (error) {
             // console.log(error.response.data)
