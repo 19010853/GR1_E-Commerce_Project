@@ -11,9 +11,11 @@ import { FaHeart } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io"; 
+import { useSelector, useDispatch } from 'react-redux';
 
-const Header = ({categorys}) => {
+const Header = () => {
     const {pathname} = useLocation()
+    const {categorys} = useSelector(state => state.home)
      
     const [showShidebar, setShowShidebar] = useState(true);
     const [categoryShow, setCategoryShow] = useState(true);

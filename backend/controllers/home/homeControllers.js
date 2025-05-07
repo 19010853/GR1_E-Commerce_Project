@@ -68,6 +68,36 @@ class homeControllers {
     }
     // end method 
 
+    price_range_product = async (req, res) => {
+        try {
+            const priceRange = {
+                low: 0,
+                high: 0,
+            }
+            const products = await productModel.find({}).limit(9).sort({
+                createdAt: -1
+            })
+            const latest_product = this.formateProduct(products)
+
+            // Get all products sorted by price
+            const getForPrice = await productModel.find({}).sort({ price: 1 })
+
+            if (getForPrice.length > 0) {
+                priceRange.low = getForPrice[0].price
+                priceRange.high = getForPrice[getForPrice.length - 1].price
+            }
+
+            responseReturn(res, 200, {
+                latest_product,
+                priceRange
+            })
+        } catch (error) {
+            console.log(error.message)
+            responseReturn(res, 500, { error: error.message })
+        }
+    }
+
+    // end method 
 
 
 
