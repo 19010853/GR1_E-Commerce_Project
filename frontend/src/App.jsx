@@ -11,25 +11,31 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { get_category } from './store/reducers/homeReducer';
 import { useDispatch} from 'react-redux';
+import CategoryShop from './pages/CategoryShop';
+import SearchProducts from './pages/SearchProducts';
 
 function App() {
-
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(get_category())
-  },[])
-  
+    dispatch(get_category()) 
+},[])
+
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shops" element={<Shops />} />
-        <Route path="/card" element={<Card />} />
-        <Route path="/shipping" element={<Shipping />} />
-        <Route path="/product/details/:slug" element={<Details />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+    <Routes>
+      <Route path='/' element={<Home/>} />
+      <Route path='/login' element={<Login/>} />
+      <Route path='/register' element={<Register/>} />
+      <Route path='/shops' element={<Shops/>} />
+      <Route path='/card' element={<Card/>} />
+      <Route path='/shipping' element={<Shipping/>} />
+      <Route path='/products?' element={<CategoryShop/>} />
+      <Route path='/products/search?' element={<SearchProducts/>} />
+      <Route path='/product/details/:slug' element={<Details/>} /> 
+
+    </Routes>
+    
     </BrowserRouter>
   );
 }

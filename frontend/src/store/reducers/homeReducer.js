@@ -29,6 +29,7 @@ export const get_products = createAsyncThunk(
 )
 // End Method 
 
+
 export const price_range_product = createAsyncThunk(
     'product/price_range_product',
     async (_, { fulfillWithValue }) => {
@@ -38,7 +39,21 @@ export const price_range_product = createAsyncThunk(
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.respone)
-            return fulfillWithValue({ priceRange: { low: 0, high: 1000 }, latest_product: [] })
+        }
+    }
+)
+// End Method 
+
+export const query_products = createAsyncThunk(
+    'product/query_products',
+    async (query, { fulfillWithValue }) => {
+        try {
+            console.log('Query params:', query)
+            const { data } = await api.get(`/home/query-products?category=${query.category}&&rating=${query.rating}&&lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${query.pageNumber}&&searchValue=${query.searchValue ? query.searchValue : ''} `)
+            console.log('API Response:', data)
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.error('API Error:', error.response || error)
         }
     }
 )
@@ -52,12 +67,14 @@ export const homeReducer = createSlice({
     initialState: {
         categorys: [],
         products: [],
+        totalProduct: 0,
+        parPage: 12,
         latest_product: [],
         topRated_product: [],
         discount_product: [],
         priceRange: {
             low: 0,
-            high: 1000
+            high: 100
         }
     },
     reducers: {
@@ -76,7 +93,13 @@ export const homeReducer = createSlice({
             })
             .addCase(price_range_product.fulfilled, (state, { payload }) => {
                 state.latest_product = payload.latest_product;
-                state.priceRange = payload.priceRange || { low: 0, high: 1000 };
+                state.priceRange = payload.priceRange;
+            })
+            .addCase(query_products.fulfilled, (state, { payload }) => {
+                console.log('Reducer payload:', payload)
+                state.products = payload.products;
+                state.totalProduct = payload.totalProduct;
+                state.parPage = payload.parPage;
             })
 
     }
