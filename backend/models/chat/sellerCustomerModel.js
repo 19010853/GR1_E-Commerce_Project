@@ -1,15 +1,15 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const sellerCustomerSchema = new Schema({
-    myID: {
+    myId: {
         type: String,
-        required : true
+        required: true
     },
     myFriends: {
         type: Array,
-        default : []
-    } 
-     
-}, {timestamps: true})
+        default: []
+    }
 
-module.exports = model('seller_customers',sellerCustomerSchema)
+}, { timestamps: true })
+
+module.exports = model('seller_customers', sellerCustomerSchema)
