@@ -12,8 +12,8 @@ import {
 import toast from "react-hot-toast";
 
 const FeatureProducts = ({ products }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
@@ -22,14 +22,25 @@ const FeatureProducts = ({ products }) => {
       dispatch(
         add_to_card({
           userId: userInfo.id,
-          productId: id,
           quantity: 1,
+          productId: id,
         })
       );
     } else {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
 
   const add_wishlist = (pro) => {
     dispatch(
@@ -45,17 +56,6 @@ const FeatureProducts = ({ products }) => {
       })
     );
   };
-
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
-      dispatch(messageClear());
-    }
-    if (errorMessage) {
-      toast.error(errorMessage);
-      dispatch(messageClear());
-    }
-  }, [errorMessage, successMessage]);
 
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
