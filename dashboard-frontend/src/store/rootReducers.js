@@ -1,5 +1,6 @@
 import authReducer from "./Reducers/authReducer";
 import categoryReducer from "./Reducers/categoryReducer";
+import orderReducer from './Reducers/orderReducer';
 import productReducer from "./Reducers/productReducer";
 import sellerReducer from "./Reducers/sellerReducer";
 
@@ -7,6 +8,7 @@ const rootReducer = {
     auth: authReducer,
     category: categoryReducer,
     product: productReducer,
-    seller: sellerReducer
+    seller: sellerReducer,
+    order: orderReducer
 }
 export default rootReducer;
