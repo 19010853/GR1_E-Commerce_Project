@@ -3,7 +3,8 @@ const customerOrder = require('../../models/customerOrder')
 const cardModel = require('../../models/cardModel')
 const moment = require("moment")
 const { responseReturn } = require('../../utiles/response')
-const mongoose = require('mongoose')
+const { mongo: { ObjectId } } = require('mongoose')
+const stripe = require('stripe')('sk_test_51RP0SCJLGF10hz7i45oUKgBNKKqdKhCyVj0CzMpeA829y4ScmCXtLYOpWI4800exwdcgdnIv2aFAq8sn7nttF6b700lBRjq1Pn')
 
 class orderController {
 
@@ -50,7 +51,7 @@ class orderController {
 
         try {
             const order = await customerOrder.create({
-                customerId: new mongoose.Types.ObjectId(userId),
+                customerId: userId,
                 shippingInfo,
                 products: customerOrderProduct,
                 price: price + shipping_fee,
@@ -70,8 +71,7 @@ class orderController {
                 }
 
                 authorOrderData.push({
-                    orderId: order.id,
-                    sellerId: new mongoose.Types.ObjectId(sellerId),
+                    orderId: order.id, sellerId,
                     products: storePor,
                     price: pri,
                     payment_status: 'unpaid',
@@ -92,69 +92,85 @@ class orderController {
 
             responseReturn(res, 200, { message: "Order Placed Success", orderId: order.id })
 
+
         } catch (error) {
             console.log(error.message)
-            responseReturn(res, 500, { error: "Internal server error" })
         }
+
     }
-    // end method
+
+    // End Method 
 
     get_customer_dashboard_data = async (req, res) => {
         const { userId } = req.params
-        try {
-            const recentOrders = await customerOrder.find({ customerId: new mongoose.Types.ObjectId(userId) }).limit(5)
-            const pendingOrder = await customerOrder.find({ customerId: new mongoose.Types.ObjectId(userId), delivery_status: 'pending' }).countDocuments()
-            const totalOrder = await customerOrder.find({ customerId: new mongoose.Types.ObjectId(userId) }).countDocuments()
-            const cancelledOrder = await customerOrder.find({ customerId: new mongoose.Types.ObjectId(userId), delivery_status: 'cancelled' }).countDocuments()
 
+        try {
+            const recentOrders = await customerOrder.find({
+                customerId: new ObjectId(userId)
+            }).limit(5)
+            const pendingOrder = await customerOrder.find({
+                customerId: new ObjectId(userId), delivery_status: 'pending'
+            }).countDocuments()
+            const totalOrder = await customerOrder.find({
+                customerId: new ObjectId(userId)
+            }).countDocuments()
+            const cancelledOrder = await customerOrder.find({
+                customerId: new ObjectId(userId), delivery_status: 'cancelled'
+            }).countDocuments()
             responseReturn(res, 200, {
                 recentOrders,
                 pendingOrder,
                 totalOrder,
                 cancelledOrder
             })
+
+        } catch (error) {
+            console.log(error.message)
+        }
+
+    }
+    // End Method 
+
+    get_orders = async (req, res) => {
+        const { customerId, status } = req.params
+
+        try {
+            let orders = []
+            if (status !== 'all') {
+                orders = await customerOrder.find({
+                    customerId: new ObjectId(customerId),
+                    delivery_status: status
+                })
+            } else {
+                orders = await customerOrder.find({
+                    customerId: new ObjectId(customerId)
+                })
+            }
+            responseReturn(res, 200, {
+                orders
+            })
+
+        } catch (error) {
+            console.log(error.message)
+        }
+
+    }
+    // End Method 
+
+    get_order_details = async (req, res) => {
+        const { orderId } = req.params
+
+        try {
+            const order = await customerOrder.findById(orderId)
+            responseReturn(res, 200, {
+                order
+            })
+
         } catch (error) {
             console.log(error.message)
         }
     }
     // End Method 
-
-    get_orders = async (req, res) => {
-        console.log(req.params);
-        const { customerId, status } = req.params;
-        try {
-            let orders = [];
-            if (status !== 'all') {
-                orders = await customerOrder.find({
-                    customerId: new mongoose.Types.ObjectId(customerId),
-                    delivery_status: status
-                });
-            } else {
-                orders = await customerOrder.find({
-                    customerId: new mongoose.Types.ObjectId(customerId)
-                });
-            }
-            responseReturn(res, 200, {
-                orders
-            });
-        } catch (error) {
-            console.log(error.message);
-            responseReturn(res, 500, { error: "Internal server error" });
-        }
-    }
-    // End Method
-
-    get_order_details = async (req, res) => {
-        console.log(req.params);
-        const { orderId } = req.params;
-        try {
-            const order = await customerOrder.findById(orderId)
-            responseReturn(res, 200, { order })
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-    // End Method
 
     get_admin_orders = async (req, res) => {
         let { page, searchValue, parPage } = req.query
@@ -162,6 +178,7 @@ class orderController {
         parPage = parseInt(parPage)
 
         const skipPage = parPage * (page - 1)
+
         try {
             if (searchValue) {
 
@@ -170,42 +187,45 @@ class orderController {
                     {
                         $lookup: {
                             from: 'authororders',
-                            localField: '_id',
+                            localField: "_id",
                             foreignField: 'orderId',
                             as: 'suborder'
                         }
                     }
                 ]).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
+
                 const totalOrder = await customerOrder.aggregate([
                     {
                         $lookup: {
                             from: 'authororders',
-                            localField: '_id',
+                            localField: "_id",
                             foreignField: 'orderId',
                             as: 'suborder'
                         }
                     }
                 ])
+
                 responseReturn(res, 200, { orders, totalOrder: totalOrder.length })
             }
         } catch (error) {
             console.log(error.message)
-            responseReturn(res, 500, { error: "Internal server error" })
         }
+
     }
-    // End Method
+    // End Method 
 
     get_admin_order = async (req, res) => {
-        console.log(req.params);
-        const { orderId } = req.params;
+        const { orderId } = req.params
         try {
+
             const order = await customerOrder.aggregate([
                 {
-                    $match: { _id: new mongoose.Types.ObjectId(orderId) }
-                }, {
+                    $match: { _id: new ObjectId(orderId) }
+                },
+                {
                     $lookup: {
                         from: 'authororders',
-                        localField: '_id',
+                        localField: "_id",
                         foreignField: 'orderId',
                         as: 'suborder'
                     }
@@ -213,25 +233,28 @@ class orderController {
             ])
             responseReturn(res, 200, { order: order[0] })
         } catch (error) {
-            console.log("get_admin_order error : " + error.message)
+            console.log('get admin order details' + error.message)
         }
     }
-    // End Method
+    // End Method 
+
 
     admin_order_status_update = async (req, res) => {
         const { orderId } = req.params
         const { status } = req.body
+
         try {
             await customerOrder.findByIdAndUpdate(orderId, {
                 delivery_status: status
             })
-            responseReturn(res, 200, { message: "Order Status Updated Success" })
+            responseReturn(res, 200, { message: 'order Status change success' })
         } catch (error) {
-            responseReturn(res, 500, { error: "Internal server error" })
-            console.log("admin_order_status_update error : " + error.message)
+            console.log('get admin status error' + error.message)
+            responseReturn(res, 500, { message: 'internal server error' })
         }
+
     }
-    // End Method
+    // End Method 
 
     get_seller_orders = async (req, res) => {
         const { sellerId } = req.params
@@ -240,34 +263,39 @@ class orderController {
         parPage = parseInt(parPage)
 
         const skipPage = parPage * (page - 1)
+
         try {
-            if (searchValue) { }
-            else {
+            if (searchValue) {
+
+            } else {
                 const orders = await authOrderModel.find({
-                    sellerId
+                    sellerId,
                 }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
                 const totalOrder = await authOrderModel.find({
                     sellerId
                 }).countDocuments()
                 responseReturn(res, 200, { orders, totalOrder })
             }
+
         } catch (error) {
-            console.log("get_seller_orders error : " + error.message)
-            responseReturn(res, 500, { error: "Internal server error" })
+            console.log('get seller Order error' + error.message)
+            responseReturn(res, 500, { message: 'internal server error' })
         }
+
     }
-    // End Method
+    // End Method 
 
     get_seller_order = async (req, res) => {
         const { orderId } = req.params
+
         try {
             const order = await authOrderModel.findById(orderId)
             responseReturn(res, 200, { order })
         } catch (error) {
-            console.log("get_seller_order error : " + error.message)
+            console.log('get seller details error' + error.message)
         }
     }
-    // End Method
+    // End Method 
 
     seller_order_status_update = async (req, res) => {
         const { orderId } = req.params
@@ -277,13 +305,34 @@ class orderController {
             await authOrderModel.findByIdAndUpdate(orderId, {
                 delivery_status: status
             })
-            responseReturn(res, 200, { message: "Order Status Updated Success" })
+            responseReturn(res, 200, { message: 'order status updated successfully' })
         } catch (error) {
-            console.log("seller_order_status_update error : " + error.message)
-            responseReturn(res, 500, { error: "Internal server error" })
+            console.log('get seller Order error' + error.message)
+            responseReturn(res, 500, { message: 'internal server error' })
+        }
+
+
+    }
+    // End Method 
+
+    create_payment = async (req, res) => {
+        const { price } = req.body
+        try {
+            const payment = await stripe.paymentIntents.create({
+                amount: price * 100,
+                currency: 'usd',
+                automatic_payment_methods: {
+                    enabled: true
+                }
+            })
+            responseReturn(res, 200, { clientSecret: payment.client_secret })
+        } catch (error) {
+            console.error('Payment creation error:', error.message)
+            responseReturn(res, 500, { error: 'Failed to create payment intent' })
         }
     }
-    // End Method
+    // End Method 
+
 }
 
 module.exports = new orderController()
