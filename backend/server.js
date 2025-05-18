@@ -22,6 +22,7 @@ app.use('/api', require('./routes/dashboard/productRoutes'))
 app.use('/api', require('./routes/dashboard/sellerRoutes'))
 app.use('/api', require('./routes/home/customerAuthRoutes'))
 app.use('/api', require('./routes/order/orderRoutes'))
+app.use('/api', require('./routes/payment/paymentRoutes'))
 
 app.get('/', (req, res) => res.send('Hello Server'))
 const port = process.env.PORT
