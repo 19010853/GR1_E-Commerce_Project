@@ -1,6 +1,6 @@
 const stripeModel = require('../../models/stripeModel')
 const { v4: uuidv4 } = require('uuid');
-const stripe = require('stripe')('sk_test_51RP0SYR4aa1jsPsoSSMgGB0Ndsb9jzLgkPWmIqrVC3IR6lYHuArr1hPMBJVA0TAhNCkVefnRxUv9rvSf1smJIKno00cLR4CzB0')
+const stripe = require('stripe')('sk_test_51RP0SCJLGF10hz7i45oUKgBNKKqdKhCyVj0CzMpeA829y4ScmCXtLYOpWI4800exwdcgdnIv2aFAq8sn7nttF6b700lBRjq1Pn')
 const { responseReturn } = require('../../utiles/response')
 const sellerModel = require('../../models/sellerModel')
 

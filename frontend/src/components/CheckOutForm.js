@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PaymentElement, LinkAuthenticationElement, useStripe, useElements } from '@stripe/react-stripe-js'
 
-const CheckOutForm = ({ orderId }) => {
+const CheckoutForm = ({ orderId }) => {
 
     localStorage.setItem('orderId', orderId)
     const stripe = useStripe()
@@ -10,7 +10,7 @@ const CheckOutForm = ({ orderId }) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const paymentElementOptions = {
-        loyout: 'tabs'
+        layout: 'tabs'
     }
 
     const submit = async (e) => {
@@ -19,16 +19,21 @@ const CheckOutForm = ({ orderId }) => {
             return
         }
         setIsLoading(true)
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: 'http://localhost:3000/order/confirm'
+        try {
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: 'http://localhost:3000/order/confirm'
+                }
+            })
+            if (error.type === 'card_error' || error.type === 'validation_error') {
+                setMessage(error.message)
+            } else {
+                setMessage('An unexpected error occurred')
             }
-        })
-        if (error.type === 'card_error' || error.type === 'validation_error') {
-            setMessage(error.message)
-        } else {
-            setMessage('An Unexpected error occured')
+        } catch (err) {
+            setMessage('An unexpected error occurred')
+            console.error('Payment error:', err)
         }
         setIsLoading(false)
     }
@@ -51,4 +56,4 @@ const CheckOutForm = ({ orderId }) => {
     );
 };
 
-export default CheckOutForm;
+export default CheckoutForm;
