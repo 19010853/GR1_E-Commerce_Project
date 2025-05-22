@@ -44,7 +44,6 @@ class authControllers {
     }
     // End Method 
 
-
     seller_login = async (req, res) => {
         const { email, password } = req.body
         try {
@@ -77,7 +76,6 @@ class authControllers {
 
     }
     // End Method 
-
 
     seller_register = async (req, res) => {
         const { email, name, password } = req.body
@@ -155,12 +153,6 @@ class authControllers {
             } catch (error) {
                 responseReturn(res, 500, { error: error.message })
             }
-
-
-
-
-
-
         })
     }
     // End Method 
@@ -184,8 +176,6 @@ class authControllers {
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
         }
-
-
     }
     // End Method 
 
@@ -200,8 +190,8 @@ class authControllers {
             responseReturn(res, 500, { error: error.message })
         }
     }
-
-
+    // End Method 
 }
+
 
 module.exports = new authControllers()

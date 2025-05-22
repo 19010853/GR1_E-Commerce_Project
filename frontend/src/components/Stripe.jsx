@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import CheckoutForm from "./CheckoutForm";
 const stripePromise = loadStripe(
-  "pk_test_51RP0SCJLGF10hz7iNHLr19JmyHFdLC77gX69znCCq22LGYxrPNmTyj3DxozKEHJxqXTW2O2ss6zPwJfYC8wnt9en00LNYvlePj"
+  "pk_test_51RP0SYR4aa1jsPsoteqaWwf3ZCsuiXjm61w8E36xlWgxqheD2pwoucpC7uKSJGExRPqZ9p10TuBTQ7p4NJIj0ucg00YxYxhrt3"
 );
 
 const Stripe = ({ price, orderId }) => {
