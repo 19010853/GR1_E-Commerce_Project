@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   add_banner,
   get_banner,
+  update_banner,
   messageClear,
 } from "../../store/Reducers/bannerReducer";
 import toast from "react-hot-toast";
@@ -53,6 +54,9 @@ const AddBanner = () => {
 
   const update = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("mainban", image);
+    dispatch(update_banner({ bannerId: banner._id, info: formData }));
   };
 
   useEffect(() => {
@@ -146,7 +150,7 @@ const AddBanner = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Add Banner"
+                  "Update Banner"
                 )}
               </button>
             </form>

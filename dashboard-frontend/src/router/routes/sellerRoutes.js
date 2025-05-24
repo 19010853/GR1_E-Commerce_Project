@@ -17,6 +17,7 @@ const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
 const Pending = lazy(() => import("./../../views/Pending"));
 const Deactive = lazy(() => import("./../../views/Deactive"));
+const AddBanner = lazy(() => import("../../views/seller/AddBanner"));
 
 export const sellerRoutes = [
   {
