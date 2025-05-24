@@ -12,8 +12,13 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  get_card_products,
+  get_wishlist_products,
+} from "../store/reducers/cardReducer";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
@@ -40,6 +45,13 @@ const Header = () => {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(get_card_products(userInfo.id));
+      dispatch(get_wishlist_products(userInfo.id));
+    }
+  }, [userInfo]);
 
   return (
     <div className="w-full bg-white">

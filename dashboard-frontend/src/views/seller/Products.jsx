@@ -5,6 +5,7 @@ import Pagination from "../Pagination";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { get_products } from "../../store/Reducers/productReducer";
+import { LuImageMinus } from "react-icons/lu";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -143,6 +144,15 @@ const Products = () => {
                         {" "}
                         <FaEdit />{" "}
                       </Link>
+
+                      <Link
+                        to={`/seller/dashboard/add-banner/${d._id}`}
+                        className="p-[6px] bg-sky-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                      >
+                        {" "}
+                        <LuImageMinus />{" "}
+                      </Link>
+
                       <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
                         {" "}
                         <FaEye />{" "}
