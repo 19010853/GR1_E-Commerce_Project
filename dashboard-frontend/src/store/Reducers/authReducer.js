@@ -51,7 +51,6 @@ export const profile_image_upload = createAsyncThunk(
 )
 // end method 
 
-
 export const seller_register = createAsyncThunk(
     'auth/seller_register',
     async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -95,6 +94,18 @@ export const profile_info_add = createAsyncThunk(
     }
 )
 // end method 
+
+export const change_password = createAsyncThunk(
+    'auth/change_password',
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/change-password', info, { withCredentials: true })
+            return fulfillWithValue(data.message)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
 const returnRole = (token) => {
     if (token) {
@@ -214,7 +225,20 @@ export const authReducer = createSlice({
                 state.userInfo = payload.userInfo
                 state.successMessage = payload.message
             })
-
+            // Change Password
+            .addCase(change_password.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(change_password.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.successMessage = payload.message
+                state.token = payload.token
+                state.role = returnRole(payload.token)
+            })
+            .addCase(change_password.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.error
+            })
     }
 
 })

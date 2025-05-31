@@ -7,6 +7,7 @@ import {
   profile_image_upload,
   messageClear,
   profile_info_add,
+  change_password,
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
@@ -22,7 +23,7 @@ const Profile = () => {
   });
 
   const dispatch = useDispatch();
-  const { userInfo, loader, successMessage } = useSelector(
+  const { userInfo, loader, successMessage, errorMessage } = useSelector(
     (state) => state.auth
   );
 
@@ -31,9 +32,13 @@ const Profile = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      messageClear();
+      dispatch(messageClear());
     }
-  }, [successMessage]);
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage, dispatch]);
 
   const add_image = (e) => {
     if (e.target.files.length > 0) {
@@ -54,6 +59,25 @@ const Profile = () => {
     e.preventDefault();
     dispatch(profile_info_add(state));
   };
+
+  // Change Password
+  const [passwordData, setPasswordData] = useState({
+    email: "",
+    old_password: "",
+    new_password: "",
+  });
+
+  const passwordInputHandle = (e) => {
+    setPasswordData({
+      ...passwordData,
+      [e.target.name]: e.target.value,
+    })
+  }
+  
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    dispatch(change_password(passwordData))
+  }
 
   return (
     <div className="px-2 lg:px-7 py-5">
@@ -241,7 +265,7 @@ const Profile = () => {
               <h1 className="text-[#d0d2d6] text-lg mb-3 font-semibold">
                 Change Password
               </h1>
-              <form>
+              <form onSubmit={handlePasswordChange}>
                 <div className="flex flex-col w-full gap-1 mb-2">
                   <label htmlFor="email">Email</label>
                   <input
@@ -250,6 +274,8 @@ const Profile = () => {
                     name="email"
                     id="email"
                     placeholder="email"
+                    value={passwordData.email}
+                    onChange={passwordInputHandle}
                   />
                 </div>
 
@@ -261,6 +287,8 @@ const Profile = () => {
                     name="old_password"
                     id="o_password"
                     placeholder="Old Password"
+                    value={passwordData.old_password}
+                    onChange={passwordInputHandle}
                   />
                 </div>
 
@@ -272,11 +300,13 @@ const Profile = () => {
                     name="new_password"
                     id="n_password"
                     placeholder="New Password"
+                    value={passwordData.new_password}
+                    onChange={passwordInputHandle}
                   />
                 </div>
 
-                <button className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
-                  Save Changes
+                <button disabled={loader} className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
+                  {loader ? "Loading ..." : "Save Changes"}
                 </button>
               </form>
             </div>

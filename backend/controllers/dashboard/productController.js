@@ -115,7 +115,7 @@ class productController {
   // end of product_get
 
   product_update = async (req, res) => {
-    let { name, description, stock, price, discount, brand, productId } =
+    let { name, description, stock, price, discount, brand, category, productId } =
       req.body;
     name = name.trim();
     const slug = name.split(" ").join("-");
@@ -127,6 +127,7 @@ class productController {
         stock,
         price,
         discount,
+        category,
         brand,
         slug,
       });

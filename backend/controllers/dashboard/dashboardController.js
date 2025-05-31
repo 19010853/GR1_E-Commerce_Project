@@ -49,73 +49,51 @@ class dashboardController {
 
   get_seller_dashboard_data = async (req, res) => {
     const { id } = req;
+    if (!id) {
+      return responseReturn(res, 401, { error: "Unauthorized access" });
+    }
 
     try {
       const totalSale = await sellerWallet.aggregate([
         {
           $match: {
-            sellerId: {
-              $eq: id,
-            },
-          },
+            sellerId: id
+          }
         },
         {
           $group: {
             _id: null,
-            totalAmount: { $sum: "$amount" },
-          },
-        },
+            totalAmount: { $sum: "$amount" }
+          }
+        }
       ]);
 
       const totalProduct = await productModel
-        .find({
-          sellerId: new ObjectId(id),
-        })
+        .find({ sellerId: id })
         .countDocuments();
 
       const totalOrder = await authOrder
-        .find({
-          sellerId: new ObjectId(id),
-        })
+        .find({ sellerId: id })
         .countDocuments();
 
       const totalPendingOrder = await authOrder
         .find({
-          $and: [
-            {
-              sellerId: {
-                $eq: new ObjectId(id),
-              },
-            },
-            {
-              delivery_status: {
-                $eq: "pending",
-              },
-            },
-          ],
+          sellerId: id,
+          delivery_status: "pending"
         })
         .countDocuments();
+
       const messages = await sellerCustomerMessage
         .find({
           $or: [
-            {
-              senderId: {
-                $eq: id,
-              },
-            },
-            {
-              receverId: {
-                $eq: id,
-              },
-            },
-          ],
+            { senderId: id },
+            { receverId: id }
+          ]
         })
         .limit(3);
 
       const recentOrders = await authOrder
-        .find({
-          sellerId: new ObjectId(id),
-        })
+        .find({ sellerId: id })
         .limit(5);
 
       responseReturn(res, 200, {
@@ -124,10 +102,11 @@ class dashboardController {
         totalPendingOrder,
         messages,
         recentOrders,
-        totalSale: totalSale.length > 0 ? totalSale[0].totalAmount : 0,
+        totalSale: totalSale.length > 0 ? totalSale[0].totalAmount : 0
       });
     } catch (error) {
-      console.log(error.message);
+      console.error("Dashboard data error:", error);
+      responseReturn(res, 500, { error: "Internal server error" });
     }
   };
   //end Method

@@ -44,6 +44,7 @@ class authControllers {
     }
     // End Method 
 
+
     seller_login = async (req, res) => {
         const { email, password } = req.body
         try {
@@ -77,6 +78,7 @@ class authControllers {
     }
     // End Method 
 
+
     seller_register = async (req, res) => {
         const { email, name, password } = req.body
         try {
@@ -107,6 +109,12 @@ class authControllers {
         }
     }
     // End Method 
+
+
+
+
+
+
 
     getUser = async (req, res) => {
         const { id, role } = req;
@@ -150,17 +158,21 @@ class authControllers {
                 } else {
                     responseReturn(res, 404, { error: 'Image Upload Failed' })
                 }
+
             } catch (error) {
                 responseReturn(res, 500, { error: error.message })
             }
+
+
         })
     }
+
     // End Method 
 
     profile_info_add = async (req, res) => {
         const { division, district, shopName, sub_district } = req.body;
         const { id } = req;
-        console.log(req.body)
+
         try {
             await sellerModel.findByIdAndUpdate(id, {
                 shopInfo: {
@@ -176,22 +188,47 @@ class authControllers {
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
         }
+
+
     }
     // End Method 
 
     logout = async (req, res) => {
         try {
             res.cookie('accessToken', null, {
-                expires: new Date(Date.now() - 1000),
+                expires: new Date(Date.now()),
                 httpOnly: true
             })
-            responseReturn(res, 200, { message: 'Logout Success' })
+            responseReturn(res, 200, { message: 'logout Success' })
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
         }
     }
     // End Method 
-}
 
+    /// Change Password 
+    change_password = async (req, res) => {
+        const { email, old_password, new_password } = req.body;
+        // console.log(email,old_password,new_password)
+        try {
+            const user = await sellerModel.findOne({ email }).select('+password');
+            if (!user) return res.status(404).json({ message: 'User not found' });
+
+            const isMatch = await bcrpty.compare(old_password, user.password);
+            if (!isMatch) return res.status(400).json({ message: 'Incorrect old password' });
+
+            user.password = await bcrpty.hash(new_password, 10);
+            await user.save();
+            res.json({ message: 'Password changed successfully' });
+
+        } catch (error) {
+            res.status(500).json({ message: 'Server Error' });
+        }
+    }
+    // End Method 
+
+
+
+}
 
 module.exports = new authControllers()
