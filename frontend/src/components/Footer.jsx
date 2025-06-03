@@ -7,6 +7,7 @@ import { FaGithub } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();

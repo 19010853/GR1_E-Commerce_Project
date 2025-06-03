@@ -16,7 +16,9 @@ class paymentController {
         }
         return sum;
     }
+    // Sum of all products' price
 
+    // Create stripe connect account method
     create_stripe_connect_account = async (req, res) => {
         const { id } = req
         const uid = uuidv4()
@@ -34,8 +36,8 @@ class paymentController {
                     // If account exists but not fully set up, create a new onboarding link
                     const accountLink = await stripe.accountLinks.create({
                         account: stripeInfo.stripeId,
-                        refresh_url: 'http://localhost:3000/refresh',
-                        return_url: `http://localhost:3000/success?activeCode=${uid}`,
+                        refresh_url: 'http://localhost:3001/refresh',
+                        return_url: `http://localhost:3001/success?activeCode=${uid}`,
                         type: 'account_onboarding'
                     })
                     return responseReturn(res, 201, { url: accountLink.url })
@@ -55,13 +57,15 @@ class paymentController {
                 business_type: 'individual'
             })
 
+            // Create account link
             const accountLink = await stripe.accountLinks.create({
                 account: account.id,
-                refresh_url: 'http://localhost:3000/refresh',
-                return_url: `http://localhost:3000/success?activeCode=${uid}`,
+                refresh_url: 'http://localhost:3001/refresh',
+                return_url: `http://localhost:3001/success?activeCode=${uid}`,
                 type: 'account_onboarding'
             })
 
+            // Create stripe model
             await stripeModel.create({
                 sellerId: id,
                 stripeId: account.id,
@@ -78,8 +82,9 @@ class paymentController {
             })
         }
     }
+    // End create_stripe_connect_account method
 
-    // Add new method to check account status
+    // Check stripe account status method
     check_stripe_account_status = async (req, res) => {
         const { id } = req
         try {
@@ -105,8 +110,9 @@ class paymentController {
             })
         }
     }
+    // End check_stripe_account_status method
 
-    // Update active_stripe_connect_account to verify account status
+    // Active stripe connect account method
     active_stripe_connect_account = async (req, res) => {
         const { activeCode } = req.params
         const { id } = req
@@ -138,7 +144,9 @@ class paymentController {
             })
         }
     }
+    // End active_stripe_connect_account method
 
+    // Get seller payment details method
     get_seller_payment_details = async (req, res) => {
         const { sellerId } = req.params
 
@@ -196,8 +204,9 @@ class paymentController {
             console.log(error.message)
         }
     }
-    // End Method
+    // End get_seller_payment_details method
 
+    // Withdrawal request method
     withdrawal_request = async (req, res) => {
         const { amount, sellerId } = req.body
 
@@ -214,8 +223,9 @@ class paymentController {
             responseReturn(res, 500, { message: 'Internal Server Error' })
         }
     }
-    // End Method
+    // End withdrawal_request method
 
+    // Get payment request method
     get_payment_request = async (req, res) => {
         try {
             const withdrawalRequest = await withdrawRequest.find({
@@ -226,8 +236,9 @@ class paymentController {
             responseReturn(res, 500, { message: 'Internal Server Error' })
         }
     }
-    // End Method
+    // End get_payment_request method
 
+    // Payment request confirm method
     payment_request_confirm = async (req, res) => {
         const { paymentId } = req.body
         try {
@@ -253,8 +264,8 @@ class paymentController {
                     // Create a new account link for the seller to complete their setup
                     const accountLink = await stripe.accountLinks.create({
                         account: stripeAccount.stripeId,
-                        refresh_url: 'http://localhost:3000/refresh',
-                        return_url: 'http://localhost:3000/success',
+                        refresh_url: 'http://localhost:3001/refresh',
+                        return_url: 'http://localhost:3001/success',
                         type: 'account_onboarding'
                     })
 
@@ -296,7 +307,7 @@ class paymentController {
             responseReturn(res, 500, { message: error.message || 'Internal Server Error' })
         }
     }
-    // End Method
+    // End payment_request_confirm method
 }
 
 

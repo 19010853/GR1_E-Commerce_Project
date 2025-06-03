@@ -9,6 +9,7 @@ const formidable = require("formidable")
 
 class authControllers {
 
+    //              
     admin_login = async (req, res) => {
         const { email, password } = req.body
         try {
@@ -29,10 +30,6 @@ class authControllers {
                 } else {
                     responseReturn(res, 404, { error: "Password Wrong" })
                 }
-
-
-
-
             } else {
                 responseReturn(res, 404, { error: "Email not Found" })
             }
@@ -40,10 +37,8 @@ class authControllers {
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
         }
-
     }
-    // End Method 
-
+    // End admin login method
 
     seller_login = async (req, res) => {
         const { email, password } = req.body
@@ -76,8 +71,7 @@ class authControllers {
         }
 
     }
-    // End Method 
-
+    // End seller login method
 
     seller_register = async (req, res) => {
         const { email, name, password } = req.body
@@ -108,13 +102,7 @@ class authControllers {
             responseReturn(res, 500, { error: 'Internal Server Error' })
         }
     }
-    // End Method 
-
-
-
-
-
-
+    // End seller register method
 
     getUser = async (req, res) => {
         const { id, role } = req;
@@ -131,9 +119,8 @@ class authControllers {
         } catch (error) {
             responseReturn(res, 500, { error: 'Internal Server Error' })
         }
-
-
-    } // End getUser Method 
+    }
+    // End getUser method
 
     profile_image_upload = async (req, res) => {
         const { id } = req
@@ -167,7 +154,7 @@ class authControllers {
         })
     }
 
-    // End Method 
+    // End profile_image_upload method
 
     profile_info_add = async (req, res) => {
         const { division, district, shopName, sub_district } = req.body;
@@ -191,7 +178,7 @@ class authControllers {
 
 
     }
-    // End Method 
+    // End profile_info_add method
 
     logout = async (req, res) => {
         try {
@@ -204,7 +191,7 @@ class authControllers {
             responseReturn(res, 500, { error: error.message })
         }
     }
-    // End Method 
+    // End logout method
 
     /// Change Password 
     change_password = async (req, res) => {
@@ -225,10 +212,7 @@ class authControllers {
             res.status(500).json({ message: 'Server Error' });
         }
     }
-    // End Method 
-
-
-
+    // End change_password method
 }
 
 module.exports = new authControllers()

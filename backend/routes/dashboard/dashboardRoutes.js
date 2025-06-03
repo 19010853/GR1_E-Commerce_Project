@@ -12,6 +12,7 @@ router.get(
   authMiddleware,
   dashboardController.get_seller_dashboard_data
 );
+router.get('/banners', dashboardController.get_banners)
 router.post("/banner/add", authMiddleware, dashboardController.add_banner);
 router.get(
   "/banner/get/:productId",

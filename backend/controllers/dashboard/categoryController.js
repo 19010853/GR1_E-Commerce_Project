@@ -3,7 +3,10 @@ const { responseReturn } = require("../../utiles/response");
 const cloudinary = require("cloudinary").v2;
 const categoryModel = require("../../models/categoryModel");
 
+// CRUD For Category Method
 class categoryController {
+
+  // Add category method    
   add_category = async (req, res) => {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
@@ -46,8 +49,9 @@ class categoryController {
       }
     });
   };
-  // end category add method
+  // End category add method
 
+  // Get category method
   get_category = async (req, res) => {
     const { page, searchValue, parPage } = req.query;
 
@@ -89,6 +93,7 @@ class categoryController {
   };
   //end get category method
 
+  // Update category method
   update_category = async (req, res) => {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
@@ -143,6 +148,7 @@ class categoryController {
   };
   // end update category method
 
+  // Delete category method
   delete_category = async (req, res) => {
     try {
       const categoryId = req.params.id;

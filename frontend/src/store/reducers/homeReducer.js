@@ -48,12 +48,9 @@ export const query_products = createAsyncThunk(
   async (query, { fulfillWithValue }) => {
     try {
       const { data } = await api.get(
-        `/home/query-products?category=${query.category}&&rating=${
-          query.rating
-        }&&lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${
-          query.sortPrice
-        }&&pageNumber=${query.pageNumber}&&searchValue=${
-          query.searchValue ? query.searchValue : ""
+        `/home/query-products?category=${query.category}&&rating=${query.rating
+        }&&lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice
+        }&&pageNumber=${query.pageNumber}&&searchValue=${query.searchValue ? query.searchValue : ""
         } `
       );
       //  console.log(data)
@@ -110,18 +107,18 @@ export const get_reviews = createAsyncThunk(
 // End Method
 
 export const get_banners = createAsyncThunk(
-  "banner/get_banners",
+  'banner/get_banners',
   async (_, { fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/banners");
-      console.log(data);
-      return fulfillWithValue(data);
+      const { data } = await api.get(`/banners`)
+      //  console.log(data)
+      return fulfillWithValue(data)
     } catch (error) {
-      console.log(error.respone);
+      console.log(error.respone)
     }
   }
-);
-// End Method
+)
+// End Method 
 
 export const homeReducer = createSlice({
   name: "home",

@@ -14,7 +14,10 @@ const {
 const cloudinary = require("cloudinary").v2;
 const formidable = require("formidable");
 
+// CRUD For Dashboard And Banner Method
 class dashboardController {
+
+  // Get admin dashboard data method
   get_admin_dashboard_data = async (req, res) => {
     const { id } = req;
 
@@ -45,8 +48,9 @@ class dashboardController {
       console.log(error.message);
     }
   };
-  //end Method
+  // End get admin dashboard data method
 
+  // Get seller dashboard data method
   get_seller_dashboard_data = async (req, res) => {
     const { id } = req;
     if (!id) {
@@ -109,8 +113,9 @@ class dashboardController {
       responseReturn(res, 500, { error: "Internal server error" });
     }
   };
-  //end Method
+  // End get seller dashboard data method
 
+  // Add banner method
   add_banner = async (req, res) => {
     const form = formidable({ multiples: true });
     form.parse(req, async (err, field, files) => {
@@ -140,8 +145,9 @@ class dashboardController {
       }
     });
   };
-  //end Method
+  // End add banner method
 
+  // Get banner method
   get_banner = async (req, res) => {
     const { productId } = req.params;
     try {
@@ -153,8 +159,9 @@ class dashboardController {
       responseReturn(res, 500, { error: error.message });
     }
   };
-  //end Method
+  // End get banner method
 
+  // Update banner method
   update_banner = async (req, res) => {
     const { bannerId } = req.params;
     const form = formidable({});
@@ -191,7 +198,25 @@ class dashboardController {
       }
     });
   };
-  //end Method
+  // End update banner method
+
+  get_banners = async (req, res) => {
+
+    try {
+      const banners = await bannerModel.aggregate([
+        {
+          $sample: {
+            size: 5
+          }
+        }
+      ])
+      responseReturn(res, 200, { banners })
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message })
+    }
+
+  }
+  //end Method 
 }
 
 module.exports = new dashboardController();

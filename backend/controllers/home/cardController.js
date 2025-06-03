@@ -3,8 +3,10 @@ const { responseReturn } = require('../../utiles/response')
 const { mongo: { ObjectId } } = require('mongoose')
 const wishlistModel = require('../../models/wishlistModel')
 
+// CRUD For Card And Wishlist Method
 class cardController {
 
+    // Add to card method
     add_to_card = async (req, res) => {
         const { userId, productId, quantity } = req.body
         try {
@@ -37,8 +39,9 @@ class cardController {
             console.log(error.message)
         }
     }
-    // End Method 
+    // End add to card method
 
+    // Get card products method
     get_card_products = async (req, res) => {
         const co = 5;
         const { userId } = req.params
@@ -130,9 +133,9 @@ class cardController {
         }
 
     }
-    // End Method 
+    // End get card products method
 
-
+    // Delete card products method
     delete_card_products = async (req, res) => {
         const { card_id } = req.params
         try {
@@ -144,8 +147,9 @@ class cardController {
         }
 
     }
-    // End Method 
+    // End delete card products method
 
+    // Quantity increase method
     quantity_inc = async (req, res) => {
         const { card_id } = req.params
         try {
@@ -159,8 +163,9 @@ class cardController {
         }
 
     }
-    // End Method 
+    // End quantity increase method
 
+    // Quantity decrease method
     quantity_dec = async (req, res) => {
         const { card_id } = req.params
         try {
@@ -174,9 +179,9 @@ class cardController {
         }
 
     }
-    // End Method 
+    // End quantity decrease method
 
-
+    // Add wishlist method
     add_wishlist = async (req, res) => {
         const { slug } = req.body
         try {
@@ -196,9 +201,9 @@ class cardController {
         }
 
     }
-    // End Method 
+    // End add wishlist method
 
-
+    // Get wishlist method
     get_wishlist = async (req, res) => {
         const { userId } = req.params
         try {
@@ -214,8 +219,9 @@ class cardController {
             console.log(error.message)
         }
     }
-    // End Method 
+    // End get wishlist method
 
+    // Remove wishlist method
     remove_wishlist = async (req, res) => {
         const { wishlistId } = req.params
         try {
@@ -229,9 +235,7 @@ class cardController {
             console.log(error.message)
         }
     }
-    // End Method 
-
+    // End remove wishlist method
 }
-
 
 module.exports = new cardController()

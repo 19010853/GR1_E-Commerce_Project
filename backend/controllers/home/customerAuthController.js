@@ -4,8 +4,10 @@ const bcrypt = require('bcrypt')
 const sellerCustomerModel = require('../../models/chat/sellerCustomerModel')
 const { createToken } = require('../../utiles/tokenCreate')
 
+// CRUD For Customer Auth Method
 class customerAuthController {
 
+    // Customer register method
     customer_register = async (req, res) => {
         const { name, email, password } = req.body
 
@@ -38,8 +40,9 @@ class customerAuthController {
             console.log(error.message)
         }
     }
-    // End Method
+    // End customer register method
 
+    // Customer login method
     customer_login = async (req, res) => {
         console.log(req.body)
         const { email, password } = req.body
@@ -70,15 +73,16 @@ class customerAuthController {
             console.log(error.message)
         }
     }
-    // End Method
+    // End customer login method
 
+    // Customer logout method
     customer_logout = async (req, res) => {
         res.cookie('customerToken', '', {
             expires: new Date(Date.now() - 1000)
         })
         responseReturn(res, 200, { message: 'Logout Success' })
     }
-    // End Method
+    // End customer logout method
 
 
 }

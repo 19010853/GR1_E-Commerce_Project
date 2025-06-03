@@ -12,6 +12,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import {
   get_card_products,
   get_wishlist_products,

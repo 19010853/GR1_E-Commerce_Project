@@ -3,7 +3,10 @@ const { responseReturn } = require("../../utiles/response");
 const cloudinary = require("cloudinary").v2;
 const productModel = require("../../models/productModel");
 
+// CRUD For Product And Product Image Method
 class productController {
+
+  // Add product method
   add_product = async (req, res) => {
     const { id } = req;
     const form = formidable({ multiples: true });
@@ -61,8 +64,9 @@ class productController {
       }
     });
   };
-  // end of add_product
+  // End add product method
 
+  // Get products method
   products_get = async (req, res) => {
     const { page, searchValue, parPage } = req.query;
     const { id } = req;
@@ -101,8 +105,9 @@ class productController {
       console.log(error.message);
     }
   };
-  // end of products_get
+  // End get products method
 
+  // Get product method
   product_get = async (req, res) => {
     const { productId } = req.params;
     try {
@@ -112,8 +117,9 @@ class productController {
       console.log(error.message);
     }
   };
-  // end of product_get
+  // End get product method
 
+  // Update product method
   product_update = async (req, res) => {
     let { name, description, stock, price, discount, brand, category, productId } =
       req.body;
@@ -140,9 +146,9 @@ class productController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+  // End update product method
 
-  // end of product_update
-
+  // Update product image method
   product_image_update = async (req, res) => {
     const form = formidable({ multiples: true });
 
@@ -185,7 +191,7 @@ class productController {
       }
     });
   };
-  // End Method product_image_update
+  // End product image update method
 }
 
 module.exports = new productController();

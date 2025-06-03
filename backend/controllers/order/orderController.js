@@ -12,6 +12,7 @@ const stripe = require('stripe')('sk_test_51RP0SYR4aa1jsPsoSSMgGB0Ndsb9jzLgkPWmI
 
 class orderController {
 
+    // Payment check method
     paymentCheck = async (id) => {
         try {
             const order = await customerOrder.findById(id)
@@ -31,8 +32,9 @@ class orderController {
         }
     }
 
-    // end method 
+    // End payment check method
 
+    // Place order method
     place_order = async (req, res) => {
         const { price, products, shipping_fee, shippingInfo, userId } = req.body
         let authorOrderData = []
@@ -103,8 +105,9 @@ class orderController {
 
     }
 
-    // End Method 
+    // End place order method
 
+    // Get customer dashboard data method
     get_customer_dashboard_data = async (req, res) => {
         const { userId } = req.params
 
@@ -133,8 +136,9 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End get customer dashboard data method
 
+    // Get orders method
     get_orders = async (req, res) => {
         const { customerId, status } = req.params
 
@@ -159,8 +163,9 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End get orders method
 
+    // Get order details method
     get_order_details = async (req, res) => {
         const { orderId } = req.params
 
@@ -174,8 +179,9 @@ class orderController {
             console.log(error.message)
         }
     }
-    // End Method 
+    // End get order details method
 
+    // Get admin orders method
     get_admin_orders = async (req, res) => {
         let { page, searchValue, parPage } = req.query
         page = parseInt(page)
@@ -216,8 +222,9 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End get admin orders method
 
+    // Get admin order method
     get_admin_order = async (req, res) => {
         const { orderId } = req.params
         try {
@@ -240,9 +247,9 @@ class orderController {
             console.log('get admin order details' + error.message)
         }
     }
-    // End Method 
+    // End get admin order method
 
-
+    // Admin order status update method
     admin_order_status_update = async (req, res) => {
         const { orderId } = req.params
         const { status } = req.body
@@ -258,8 +265,9 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End admin order status update method
 
+    // Get seller orders method
     get_seller_orders = async (req, res) => {
         const { sellerId } = req.params
         let { page, searchValue, parPage } = req.query
@@ -287,8 +295,9 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End get seller orders method
 
+    // Get seller order method
     get_seller_order = async (req, res) => {
         const { orderId } = req.params
 
@@ -299,8 +308,9 @@ class orderController {
             console.log('get seller details error' + error.message)
         }
     }
-    // End Method 
+    // End get seller order method
 
+    // Seller order status update method
     seller_order_status_update = async (req, res) => {
         const { orderId } = req.params
         const { status } = req.body
@@ -317,8 +327,9 @@ class orderController {
 
 
     }
-    // End Method 
+    // End seller order status update method
 
+    // Create payment method
     create_payment = async (req, res) => {
         const { price } = req.body
         try {
@@ -335,8 +346,9 @@ class orderController {
             responseReturn(res, 500, { message: 'Internal Server Error' })
         }
     }
-    // End Method 
+    // End create payment method
 
+    // Order confirm method
     order_confirm = async (req, res) => {
         const { orderId } = req.params
         try {
@@ -378,7 +390,7 @@ class orderController {
         }
 
     }
-    // End Method 
+    // End order confirm method
 
 }
 

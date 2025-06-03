@@ -3,8 +3,10 @@ const { responseReturn } = require("../../utiles/response")
 const cloudinary = require('cloudinary').v2
 const sellerModel = require('../../models/sellerModel')
 
+// CRUD For Seller Method
 class sellerController {
 
+    // Request seller get method
     request_seller_get = async (req, res) => {
         const { page, searchValue, parPage } = req.query
         const skipPage = parseInt(parPage) * (parseInt(page) - 1)
@@ -22,10 +24,9 @@ class sellerController {
         }
 
     }
+    // End request seller get method
 
-
-    // end method 
-
+    // Get seller method
     get_seller = async (req, res) => {
         const { sellerId } = req.params
         try {
@@ -35,9 +36,9 @@ class sellerController {
             responseReturn(res, 500, { error: error.message })
         }
     }
+    // End get seller method
 
-    // end method 
-
+    // Seller status update method
     seller_status_update = async (req, res) => {
         const { sellerId, status } = req.body
         try {
@@ -48,9 +49,9 @@ class sellerController {
             responseReturn(res, 500, { error: error.message })
         }
     }
+    // End seller status update method
 
-    // end method 
-
+    // Get active sellers method
     get_active_sellers = async (req, res) => {
         let { page, searchValue, parPage } = req.query
         page = parseInt(page)
@@ -84,11 +85,10 @@ class sellerController {
         } catch (error) {
             console.log('active seller get ' + error.message)
         }
-
-
     }
-    // end method 
+    // End get active sellers method
 
+    // Get deactive sellers method
     get_deactive_sellers = async (req, res) => {
         let { page, searchValue, parPage } = req.query
         page = parseInt(page)
@@ -123,11 +123,7 @@ class sellerController {
             console.log('deactive seller get ' + error.message)
         }
     }
-    // end method 
-
-
-
-
+    // End get deactive sellers method
 }
 
 

@@ -8,6 +8,7 @@ const { ObjectId } = require('mongodb')
 
 class homeControllers {
 
+    // Formate product method
     formateProduct = (products) => {
         const productArray = [];
         let i = 0;
@@ -25,7 +26,9 @@ class homeControllers {
         }
         return productArray
     }
+    // End formate product method
 
+    // Get categorys method
     get_categorys = async (req, res) => {
         try {
             const categorys = await categoryModel.find({})
@@ -37,8 +40,9 @@ class homeControllers {
             console.log(error.message)
         }
     }
-    // end method 
+    // End get categorys method
 
+    // Get products method
     get_products = async (req, res) => {
         try {
             const products = await productModel.find({}).limit(12).sort({
@@ -70,8 +74,9 @@ class homeControllers {
             console.log(error.message)
         }
     }
-    // end method 
+    // End get products method
 
+    // Price range product method
     price_range_product = async (req, res) => {
         try {
             const priceRange = {
@@ -99,9 +104,9 @@ class homeControllers {
         }
 
     }
+    // End price range product method
 
-    // end method 
-
+    // Query products method
     query_products = async (req, res) => {
         const parPage = 12
         req.query.parPage = parPage
@@ -126,8 +131,9 @@ class homeControllers {
         }
 
     }
-    // end method 
+    // End query products method
 
+    // Product details method
     product_details = async (req, res) => {
         const { slug } = req.params
         try {
@@ -169,8 +175,9 @@ class homeControllers {
             console.log(error.message)
         }
     }
-    // end method 
+    // End product details method
 
+    // Submit review method
     submit_review = async (req, res) => {
         const { productId, rating, review, name } = req.body
 
@@ -207,8 +214,9 @@ class homeControllers {
             console.log(error.message)
         }
     }
-    // end method 
+    // End submit review method
 
+    // Get reviews method
     get_reviews = async (req, res) => {
         const { productId } = req.params
         let { pageNo } = req.query
@@ -283,7 +291,7 @@ class homeControllers {
             responseReturn(res, 500, { error: "Internal server error" })
         }
     }
-    // end method
+    // End get reviews method
 
 
 
