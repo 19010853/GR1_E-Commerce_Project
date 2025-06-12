@@ -77,7 +77,7 @@ const Reviews = ({ product }) => {
           <div className="flex text-3xl">
             <Rating ratings={product.rating} />
           </div>
-          <p className="text-sm text-slate-600">({totalReview || 0}) Reviews</p>
+          <p className="text-sm text-slate-600">({totalReview || 0}) Đánh giá</p>
         </div>
 
         <div className="flex gap-2 flex-col py-4">
@@ -189,7 +189,7 @@ const Reviews = ({ product }) => {
       </div>
 
       <h2 className="text-slate-600 text-xl font-bold py-5">
-        Product Review ({totalReview || 0})
+        Đánh giá sản phẩm ({totalReview || 0})
       </h2>
 
       <div className="flex flex-col gap-8 pb-10 pt-4">
@@ -250,7 +250,7 @@ const Reviews = ({ product }) => {
               ></textarea>
               <div className="mt-2">
                 <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">
-                  Submit
+                  Gửi đánh giá
                 </button>
               </div>
             </form>
@@ -261,8 +261,7 @@ const Reviews = ({ product }) => {
               to="/login"
               className="py-1 px-5 bg-red-500 text-white rounded-sm"
             >
-              {" "}
-              Login First{" "}
+              Đăng nhập để đánh giá
             </Link>
           </div>
         )}

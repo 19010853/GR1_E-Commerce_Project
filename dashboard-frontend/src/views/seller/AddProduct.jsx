@@ -36,9 +36,47 @@ const AddProduct = () => {
   });
 
   const inputHandle = (e) => {
+    const { name, value } = e.target;
+    
+    // Validation for stock (must be between 1 and 10000)
+    if (name === 'stock') {
+      const stockValue = parseInt(value);
+      if (value === '' || (stockValue >= 1 && stockValue <= 10000)) {
+        setState({
+          ...state,
+          [name]: value
+        });
+      }
+      return;
+    }
+
+    // Validation for price (must be positive number)
+    if (name === 'price') {
+      const priceValue = parseFloat(value);
+      if (value === '' || priceValue > 0) {
+        setState({
+          ...state,
+          [name]: value
+        });
+      }
+      return;
+    }
+
+    // Validation for discount (must be between 0 and 100)
+    if (name === 'discount') {
+      const discountValue = parseFloat(value);
+      if (value === '' || (discountValue >= 0 && discountValue <= 100)) {
+        setState({
+          ...state,
+          [name]: value
+        });
+      }
+      return;
+    }
+
     setState({
       ...state,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -122,6 +160,41 @@ const AddProduct = () => {
 
   const add = (e) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!state.name || !state.description || !state.price || !state.stock || !state.brand || !category) {
+      toast.error('Vui lòng điền đầy đủ thông tin sản phẩm');
+      return;
+    }
+
+    // Validate stock
+    const stockValue = parseInt(state.stock);
+    if (stockValue < 1 || stockValue > 10000) {
+      toast.error('Số lượng sản phẩm phải từ 1 đến 10000');
+      return;
+    }
+
+    // Validate price
+    if (parseFloat(state.price) <= 0) {
+      toast.error('Giá sản phẩm phải lớn hơn 0');
+      return;
+    }
+
+    // Validate discount
+    if (state.discount) {
+      const discountValue = parseFloat(state.discount);
+      if (discountValue < 0 || discountValue > 100) {
+        toast.error('Giảm giá phải từ 0 đến 100%');
+        return;
+      }
+    }
+
+    // Validate images
+    if (images.length === 0) {
+      toast.error('Vui lòng chọn ít nhất một hình ảnh sản phẩm');
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", state.name);
     formData.append("description", state.description);
@@ -135,7 +208,7 @@ const AddProduct = () => {
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
-    // console.log(state)
+
     dispatch(add_product(formData));
   };
 
@@ -147,19 +220,19 @@ const AddProduct = () => {
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         <div className="flex justify-between items-center pb-4">
-          <h1 className="text-[#d0d2d6] text-xl font-semibold">Add Product</h1>
+          <h1 className="text-[#d0d2d6] text-xl font-semibold">Thêm sản phẩm</h1>
           <Link
             to="/seller/dashboard/products"
             className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2"
           >
-            All Product
+            Tất cả sản phẩm
           </Link>
         </div>
         <div>
           <form onSubmit={add}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="name">Product Name</label>
+                <label htmlFor="name">Tên sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -167,12 +240,12 @@ const AddProduct = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Product Name"
+                  placeholder="Nhập tên sản phẩm"
                 />
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="brand">Product Brand</label>
+                <label htmlFor="brand">Thương hiệu sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -180,14 +253,14 @@ const AddProduct = () => {
                   type="text"
                   name="brand"
                   id="brand"
-                  placeholder="Brand Name"
+                  placeholder="Nhập tên thương hiệu"
                 />
               </div>
             </div>
 
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1 relative">
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category">Danh mục</label>
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
@@ -196,7 +269,7 @@ const AddProduct = () => {
                   value={category}
                   type="text"
                   id="category"
-                  placeholder="--select category--"
+                  placeholder="--chọn danh mục--"
                 />
 
                 <div
@@ -210,7 +283,7 @@ const AddProduct = () => {
                       onChange={categorySearch}
                       className="px-3 py-1 w-full focus:border-indigo-500 outline-none bg-transparent border border-slate-700 rounded-md text-[#d0d2d6] overflow-hidden"
                       type="text"
-                      placeholder="search"
+                      placeholder="Tìm kiếm"
                     />
                   </div>
                   <div className="pt-14"></div>
@@ -235,22 +308,24 @@ const AddProduct = () => {
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Product Stock</label>
+                <label htmlFor="stock">Số lượng sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
                   value={state.stock}
-                  type="text"
+                  type="number"
+                  min="1"
+                  max="10000"
                   name="stock"
                   id="stock"
-                  placeholder="Stock"
+                  placeholder="Nhập số lượng"
                 />
               </div>
             </div>
 
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Price</label>
+                <label htmlFor="price">Giá</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -258,12 +333,12 @@ const AddProduct = () => {
                   type="number"
                   name="price"
                   id="price"
-                  placeholder="price"
+                  placeholder="Nhập giá"
                 />
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="discount">Discount</label>
+                <label htmlFor="discount">Giảm giá</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -271,14 +346,14 @@ const AddProduct = () => {
                   type="number"
                   name="discount"
                   id="discount"
-                  placeholder="discount by %"
+                  placeholder="Giảm giá theo %"
                 />
               </div>
             </div>
 
             <div className="flex flex-col w-full gap-1 mb-5">
               <label htmlFor="description" className="text-[#d0d2d6]">
-                Description
+                Mô tả
               </label>
               <textarea
                 className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
@@ -286,7 +361,7 @@ const AddProduct = () => {
                 value={state.description}
                 name="description"
                 id="description"
-                placeholder="Description"
+                placeholder="Nhập mô tả"
                 cols="10"
                 rows="4"
               ></textarea>
@@ -324,7 +399,7 @@ const AddProduct = () => {
                 <span>
                   <IoMdImages />
                 </span>
-                <span>Select Image </span>
+                <span>Chọn hình ảnh</span>
               </label>
               <input
                 className="hidden"
@@ -343,7 +418,7 @@ const AddProduct = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Add Product"
+                  "Thêm sản phẩm"
                 )}
               </button>
             </div>

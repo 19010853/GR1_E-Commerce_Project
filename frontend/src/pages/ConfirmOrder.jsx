@@ -81,7 +81,7 @@ const ConfirmOrder = () => {
             className="px-5 py-2 bg-green-500 rounded-sm text-white"
             to="/dashboard/my-orders"
           >
-            Back to Dashboard{" "}
+            Quay lại Dashboard
           </Link>
         </>
       ) : message === "succeeded" ? (
@@ -94,7 +94,7 @@ const ConfirmOrder = () => {
               className="px-5 py-2 bg-green-500 rounded-sm text-white"
               to="/dashboard/my-orders"
             >
-              Back to Dashboard{" "}
+              Quay lại Dashboard
             </Link>
           </>
         )

@@ -66,21 +66,21 @@ const AdminLogin = () => {
                 className="px-3 py-2 outline-none border border-slate-400 bg-transparent rounded-md"
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder="Nhập email"
                 id="email"
                 required
               />
             </div>
 
             <div className="flex flex-col w-full gap-1 mb-3">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Mật khẩu</label>
               <input
                 onChange={inputHandle}
                 value={state.password}
                 className="px-3 py-2 outline-none border border-slate-400 bg-transparent rounded-md"
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 id="password"
                 required
               />
@@ -93,7 +93,7 @@ const AdminLogin = () => {
               {loader ? (
                 <PropagateLoader color="#fff" cssOverride={overrideStyle} />
               ) : (
-                "Login"
+                "Đăng nhập"
               )}
             </button>
           </form>

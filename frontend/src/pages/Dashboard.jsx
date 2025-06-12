@@ -49,27 +49,27 @@ const Dashboard = () => {
                 
                 <li className='flex justify-start items-center gap-2 py-2'>
             <span className='text-xl'><IoIosHome /></span>
-            <Link to='/dashboard' className='block' >Dashboard </Link>
+            <Link to='/dashboard' className='block' >Dashboard</Link>
                 </li>
                 <li className='flex justify-start items-center gap-2 py-2'>
             <span className='text-xl'><FaBorderAll/></span>
-            <Link to='/dashboard/my-orders' className='block' >My Orders </Link>
+            <Link to='/dashboard/my-orders' className='block' >Đơn hàng của tôi</Link>
                 </li>
                 <li className='flex justify-start items-center gap-2 py-2'>
             <span className='text-xl'><FaHeart/></span>
-            <Link to='/dashboard/my-wishlist' className='block' >Wishlist </Link>
+            <Link to='/dashboard/my-wishlist' className='block' >Danh sách yêu thích</Link>
                 </li>
                 <li className='flex justify-start items-center gap-2 py-2'>
             <span className='text-xl'><IoChatbubbleEllipsesSharp/></span>
-            <Link to='/dashboard/chat' className='block' >Chat  </Link>
+            <Link to='/dashboard/chat' className='block' >Trò chuyện</Link>
                 </li>
                 <li className='flex justify-start items-center gap-2 py-2'>
             <span className='text-xl'><RiLockPasswordLine/></span>
-            <Link to='/dashboard/change-password' className='block' >Change Password  </Link>
+            <Link to='/dashboard/change-password' className='block' >Đổi mật khẩu</Link>
                 </li>
                 <li onClick={logout} className='flex justify-start items-center gap-2 py-2 cursor-pointer'>
             <span className='text-xl'><IoMdLogOut/></span>
-            <div className='block' >Logout </div>
+            <div className='block' >Đăng xuất</div>
                 </li> 
 
             </ul> 

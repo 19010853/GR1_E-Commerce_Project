@@ -27,7 +27,7 @@ const SellerRequest = () => {
 
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <h1 className="text-[20px] font-bold mb-3"> Seller Request </h1>
+      <h1 className="text-[20px] font-bold mb-3">Yêu cầu người bán</h1>
 
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         <Search
@@ -41,22 +41,22 @@ const SellerRequest = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  No
+                  STT
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  Tên
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Email
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  Trạng thái thanh toán
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Status
+                  Trạng thái
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  Thao tác
                 </th>
               </tr>
             </thead>

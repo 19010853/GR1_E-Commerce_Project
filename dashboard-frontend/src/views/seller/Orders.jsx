@@ -29,7 +29,7 @@ const Orders = () => {
 
     return (
         <div className='px-2 lg:px-7 pt-5'>
-            <h1 className='text-[#000000] font-semibold text-lg mb-3'>Orders</h1>
+            <h1 className='text-[#000000] font-semibold text-lg mb-3'>Đơn hàng</h1>
 
          <div className='w-full p-4 bg-[#6a5fdf] rounded-md'> 
          <Search setParPage={setParPage} setSearchValue={setSearchValue} searchValue={searchValue} />
@@ -40,12 +40,12 @@ const Orders = () => {
         <thead className='text-sm text-[#d0d2d6] uppercase border-b border-slate-700'>
         <tr>
              
-            <th scope='col' className='py-3 px-4'>Order Id</th>
-            <th scope='col' className='py-3 px-4'>Price</th>
-            <th scope='col' className='py-3 px-4'>Payment Status</th>
-            <th scope='col' className='py-3 px-4'>Order Status</th> 
-            <th scope='col' className='py-3 px-4'>Date</th>
-            <th scope='col' className='py-3 px-4'>Action</th> 
+            <th scope='col' className='py-3 px-4'>Mã đơn hàng</th>
+            <th scope='col' className='py-3 px-4'>Giá</th>
+            <th scope='col' className='py-3 px-4'>Trạng thái thanh toán</th>
+            <th scope='col' className='py-3 px-4'>Trạng thái đơn hàng</th> 
+            <th scope='col' className='py-3 px-4'>Ngày</th>
+            <th scope='col' className='py-3 px-4'>Thao tác</th> 
         </tr>
         </thead>
 

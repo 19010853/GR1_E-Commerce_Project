@@ -35,7 +35,7 @@ const Orders = () => {
                         <option value="10">10</option>
                         <option value="20">20</option> 
                     </select>
-                    <input onChange={e => setSearchValue(e.target.value)} value={searchValue} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='search' /> 
+                    <input onChange={e => setSearchValue(e.target.value)} value={searchValue} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='tìm kiếm' /> 
                 </div>
 
 
@@ -44,11 +44,11 @@ const Orders = () => {
                 <div className='text-sm text-[#d0d2d6] uppercase border-b border-slate-700'>
 
             <div className=' flex justify-between items-center'>
-                <div className='py-3 w-[25%] font-bold'>Order id</div>
-                <div className='py-3 w-[13%] font-bold'>Price</div>
-                <div className='py-3 w-[18%] font-bold'>Payment Status</div>
-                <div className='py-3 w-[18%] font-bold'>Order Status</div>
-                <div className='py-3 w-[18%] font-bold'>Action </div>
+                <div className='py-3 w-[25%] font-bold'>Mã đơn hàng</div>
+                <div className='py-3 w-[13%] font-bold'>Giá</div>
+                <div className='py-3 w-[18%] font-bold'>Trạng thái thanh toán</div>
+                <div className='py-3 w-[18%] font-bold'>Trạng thái đơn hàng</div>
+                <div className='py-3 w-[18%] font-bold'>Thao tác</div>
                 <div className='py-3 w-[8%] font-bold'><LuArrowDown />
          </div> 
             </div> 
@@ -62,7 +62,7 @@ const Orders = () => {
                 <div className='py-3 w-[18%] font-medium'>{o.payment_status}</div>
                 <div className='py-3 w-[18%] font-medium'>{o.delivery_status}</div>
                 <div className='py-3 w-[18%] font-medium'>
-                    <Link to={`/admin/dashboard/order/details/${o._id}`}>View</Link>
+                    <Link to={`/admin/dashboard/order/details/${o._id}`}>Xem</Link>
                 </div>
                 <div onClick={(e) => setShow(o._id)} className='py-3 w-[8%] font-medium'><LuArrowDown />
             </div> 

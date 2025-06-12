@@ -43,13 +43,13 @@ const OrderDetails = () => {
         <div className='px-2 lg:px-7 pt-5'>
         <div className='w-full p-4 bg-[#6a5fdf] rounded-md'>
             <div className='flex justify-between items-center p-4'>
-                <h2 className='text-xl text-[#d0d2d6]'>Order Details</h2>
+                <h2 className='text-xl text-[#d0d2d6]'>Chi tiết đơn hàng</h2>
                 <select onChange={status_update} value={status} name="" id="" className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#475569] border border-slate-700 rounded-md text-[#d0d2d6]'>
-                <option value="pending">pending</option>
-                <option value="processing">processing</option>
-                <option value="warehouse">warehouse</option>
-                <option value="placed">placed</option>
-                <option value="cancelled">cancelled</option>
+                <option value="pending">đang chờ xử lý</option>
+                <option value="processing">đang xử lý</option>
+                <option value="warehouse">đang ở kho</option>
+                <option value="placed">đã đặt hàng</option>
+                <option value="cancelled">đã hủy</option>
                 </select> 
             </div>
 
@@ -63,7 +63,7 @@ const OrderDetails = () => {
                 <div className='w-[30%]'>
                     <div className='pr-3 text-[#d0d2d6] text-lg'>
                         <div className='flex flex-col gap-1'>
-                            <h2 className='pb-2 font-semibold'>Deliver To : {order.shippingInfo?.name} </h2>
+                            <h2 className='pb-2 font-semibold'>Giao đến: {order.shippingInfo?.name}</h2>
                             <p><span className='text-sm'>
                                 {order.shippingInfo?.address}
                                 {order.shippingInfo?.province}
@@ -71,10 +71,10 @@ const OrderDetails = () => {
                                 {order.shippingInfo?.area}</span></p> 
                         </div>
             <div className='flex justify-start items-center gap-3'>
-                <h2>Payment Status: </h2>
+                <h2>Trạng thái thanh toán: </h2>
                 <span className='text-base'>{order.payment_status}</span>
              </div>  
-             <span>Price : ${order.price}</span> 
+             <span>Giá: ${order.price}</span> 
 
             <div className='mt-4 flex flex-col gap-4 bg-[#8288ed] rounded-md'>
                 <div className='text-[#d0d2d6]'>
@@ -83,15 +83,15 @@ const OrderDetails = () => {
         <img 
             className='w-[50px] h-[50px]' 
             src={p.images && p.images[0] ? p.images[0] : null} 
-            alt={p.name || 'Product image'} 
+            alt={p.name || 'Hình ảnh sản phẩm'} 
         />
 
         <div>
             <h2>{p.name} </h2>
             <p>
-                <span>Brand : </span>
+                <span>Thương hiệu: </span>
                 <span>{p.brand}</span>
-                <span className='text-lg'>Quantity : {p.quantity} </span>
+                <span className='text-lg'>Số lượng: {p.quantity} </span>
             </p>
         </div> 
     </div> )
@@ -115,7 +115,7 @@ const OrderDetails = () => {
             {
                 order?.suborder?.map((o,i) => <div key={o._id} className='text-[#d0d2d6] mt-2'>
                 <div className='flex justify-start items-center gap-3'>
-                    <h2>Seller {i + 1}   Order : </h2>
+                    <h2>Người bán {i + 1} Đơn hàng: </h2>
                     <span>{o.delivery_status}</span> 
                 </div>
 
@@ -124,15 +124,15 @@ const OrderDetails = () => {
                     <img 
                         className='w-[50px] h-[50px]' 
                         src={p.images && p.images[0] ? p.images[0] : null} 
-                        alt={p.name || 'Product image'} 
+                        alt={p.name || 'Hình ảnh sản phẩm'} 
                     />
 
                     <div>
                         <h2>{p.name} </h2>
                         <p>
-                            <span>Brand : </span>
+                            <span>Thương hiệu: </span>
                             <span>{p.brand}</span>
-                            <span className='text-lg'>Quantity : {p.quantity} </span>
+                            <span className='text-lg'>Số lượng: {p.quantity} </span>
                         </p>
                     </div> 
                 </div> )

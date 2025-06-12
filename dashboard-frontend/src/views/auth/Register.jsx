@@ -53,21 +53,21 @@ const Register = () => {
     <div className="min-w-screen min-h-screen bg-[#cdcae9] flex justify-center items-center">
       <div className="w-[350px] text-[#ffffff] p-2">
         <div className="bg-[#6f68d1] p-4 rounded-md">
-          <h2 className="text-xl mb-3 font-bold">Welcome to Ecommerce</h2>
+          <h2 className="text-xl mb-3 font-bold">Chào mừng đến với Ecommerce</h2>
           <p className="text-sm mb-3 font-medium">
-            Please register your account
+            Vui lòng đăng ký tài khoản của bạn
           </p>
 
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">Tên</label>
               <input
                 onChange={inputHandle}
                 value={state.name}
                 className="px-3 py-2 outline-none border border-slate-400 bg-transparent rounded-md"
                 type="text"
                 name="name"
-                placeholder="Name"
+                placeholder="Nhập tên"
                 id="name"
                 required
               />
@@ -81,21 +81,21 @@ const Register = () => {
                 className="px-3 py-2 outline-none border border-slate-400 bg-transparent rounded-md"
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder="Nhập email"
                 id="email"
                 required
               />
             </div>
 
             <div className="flex flex-col w-full gap-1 mb-3">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Mật khẩu</label>
               <input
                 onChange={inputHandle}
                 value={state.password}
                 className="px-3 py-2 outline-none border border-slate-400 bg-transparent rounded-md"
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 id="password"
                 required
               />
@@ -110,7 +110,7 @@ const Register = () => {
               />
               <label htmlFor="checkbox">
                 {" "}
-                I agree to privacy policy & treams
+                Tôi đồng ý với chính sách bảo mật và điều khoản
               </label>
             </div>
 
@@ -121,15 +121,15 @@ const Register = () => {
               {loader ? (
                 <PropagateLoader color="#fff" cssOverride={overrideStyle} />
               ) : (
-                "Sign Up"
+                "Đăng ký"
               )}
             </button>
 
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
-                Already Have an account ?{" "}
+                Đã có tài khoản ?{" "}
                 <Link className="font-bold" to="/login">
-                  Sing In
+                  Đăng nhập
                 </Link>{" "}
               </p>
             </div>
@@ -137,7 +137,7 @@ const Register = () => {
             <div className="w-full flex justify-center items-center mb-3">
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
               <div className="w-[10%] flex justify-center items-center">
-                <span className="pb-1">Or</span>
+                <span className="pb-1">Hoặc</span>
               </div>
               <div className="w-[45%] bg-slate-700 h-[1px] "></div>
             </div>

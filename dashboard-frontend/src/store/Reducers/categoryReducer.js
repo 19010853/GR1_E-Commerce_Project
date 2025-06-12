@@ -99,11 +99,13 @@ export const categoryReducer = createSlice({
       })
       .addCase(categoryAdd.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = payload.error;
+        state.errorMessage = payload.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
+          payload.error === "Invalid category data" ? "Dữ liệu danh mục không hợp lệ" :
+            payload.error;
       })
       .addCase(categoryAdd.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.successMessage = payload.message;
+        state.successMessage = payload.message === "Category added successfully" ? "Đã thêm danh mục thành công" : payload.message;
         state.categorys = [...state.categorys, payload.category];
       })
       .addCase(get_category.fulfilled, (state, { payload }) => {
@@ -112,7 +114,7 @@ export const categoryReducer = createSlice({
       })
       .addCase(updateCategory.pending, (state, { payload }) => {
         state.loader = false;
-        state.successMessage = payload.message;
+        state.successMessage = payload.message === "Category updated successfully" ? "Đã cập nhật danh mục thành công" : payload.message;
         const index = state.categorys.findIndex(
           (category) => category._id === payload.category._id
         );
@@ -122,16 +124,20 @@ export const categoryReducer = createSlice({
       })
       .addCase(updateCategory.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = payload.error;
+        state.errorMessage = payload.error === "Category not found" ? "Không tìm thấy danh mục" :
+          payload.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
+            payload.error;
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.categorys = state.categorys.filter(
           (cat) => cat._id !== action.meta.arg
         );
-        state.successMessage = action.payload.message;
+        state.successMessage = action.payload.message === "Category deleted successfully" ? "Đã xóa danh mục thành công" : action.payload.message;
       })
       .addCase(deleteCategory.rejected, (state, action) => {
-        state.errorMessage = action.payload;
+        state.errorMessage = action.payload === "Category not found" ? "Không tìm thấy danh mục" :
+          action.payload === "Cannot delete category with products" ? "Không thể xóa danh mục có sản phẩm" :
+            action.payload;
       });
   },
 });

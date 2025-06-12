@@ -16,7 +16,7 @@ const SellerToAdmin = () => {
                   />
                   <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                 </div>
-                <h2 className="text-base text-white font-semibold">Support</h2>
+                <h2 className="text-base text-white font-semibold">Hỗ trợ</h2>
               </div>
             </div>
 
@@ -32,7 +32,7 @@ const SellerToAdmin = () => {
                       />
                     </div>
                     <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>How Are you ? </span>
+                      <span>Bạn khỏe không?</span>
                     </div>
                   </div>
                 </div>
@@ -40,7 +40,7 @@ const SellerToAdmin = () => {
                 <div className="w-full flex justify-end items-center">
                   <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                     <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>How Are you ? </span>
+                      <span>Bạn khỏe không?</span>
                     </div>
                     <div>
                       <img
@@ -62,7 +62,7 @@ const SellerToAdmin = () => {
                       />
                     </div>
                     <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>I Need some help </span>
+                      <span>Tôi cần giúp đỡ</span>
                     </div>
                   </div>
                 </div>
@@ -73,10 +73,10 @@ const SellerToAdmin = () => {
               <input
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
-                placeholder="Input Your Message"
+                placeholder="Nhập tin nhắn của bạn"
               />
               <button className="shadow-lg bg-[#06b6d4] hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
-                Send
+                Gửi
               </button>
             </form>
           </div>

@@ -65,7 +65,7 @@ const AddBanner = () => {
 
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <h1 className="text-[#000000] font-semibold text-lg mb-3">Add Banner</h1>
+      <h1 className="text-[#000000] font-semibold text-lg mb-3">Thêm banner</h1>
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         {!banner && (
           <div>
@@ -78,7 +78,7 @@ const AddBanner = () => {
                   <span className="text-4xl">
                     <FaRegImage />
                   </span>
-                  <span>Select Banner Image </span>
+                  <span>Chọn hình ảnh banner</span>
                 </label>
                 <input
                   required
@@ -126,7 +126,7 @@ const AddBanner = () => {
                   <span className="text-4xl">
                     <FaRegImage />
                   </span>
-                  <span>Select Banner Image </span>
+                  <span>Chọn hình ảnh banner</span>
                 </label>
                 <input
                   required

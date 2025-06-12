@@ -27,7 +27,7 @@ const Products = () => {
   return (
     <div className="px-2 lg:px-7 pt-5">
       <h1 className="text-[#000000] font-semibold text-lg mb-3">
-        All Products
+        Tất cả sản phẩm
       </h1>
 
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
@@ -42,31 +42,31 @@ const Products = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  No
+                  STT
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Image
+                  Hình ảnh
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  Tên
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Category
+                  Danh mục
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Brand
+                  Thương hiệu
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  Giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Discount
+                  Giảm giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Stock
+                  Số lượng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -119,7 +119,7 @@ const Products = () => {
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     {d.discount === 0 ? (
-                      <span>No Discount</span>
+                      <span>Không giảm giá</span>
                     ) : (
                       <span>%{d.discount}</span>
                     )}

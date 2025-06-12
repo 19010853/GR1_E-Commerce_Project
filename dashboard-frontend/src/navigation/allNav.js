@@ -7,132 +7,129 @@ import { IoIosChatbubbles } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { MdViewList } from "react-icons/md";
 import { TbBasketDiscount } from "react-icons/tb";
-import { BsCartCheck } from "react-icons/bs"; 
+import { BsCartCheck } from "react-icons/bs";
 import { IoChatbubbles } from "react-icons/io5";
 import { BsFillChatQuoteFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 
 export const allNav = [
     {
-        id : 1,
-        title : 'Dashboard',
-        icon : <AiOutlineDashboard />,
-        role : 'admin',
+        id: 1,
+        title: 'Dashboard',
+        icon: <AiOutlineDashboard />,
+        role: 'admin',
         path: '/admin/dashboard'
     },
     {
-        id : 2,
-        title : 'Orders',
-        icon : <AiOutlineShoppingCart />,
-        role : 'admin',
+        id: 2,
+        title: 'Đơn hàng',
+        icon: <AiOutlineShoppingCart />,
+        role: 'admin',
         path: '/admin/dashboard/orders'
     },
     {
-        id : 3,
-        title : 'Category',
-        icon : <BiCategory  />,
-        role : 'admin',
+        id: 3,
+        title: 'Danh mục',
+        icon: <BiCategory />,
+        role: 'admin',
         path: '/admin/dashboard/category'
     },
     {
-        id : 4,
-        title : 'Sellers',
-        icon : <FaUsers   />,
-        role : 'admin',
+        id: 4,
+        title: 'Người bán',
+        icon: <FaUsers />,
+        role: 'admin',
         path: '/admin/dashboard/sellers'
     },
     {
-        id : 5,
-        title : 'Payment Request',
-        icon : <MdPayment />,
-        role : 'admin',
+        id: 5,
+        title: 'Yêu cầu thanh toán',
+        icon: <MdPayment />,
+        role: 'admin',
         path: '/admin/dashboard/payment-request'
     },
     {
-        id : 6,
-        title : 'Deactive Sellers',
-        icon : <FaUserTimes />,
-        role : 'admin',
+        id: 6,
+        title: 'Người bán bị vô hiệu hóa',
+        icon: <FaUserTimes />,
+        role: 'admin',
         path: '/admin/dashboard/deactive-sellers'
     },
     {
-        id : 7,
-        title : 'Seller Request',
-        icon : <FaCodePullRequest />,
-        role : 'admin',
+        id: 7,
+        title: 'Yêu cầu người bán',
+        icon: <FaCodePullRequest />,
+        role: 'admin',
         path: '/admin/dashboard/sellers-request'
     },
     {
-        id : 8,
-        title : 'Live Chat',
-        icon : <IoIosChatbubbles />,
-        role : 'admin',
+        id: 8,
+        title: 'Trò chuyện trực tiếp',
+        icon: <IoIosChatbubbles />,
+        role: 'admin',
         path: '/admin/dashboard/chat-sellers'
     },
     {
-        id : 9,
-        title : 'Dashboard',
-        icon : <AiOutlineDashboard />,
-        role : 'seller',
+        id: 9,
+        title: 'Dashboard',
+        icon: <AiOutlineDashboard />,
+        role: 'seller',
         path: '/seller/dashboard'
     },
     {
-        id : 10,
-        title : 'Add Product',
-        icon : <IoMdAdd />,
-        role : 'seller',
+        id: 10,
+        title: 'Thêm sản phẩm',
+        icon: <IoMdAdd />,
+        role: 'seller',
         path: '/seller/dashboard/add-product'
-    },     
+    },
     {
-        id : 11,
-        title : 'All Product',
-        icon : <MdViewList />,
-        role : 'seller',
+        id: 11,
+        title: 'Tất cả sản phẩm',
+        icon: <MdViewList />,
+        role: 'seller',
         path: '/seller/dashboard/products'
     },
     {
-        id : 12,
-        title : 'Discount Product',
-        icon : <TbBasketDiscount />,
-        role : 'seller',
+        id: 12,
+        title: 'Sản phẩm giảm giá',
+        icon: <TbBasketDiscount />,
+        role: 'seller',
         path: '/seller/dashboard/discount-product'
     },
     {
-        id : 13,
-        title : 'Orders',
-        icon : <BsCartCheck />,
-        role : 'seller',
+        id: 13,
+        title: 'Đơn hàng',
+        icon: <BsCartCheck />,
+        role: 'seller',
         path: '/seller/dashboard/orders'
     },
     {
-        id : 14,
-        title : 'Payments',
-        icon : <MdPayment />,
-        role : 'seller',
+        id: 14,
+        title: 'Thanh toán',
+        icon: <MdPayment />,
+        role: 'seller',
         path: '/seller/dashboard/payments'
     },
     {
-        id : 15,
-        title : 'Chat-Customer',
-        icon : <IoChatbubbles />,
-        role : 'seller',
+        id: 15,
+        title: 'Chat với khách hàng',
+        icon: <IoChatbubbles />,
+        role: 'seller',
         path: '/seller/dashboard/chat-customer'
     },
     {
-        id : 16,
-        title : 'Chat-Support',
-        icon : <BsFillChatQuoteFill />,
-        role : 'seller',
+        id: 16,
+        title: 'Chat hỗ trợ',
+        icon: <BsFillChatQuoteFill />,
+        role: 'seller',
         path: '/seller/dashboard/chat-support'
     },
     {
-        id : 17,
-        title : 'Profile',
-        icon : <CgProfile />,
-        role : 'seller',
+        id: 17,
+        title: 'Thông tin cá nhân',
+        icon: <CgProfile />,
+        role: 'seller',
         path: '/seller/dashboard/profile'
     }
-
-
-
 ]

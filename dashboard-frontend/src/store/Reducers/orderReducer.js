@@ -112,10 +112,12 @@ export const orderReducer = createSlice({
                 state.order = payload.order;
             })
             .addCase(admin_order_status_update.rejected, (state, { payload }) => {
-                state.errorMessage = payload.message;
+                state.errorMessage = payload.message === "Order not found" ? "Không tìm thấy đơn hàng" :
+                    payload.message === "Invalid status" ? "Trạng thái không hợp lệ" :
+                        payload.message;
             })
             .addCase(admin_order_status_update.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Order status updated successfully" ? "Đã cập nhật trạng thái đơn hàng thành công" : payload.message;
             })
 
             .addCase(get_seller_orders.fulfilled, (state, { payload }) => {
@@ -127,10 +129,12 @@ export const orderReducer = createSlice({
             })
 
             .addCase(seller_order_status_update.rejected, (state, { payload }) => {
-                state.errorMessage = payload.message;
+                state.errorMessage = payload.message === "Order not found" ? "Không tìm thấy đơn hàng" :
+                    payload.message === "Invalid status" ? "Trạng thái không hợp lệ" :
+                        payload.message;
             })
             .addCase(seller_order_status_update.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Order status updated successfully" ? "Đã cập nhật trạng thái đơn hàng thành công" : payload.message;
             })
 
 

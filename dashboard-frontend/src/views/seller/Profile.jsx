@@ -22,6 +22,9 @@ const Profile = () => {
     sub_district: "",
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingShop, setIsEditingShop] = useState(false);
+
   const dispatch = useDispatch();
   const { userInfo, loader, successMessage, errorMessage } = useSelector(
     (state) => state.auth
@@ -30,7 +33,7 @@ const Profile = () => {
   const status = "active";
 
   useEffect(() => {
-    if (successMessage) {
+    if (successMessage && successMessage !== "Login successful") {
       toast.success(successMessage);
       dispatch(messageClear());
     }
@@ -58,6 +61,17 @@ const Profile = () => {
   const add = (e) => {
     e.preventDefault();
     dispatch(profile_info_add(state));
+    setIsEditingShop(false);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setState({
+      division: userInfo?.shopInfo?.division || "",
+      district: userInfo?.shopInfo?.district || "",
+      shopName: userInfo?.shopInfo?.shopName || "",
+      sub_district: userInfo?.shopInfo?.sub_district || "",
+    });
   };
 
   // Change Password
@@ -107,7 +121,7 @@ const Profile = () => {
                   <span>
                     <FaImages />{" "}
                   </span>
-                  <span>Select Image</span>
+                  <span>Chọn hình ảnh</span>
                   {loader && (
                     <div className="bg-slate-600 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                       <span>
@@ -127,35 +141,38 @@ const Profile = () => {
 
             <div className="px-0 md:px-5 py-2">
               <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                <span 
+                  onClick={handleEditClick}
+                  className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"
+                >
                   <FaRegEdit />{" "}
                 </span>
                 <div className="flex gap-2">
-                  <span>Name : </span>
-                  <span>{userInfo.name}</span>
+                  <span>Tên : </span>
+                  <span>{userInfo?.name}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Email : </span>
-                  <span>{userInfo.email}</span>
+                  <span>{userInfo?.email}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Role : </span>
-                  <span>{userInfo.role}</span>
+                  <span>Vai trò : </span>
+                  <span>{userInfo?.role}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Status : </span>
-                  <span>{userInfo.status}</span>
+                  <span>Trạng thái : </span>
+                  <span>{userInfo?.status}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Payment Account : </span>
+                  <span>Tài khoản thanh toán : </span>
                   <p>
-                    {userInfo.payment === "active" ? (
+                    {userInfo?.payment === "active" ? (
                       <span className="bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                        {userInfo.payment}
+                        {userInfo?.payment}
                       </span>
                     ) : (
                       <span onClick={() => dispatch(create_stripe_connect_account())} className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                        Click Active
+                        Nhấp để kích hoạt
                       </span>
                     )}
                   </p>
@@ -164,10 +181,10 @@ const Profile = () => {
             </div>
 
             <div className="px-0 md:px-5 py-2">
-              {!userInfo?.shopInfo ? (
+              {!userInfo?.shopInfo || isEditingShop ? (
                 <form onSubmit={add}>
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="Shop">Shop Name</label>
+                    <label htmlFor="Shop">Tên cửa hàng</label>
                     <input
                       value={state.shopName}
                       onChange={inputHandle}
@@ -175,12 +192,12 @@ const Profile = () => {
                       type="text"
                       name="shopName"
                       id="Shop"
-                      placeholder="Shop Name"
+                      placeholder="Tên cửa hàng"
                     />
                   </div>
 
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="division">Division Name</label>
+                    <label htmlFor="division">Tên tỉnh/thành phố</label>
                     <input
                       value={state.division}
                       onChange={inputHandle}
@@ -188,12 +205,12 @@ const Profile = () => {
                       type="text"
                       name="division"
                       id="division"
-                      placeholder="division Name"
+                      placeholder="Tên tỉnh/thành phố"
                     />
                   </div>
 
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="district">District Name</label>
+                    <label htmlFor="district">Tên quận/huyện</label>
                     <input
                       value={state.district}
                       onChange={inputHandle}
@@ -201,12 +218,12 @@ const Profile = () => {
                       type="text"
                       name="district"
                       id="district"
-                      placeholder="District Name"
+                      placeholder="Tên quận/huyện"
                     />
                   </div>
 
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="sub">Sub District Name</label>
+                    <label htmlFor="sub">Tên phường/xã</label>
                     <input
                       value={state.sub_district}
                       onChange={inputHandle}
@@ -214,43 +231,57 @@ const Profile = () => {
                       type="text"
                       name="sub_district"
                       id="sub"
-                      placeholder="Sub District Name"
+                      placeholder="Tên phường/xã"
                     />
                   </div>
 
-                  <button
-                    disabled={loader ? true : false}
-                    className="bg-red-500 w-[200px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
-                  >
-                    {loader ? (
-                      <PropagateLoader
-                        color="#fff"
-                        cssOverride={overrideStyle}
-                      />
-                    ) : (
-                      "Save Changes"
+                  <div className="flex gap-2">
+                    <button
+                      disabled={loader}
+                      className="bg-red-500 w-[200px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                    >
+                      {loader ? (
+                        <PropagateLoader
+                          color="#fff"
+                          cssOverride={overrideStyle}
+                        />
+                      ) : (
+                        "Lưu thay đổi"
+                      )}
+                    </button>
+                    {isEditingShop && (
+                      <button
+                        type="button"
+                        onClick={() => setIsEditingShop(false)}
+                        className="bg-gray-500 w-[200px] hover:shadow-gray-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                      >
+                        Hủy
+                      </button>
                     )}
-                  </button>
+                  </div>
                 </form>
               ) : (
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                  <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                  <span 
+                    onClick={() => setIsEditingShop(true)}
+                    className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"
+                  >
                     <FaRegEdit />{" "}
                   </span>
                   <div className="flex gap-2">
-                    <span>Shop Name : </span>
+                    <span>Tên cửa hàng : </span>
                     <span>{userInfo.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Divission : </span>
+                    <span>Tỉnh/Thành phố : </span>
                     <span>{userInfo.shopInfo?.division}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>District : </span>
+                    <span>Quận/Huyện : </span>
                     <span>{userInfo.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Sub District : </span>
+                    <span>Phường/Xã : </span>
                     <span>{userInfo.shopInfo?.sub_district}</span>
                   </div>
                 </div>
@@ -263,7 +294,7 @@ const Profile = () => {
           <div className="w-full pl-0 md:pl-7 mt-6 md:mt-0">
             <div className="bg-[#6a5fdf] rounded-md text-[#d0d2d6] p-4">
               <h1 className="text-[#d0d2d6] text-lg mb-3 font-semibold">
-                Change Password
+                Đổi mật khẩu
               </h1>
               <form onSubmit={handlePasswordChange}>
                 <div className="flex flex-col w-full gap-1 mb-2">
@@ -280,33 +311,33 @@ const Profile = () => {
                 </div>
 
                 <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="o_password">Old Password</label>
+                  <label htmlFor="o_password">Mật khẩu cũ</label>
                   <input
                     className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                     type="password"
                     name="old_password"
                     id="o_password"
-                    placeholder="Old Password"
+                    placeholder="Mật khẩu cũ"
                     value={passwordData.old_password}
                     onChange={passwordInputHandle}
                   />
                 </div>
 
                 <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="n_password">New Password</label>
+                  <label htmlFor="n_password">Mật khẩu mới</label>
                   <input
                     className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                     type="password"
                     name="new_password"
                     id="n_password"
-                    placeholder="New Password"
+                    placeholder="Mật khẩu mới"
                     value={passwordData.new_password}
                     onChange={passwordInputHandle}
                   />
                 </div>
 
                 <button disabled={loader} className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">
-                  {loader ? "Loading ..." : "Save Changes"}
+                  {loader ? "Đang tải ..." : "Lưu thay đổi"}
                 </button>
               </form>
             </div>

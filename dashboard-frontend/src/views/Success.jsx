@@ -31,10 +31,10 @@ const Success = () => {
             {
                 loader ? <FadeLoader/> : errorMessage ? <>
                     <img src={error} alt="" />
-                    <button onClick={redirect} className='px-5 py-2 bg-green-700 rounded-sm text-white'>Back to Dashboard</button>
+                    <button onClick={redirect} className='px-5 py-2 bg-green-700 rounded-sm text-white'>Quay lại trang chủ</button>
                 </> : successMessage && <>
                 <img src={success} alt="" />
-                    <button onClick={redirect} className='px-5 py-2 bg-green-700 rounded-sm text-white'>Back to Dashboard</button>
+                    <button onClick={redirect} className='px-5 py-2 bg-green-700 rounded-sm text-white'>Quay lại trang chủ</button>
                 </>
             }
 

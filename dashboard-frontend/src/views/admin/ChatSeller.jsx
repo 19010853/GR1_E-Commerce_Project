@@ -17,7 +17,7 @@ const ChatSeller = () => {
           >
             <div className="w-full h-[calc(100vh-177px)] bg-[#9e97e9] md:bg-transparent overflow-y-auto">
               <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
-                <h2>Sellers</h2>
+                <h2>Người bán</h2>
                 <span
                   onClick={() => setShow(!show)}
                   className="block cursor-pointer md:hidden"
@@ -40,7 +40,7 @@ const ChatSeller = () => {
 
                 <div className="flex justify-center items-start flex-col w-full">
                   <div className="flex justify-between items-center w-full">
-                    <h2 className="text-base font-semibold">Kazi Ariyan</h2>
+                    <h2 className="text-base font-semibold">Khoi Nguyen Minh</h2>
                   </div>
                 </div>
               </div>
@@ -59,7 +59,7 @@ const ChatSeller = () => {
 
                 <div className="flex justify-center items-start flex-col w-full">
                   <div className="flex justify-between items-center w-full">
-                    <h2 className="text-base font-semibold">Jhon</h2>
+                    <h2 className="text-base font-semibold">Khoi </h2>
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@ const ChatSeller = () => {
 
                 <div className="flex justify-center items-start flex-col w-full">
                   <div className="flex justify-between items-center w-full">
-                    <h2 className="text-base font-semibold">Raju</h2>
+                    <h2 className="text-base font-semibold">Minh Khoi</h2>
                   </div>
                 </div>
               </div>
@@ -122,7 +122,7 @@ const ChatSeller = () => {
                       />
                     </div>
                     <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>How Are you ? </span>
+                      <span>Bạn khỏe không?</span>
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@ const ChatSeller = () => {
                 <div className="w-full flex justify-end items-center">
                   <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                     <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>How Are you ? </span>
+                      <span>Bạn khỏe không?</span>
                     </div>
                     <div>
                       <img
@@ -152,7 +152,7 @@ const ChatSeller = () => {
                       />
                     </div>
                     <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm">
-                      <span>I Need some help </span>
+                      <span>Tôi cần giúp đỡ</span>
                     </div>
                   </div>
                 </div>
@@ -163,10 +163,10 @@ const ChatSeller = () => {
               <input
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
-                placeholder="Input Your Message"
+                placeholder="Nhập tin nhắn của bạn"
               />
               <button className="shadow-lg bg-[#06b6d4] hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
-                Send
+                Gửi
               </button>
             </form>
           </div>

@@ -119,7 +119,7 @@ const SellerDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">${totalSale}</h2>
-            <span className="text-md font-medium">Total Salse</span>
+            <span className="text-md font-medium">Tổng doanh số</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#fa0305] flex justify-center items-center text-xl">
@@ -130,7 +130,7 @@ const SellerDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#fde2ff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">{totalProduct}</h2>
-            <span className="text-md font-medium">Products</span>
+            <span className="text-md font-medium">Sản phẩm</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#760077] flex justify-center items-center text-xl">
@@ -141,7 +141,7 @@ const SellerDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">{totalOrder}</h2>
-            <span className="text-md font-medium">Orders</span>
+            <span className="text-md font-medium">Đơn hàng</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center items-center text-xl">
@@ -152,7 +152,7 @@ const SellerDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">{totalPendingOrder}</h2>
-            <span className="text-md font-medium">Pending Orders</span>
+            <span className="text-md font-medium">Đơn hàng đang chờ</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#0200f8] flex justify-center items-center text-xl">
@@ -177,10 +177,10 @@ const SellerDashboard = () => {
           <div className="w-full bg-[#6a5fdf] p-4 rounded-md text-[#d0d2d6]">
             <div className="flex justify-between items-center">
               <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
-                Recent Customer Message
+                Tin nhắn khách hàng gần đây
               </h2>
               <Link className="font-semibold text-sm text-[#d0d2d6]">
-                View All
+                Xem tất cả
               </Link>
             </div>
 
@@ -228,9 +228,9 @@ const SellerDashboard = () => {
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md mt-6">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3 ">
-            Recent Orders
+            Đơn hàng gần đây
           </h2>
-          <Link className="font-semibold text-sm text-[#d0d2d6]">View All</Link>
+          <Link className="font-semibold text-sm text-[#d0d2d6]">Xem tất cả</Link>
         </div>
 
         <div className="relative overflow-x-auto">
@@ -238,19 +238,19 @@ const SellerDashboard = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  Order Id
+                  Mã đơn hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  Giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  Trạng thái thanh toán
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Order Status
+                  Trạng thái đơn hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Active
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -287,7 +287,7 @@ const SellerDashboard = () => {
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
                     <Link to={`/seller/dashboard/order/details/${d._id}`}>
-                      View
+                      Xem
                     </Link>{" "}
                   </td>
                 </tr>

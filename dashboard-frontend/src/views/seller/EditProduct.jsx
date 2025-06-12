@@ -134,19 +134,19 @@ const EditProduct = () => {
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         <div className="flex justify-between items-center pb-4">
-          <h1 className="text-[#d0d2d6] text-xl font-semibold">Edit Product</h1>
+          <h1 className="text-[#d0d2d6] text-xl font-semibold">Chỉnh sửa sản phẩm</h1>
           <Link
             to="/seller/dashboard/products"
             className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2"
           >
-            All Product
+            Tất cả sản phẩm
           </Link>
         </div>
         <div>
           <form onSubmit={update}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="name">Product Name</label>
+                <label htmlFor="name">Tên sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -154,12 +154,12 @@ const EditProduct = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Product Name"
+                  placeholder="Tên sản phẩm"
                 />
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="brand">Product Brand</label>
+                <label htmlFor="brand">Thương hiệu sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -167,14 +167,14 @@ const EditProduct = () => {
                   type="text"
                   name="brand"
                   id="brand"
-                  placeholder="Brand Name"
+                  placeholder="Tên thương hiệu"
                 />
               </div>
             </div>
 
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1 relative">
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category">Danh mục</label>
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
@@ -183,7 +183,7 @@ const EditProduct = () => {
                   value={category}
                   type="text"
                   id="category"
-                  placeholder="--select category--"
+                  placeholder="--chọn danh mục--"
                 />
 
                 <div
@@ -197,7 +197,7 @@ const EditProduct = () => {
                       onChange={categorySearch}
                       className="px-3 py-1 w-full focus:border-indigo-500 outline-none bg-transparent border border-slate-700 rounded-md text-[#d0d2d6] overflow-hidden"
                       type="text"
-                      placeholder="search"
+                      placeholder="tìm kiếm"
                     />
                   </div>
                   <div className="pt-14"></div>
@@ -223,7 +223,7 @@ const EditProduct = () => {
               </div>
 
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Product Stock</label>
+                <label htmlFor="stock">Số lượng sản phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -231,14 +231,14 @@ const EditProduct = () => {
                   type="text"
                   name="stock"
                   id="stock"
-                  placeholder="Stock"
+                  placeholder="Số lượng"
                 />
               </div>
             </div>
 
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Price</label>
+                <label htmlFor="price">Giá</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -246,7 +246,7 @@ const EditProduct = () => {
                   type="number"
                   name="price"
                   id="price"
-                  placeholder="price"
+                  placeholder="giá"
                 />
               </div>
 
@@ -266,7 +266,7 @@ const EditProduct = () => {
 
             <div className="flex flex-col w-full gap-1 mb-5">
               <label htmlFor="description" className="text-[#d0d2d6]">
-                Description
+                Mô tả
               </label>
               <textarea
                 className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"

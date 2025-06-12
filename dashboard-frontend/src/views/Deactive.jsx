@@ -1,7 +1,7 @@
 import React from "react";
 
 const Deactive = () => {
-  return <div>deactive</div>;
+  return <div>Tài khoản đã bị vô hiệu hóa</div>;
 };
 
 export default Deactive;

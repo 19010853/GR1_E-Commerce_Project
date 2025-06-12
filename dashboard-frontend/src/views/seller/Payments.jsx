@@ -106,7 +106,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-2xl font-bold">${totalAmount}</h2>
-            <span className="text-sm font-bold">Total Sales</span>
+            <span className="text-sm font-bold">Tổng doanh số</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#fa0305] flex justify-center items-center text-xl">
@@ -117,7 +117,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#fde2ff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-2xl font-bold">${availableAmount}</h2>
-            <span className="text-sm font-bold">Available Amount</span>
+            <span className="text-sm font-bold">Số tiền khả dụng</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#760077] flex justify-center items-center text-xl">
@@ -128,7 +128,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-2xl font-bold">${withdrawAmount}</h2>
-            <span className="text-sm font-bold">WithDrawal Amount</span>
+            <span className="text-sm font-bold">Số tiền rút</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center items-center text-xl">
@@ -139,7 +139,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-2xl font-bold">${pendingAmount}</h2>
-            <span className="text-sm font-bold">Pending Amount</span>
+            <span className="text-sm font-bold">Số tiền đang chờ</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#0200f8] flex justify-center items-center text-xl">
@@ -150,7 +150,7 @@ const Payments = () => {
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 pb-4">
         <div className="bg-[#6a5fdf] text-[#d0d2d6] rounded-md p-5">
-          <h2 className="text-lg">Send Request</h2>
+          <h2 className="text-lg">Gửi yêu cầu rút tiền</h2>
           <div className="pt-5 mb-5">
             <form onSubmit={sendRequest}>
               <div className="flex gap-3 flex-wrap">
@@ -166,21 +166,21 @@ const Payments = () => {
                   disabled={loader}
                   className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2"
                 >
-                  {loader ? "loading.." : "Submit"}
+                  {loader ? "Đang tải.." : "Gửi"}
                 </button>
               </div>
             </form>
           </div>
 
           <div>
-            <h2 className="text-lg pb-4">Pending Request </h2>
+            <h2 className="text-lg pb-4">Yêu cầu đang chờ</h2>
 
             <div className="w-full overflow-x-auto">
               <div className="flex bg-[#a7a3de] uppercase text-xs font-bold min-w-[340px] rounded-md">
-                <div className="w-[25%] p-2"> No </div>
-                <div className="w-[25%] p-2"> Amount </div>
-                <div className="w-[25%] p-2"> Status </div>
-                <div className="w-[25%] p-2"> Date </div>
+                <div className="w-[25%] p-2"> STT </div>
+                <div className="w-[25%] p-2"> Số tiền </div>
+                <div className="w-[25%] p-2"> Trạng thái </div>
+                <div className="w-[25%] p-2"> Ngày </div>
               </div>
               {
                 <List
@@ -200,14 +200,14 @@ const Payments = () => {
 
         <div className="bg-[#6a5fdf] text-[#d0d2d6] rounded-md p-5">
           <div>
-            <h2 className="text-lg pb-4">Success WithDrawal </h2>
+            <h2 className="text-lg pb-4">Rút tiền thành công</h2>
 
             <div className="w-full overflow-x-auto">
               <div className="flex bg-[#a7a3de] uppercase text-xs font-bold min-w-[340px] rounded-md">
-                <div className="w-[25%] p-2"> No </div>
-                <div className="w-[25%] p-2"> Amount </div>
-                <div className="w-[25%] p-2"> Status </div>
-                <div className="w-[25%] p-2"> Date </div>
+                <div className="w-[25%] p-2"> STT </div>
+                <div className="w-[25%] p-2"> Số tiền </div>
+                <div className="w-[25%] p-2"> Trạng thái </div>
+                <div className="w-[25%] p-2"> Ngày </div>
               </div>
               {
                 <List

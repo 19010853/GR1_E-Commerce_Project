@@ -43,6 +43,10 @@ const FeatureProducts = ({ products }) => {
   }, [successMessage, errorMessage]);
 
   const add_wishlist = (pro) => {
+    if (!userInfo) {
+      navigate('/login');
+      return;
+    }
     dispatch(
       add_to_wishlist({
         userId: userInfo.id,
@@ -57,12 +61,20 @@ const FeatureProducts = ({ products }) => {
     );
   };
 
+  const handleAction = (action) => {
+    if (!userInfo) {
+      navigate('/login');
+      return;
+    }
+    action();
+  };
+
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
         <div className="text-center flex justify-center items-center flex-col text-4xl text-slate-600 font-bold relative pb-[45px]">
-          <h2>Feature Products </h2>
-          <div className="w-[100px] h-[2px] bg-[#059473] mt-4"></div>
+          <h2>Sản phẩm nổi bật</h2>
+          <div className="w-[100px] h-[2px] bg-[#890528] mt-4"></div>
         </div>
       </div>
 
@@ -89,20 +101,20 @@ const FeatureProducts = ({ products }) => {
 
               <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
                 <li
-                  onClick={() => add_wishlist(p)}
-                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+                  onClick={() => handleAction(() => add_wishlist(p))}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#890528] hover:text-white hover:rotate-[720deg] transition-all"
                 >
                   <FaRegHeart />
                 </li>
                 <Link
                   to={`/product/details/${p.slug}`}
-                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#890528] hover:text-white hover:rotate-[720deg] transition-all"
                 >
                   <FaEye />
                 </Link>
                 <li
-                  onClick={() => add_card(p._id)}
-                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+                  onClick={() => handleAction(() => add_card(p._id))}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#890528] hover:text-white hover:rotate-[720deg] transition-all"
                 >
                   <RiShoppingCartLine />
                 </li>

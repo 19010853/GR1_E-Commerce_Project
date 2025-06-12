@@ -148,10 +148,12 @@ export const cardReducer = createSlice({
         builder
 
             .addCase(add_to_card.rejected, (state, { payload }) => {
-                state.errorMessage = payload.error;
+                state.errorMessage = payload.error === "Product already in cart" ? "Sản phẩm đã có trong giỏ hàng" :
+                    payload.error === "Product out of stock" ? "Sản phẩm đã hết hàng" :
+                        payload.error;
             })
             .addCase(add_to_card.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Product added to cart" ? "Đã thêm sản phẩm vào giỏ hàng" : payload.message;
                 state.card_product_count = state.card_product_count + 1
             })
 
@@ -165,22 +167,22 @@ export const cardReducer = createSlice({
             })
 
             .addCase(delete_card_product.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Product removed from cart" ? "Đã xóa sản phẩm khỏi giỏ hàng" : payload.message;
             })
             .addCase(quantity_inc.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Quantity increased" ? "Đã tăng số lượng" : payload.message;
             })
             .addCase(quantity_dec.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Quantity decreased" ? "Đã giảm số lượng" : payload.message;
             })
 
             .addCase(add_to_wishlist.rejected, (state, { payload }) => {
-                state.errorMessage = payload.error;
+                state.errorMessage = payload.error === "Product already in wishlist" ? "Sản phẩm đã có trong danh sách yêu thích" :
+                    payload.error;
             })
             .addCase(add_to_wishlist.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Product added to wishlist" ? "Đã thêm sản phẩm vào danh sách yêu thích" : payload.message;
                 state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1
-
             })
 
             .addCase(get_wishlist_products.fulfilled, (state, { payload }) => {
@@ -189,7 +191,7 @@ export const cardReducer = createSlice({
             })
 
             .addCase(remove_wishlist.fulfilled, (state, { payload }) => {
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Product removed from wishlist" ? "Đã xóa sản phẩm khỏi danh sách yêu thích" : payload.message;
                 state.wishlist = state.wishlist.filter(p => p._id !== payload.wishlistId);
                 state.wishlist_count = state.wishlist_count - 1
             })

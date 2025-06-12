@@ -66,8 +66,8 @@ const PaymentRequest = () => {
             className="bg-indigo-500 shadow-lg hover:shadow-indigo-500/50 px-3 py-[2px cursor-pointer text-white rounded-sm text-sm]"
           >
             {loader && paymentId === pendingWithdraws[index]?._id
-              ? "Loading..."
-              : "Confirm"}
+              ? "Đang tải..."
+              : "Xác nhận"}
           </button>
         </div>
       </div>
@@ -78,16 +78,16 @@ const PaymentRequest = () => {
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         <h2 className="text-xl font-medium pb-5 text-[#d0d2d6]">
-          Withdrawal Request
+          Yêu cầu rút tiền
         </h2>
         <div className="w-full">
           <div className="w-full overflow-x-auto">
             <div className="flex bg-[#a7a3de] uppercase text-xs font-bold min-w-[340px] rounded-md">
-              <div className="w-[25%] p-2"> No </div>
-              <div className="w-[25%] p-2"> Amount </div>
-              <div className="w-[25%] p-2"> Status </div>
-              <div className="w-[25%] p-2"> Date </div>
-              <div className="w-[25%] p-2"> Action </div>
+              <div className="w-[25%] p-2">STT</div>
+              <div className="w-[25%] p-2">Số tiền</div>
+              <div className="w-[25%] p-2">Trạng thái</div>
+              <div className="w-[25%] p-2">Ngày</div>
+              <div className="w-[25%] p-2">Thao tác</div>
             </div>
             {
               <List

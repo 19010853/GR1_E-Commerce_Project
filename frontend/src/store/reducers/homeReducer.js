@@ -177,7 +177,7 @@ export const homeReducer = createSlice({
         state.moreProducts = payload.moreProducts;
       })
       .addCase(customer_review.fulfilled, (state, { payload }) => {
-        state.successMessage = payload.message;
+        state.successMessage = payload.message === "Review submitted successfully" ? "Đã gửi đánh giá thành công" : payload.message;
       })
       .addCase(get_reviews.fulfilled, (state, { payload }) => {
         state.totalReview = payload.totalReview;

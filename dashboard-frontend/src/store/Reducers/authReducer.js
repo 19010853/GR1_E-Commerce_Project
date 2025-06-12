@@ -156,11 +156,10 @@ export const authReducer = createSlice({
         token: localStorage.getItem('accessToken'),
     },
     reducers: {
-
         messageClear: (state, _) => {
-            state.errorMessage = ""
+            state.errorMessage = "";
+            state.successMessage = "";
         }
-
     },
     extraReducers: (builder) => {
         builder
@@ -169,13 +168,15 @@ export const authReducer = createSlice({
             })
             .addCase(admin_login.rejected, (state, { payload }) => {
                 state.loader = false;
-                state.errorMessage = payload.error
+                state.errorMessage = payload.error === "Invalid credentials" ? "Thông tin đăng nhập không hợp lệ" :
+                    payload.error === "User not found" ? "Không tìm thấy người dùng" :
+                        payload.error;
             })
             .addCase(admin_login.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message
-                state.token = payload.token
-                state.role = returnRole(payload.token)
+                state.successMessage = payload.message === "Login successful" ? "Đăng nhập thành công" : payload.message;
+                state.token = payload.token;
+                state.role = returnRole(payload.token);
             })
 
             .addCase(seller_login.pending, (state, { payload }) => {
@@ -183,13 +184,15 @@ export const authReducer = createSlice({
             })
             .addCase(seller_login.rejected, (state, { payload }) => {
                 state.loader = false;
-                state.errorMessage = payload.error
+                state.errorMessage = payload.error === "Invalid credentials" ? "Thông tin đăng nhập không hợp lệ" :
+                    payload.error === "User not found" ? "Không tìm thấy người dùng" :
+                        payload.error;
             })
             .addCase(seller_login.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message
-                state.token = payload.token
-                state.role = returnRole(payload.token)
+                state.successMessage = payload.message === "Login successful" ? "Đăng nhập thành công" : payload.message;
+                state.token = payload.token;
+                state.role = returnRole(payload.token);
             })
 
             .addCase(seller_register.pending, (state, { payload }) => {
@@ -197,13 +200,16 @@ export const authReducer = createSlice({
             })
             .addCase(seller_register.rejected, (state, { payload }) => {
                 state.loader = false;
-                state.errorMessage = payload.error
+                state.errorMessage = payload.error === "Email already exists" ? "Email đã tồn tại" :
+                    payload.error === "Invalid email format" ? "Định dạng email không hợp lệ" :
+                        payload.error === "Password must be at least 6 characters" ? "Mật khẩu phải có ít nhất 6 ký tự" :
+                            payload.error;
             })
             .addCase(seller_register.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message
-                state.token = payload.token
-                state.role = returnRole(payload.token)
+                state.successMessage = payload.message === "Registration successful" ? "Đăng ký thành công" : payload.message;
+                state.token = payload.token;
+                state.role = returnRole(payload.token);
             })
             .addCase(get_user_info.fulfilled, (state, { payload }) => {
                 state.loader = false;
@@ -214,16 +220,16 @@ export const authReducer = createSlice({
             })
             .addCase(profile_image_upload.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.userInfo = payload.userInfo
-                state.successMessage = payload.message
+                state.userInfo = payload.userInfo;
+                state.successMessage = payload.message === "Profile image updated" ? "Đã cập nhật ảnh đại diện" : payload.message;
             })
             .addCase(profile_info_add.pending, (state, { payload }) => {
                 state.loader = true;
             })
             .addCase(profile_info_add.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.userInfo = payload.userInfo
-                state.successMessage = payload.message
+                state.userInfo = payload.userInfo;
+                state.successMessage = payload.message === "Profile updated successfully" ? "Đã cập nhật thông tin thành công" : payload.message;
             })
             // Change Password
             .addCase(change_password.pending, (state, { payload }) => {
@@ -231,13 +237,15 @@ export const authReducer = createSlice({
             })
             .addCase(change_password.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message
-                state.token = payload.token
-                state.role = returnRole(payload.token)
+                state.successMessage = payload.message === "Password changed successfully" ? "Đã đổi mật khẩu thành công" : payload.message;
+                state.token = payload.token;
+                state.role = returnRole(payload.token);
             })
             .addCase(change_password.rejected, (state, { payload }) => {
                 state.loader = false;
-                state.errorMessage = payload.error
+                state.errorMessage = payload.error === "Current password is incorrect" ? "Mật khẩu hiện tại không đúng" :
+                    payload.error === "New password must be at least 6 characters" ? "Mật khẩu mới phải có ít nhất 6 ký tự" :
+                        payload.error;
             })
     }
 

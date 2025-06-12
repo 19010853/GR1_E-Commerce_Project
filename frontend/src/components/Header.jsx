@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { IoMdPhonePortrait } from "react-icons/io";
 import { FaFacebookF, FaList, FaLock, FaUser } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa6";
+import { FaYoutube, FaInstagram } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -34,6 +34,7 @@ const Header = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState("vietnamese");
 
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`);
@@ -47,6 +48,10 @@ const Header = () => {
     }
   };
 
+  const handleLanguageChange = (language) => {
+    setCurrentLanguage(language);
+  };
+
   useEffect(() => {
     if (userInfo) {
       dispatch(get_card_products(userInfo.id));
@@ -56,7 +61,7 @@ const Header = () => {
 
   return (
     <div className="w-full bg-white">
-      <div className="header-top bg-[#caddff] md-lg:hidden">
+      <div className="header-top bg-[#F5ECDB] md-lg:hidden">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex justify-start items-center gap-8 font-semibold text-black">
@@ -64,14 +69,14 @@ const Header = () => {
                 <span>
                   <MdEmail />
                 </span>
-                <span>support@gmail.com</span>
+                <span>khoinguyenminhk37@gmail.com</span>
               </li>
 
               <li className="flex relative justify-center items-center gap-2 text-sm ">
                 <span>
                   <IoMdPhonePortrait />
                 </span>
-                <span>+(123) 3243 343</span>
+                <span>+(84) 868 951 933</span>
               </li>
             </ul>
 
@@ -82,23 +87,38 @@ const Header = () => {
                     <FaFacebookF />
                   </a>
                   <a href="#">
-                    <FaTwitter />{" "}
+                    <FaYoutube />
                   </a>
                   <a href="#">
-                    <FaLinkedin />
-                  </a>
-                  <a href="#">
-                    <FaGithub />{" "}
+                    <FaInstagram />
                   </a>
                 </div>
                 <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
-                  <img src="http://localhost:3000/images/language.png" alt="" />
+                  <img
+                    src={
+                      currentLanguage === "vietnamese"
+                        ? "http://localhost:3000/images/language_vietnamese.png"
+                        : "http://localhost:3000/images/language_english.png"
+                    }
+                    alt=""
+                    className="w-[20px] h-[15px]"
+                  />
                   <span>
                     <IoMdArrowDropdown />
                   </span>
-                  <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                    <li>Hindi</li>
-                    <li>English</li>
+                  <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-black p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-white z-10">
+                    <li
+                      onClick={() => handleLanguageChange("vietnamese")}
+                      className="cursor-pointer hover:text-[#890528]"
+                    >
+                      Tiếng Việt
+                    </li>
+                    <li
+                      onClick={() => handleLanguageChange("english")}
+                      className="cursor-pointer hover:text-[#890528]"
+                    >
+                      Tiếng Anh
+                    </li>
                   </ul>
                 </div>
 
@@ -122,7 +142,7 @@ const Header = () => {
                       {" "}
                       <FaLock />{" "}
                     </span>
-                    <span>Login </span>
+                    <span>Đăng nhập</span>
                   </Link>
                 )}
               </div>
@@ -156,11 +176,12 @@ const Header = () => {
                 <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase md-lg:hidden">
                   <li>
                     <Link
+                      to="/"
                       className={`p-2 block ${
-                        pathname === "/" ? "text-[#059473]" : "text-slate-600"
+                        pathname === "/" ? "text-[#890528]" : "text-slate-600"
                       } `}
                     >
-                      Home
+                      Trang chủ
                     </Link>
                   </li>
 
@@ -169,18 +190,18 @@ const Header = () => {
                       to="/shops"
                       className={`p-2 block ${
                         pathname === "/shops"
-                          ? "text-[#059473]"
+                          ? "text-[#890528]"
                           : "text-slate-600"
                       } `}
                     >
-                      Shop
+                      Cửa hàng
                     </Link>
                   </li>
                   <li>
                     <Link
                       className={`p-2 block ${
                         pathname === "/blog"
-                          ? "text-[#059473]"
+                          ? "text-[#890528]"
                           : "text-slate-600"
                       } `}
                     >
@@ -191,22 +212,22 @@ const Header = () => {
                     <Link
                       className={`p-2 block ${
                         pathname === "/about"
-                          ? "text-[#059473]"
+                          ? "text-[#890528]"
                           : "text-slate-600"
                       } `}
                     >
-                      About Us
+                      Về chúng tôi
                     </Link>
                   </li>
                   <li>
                     <Link
                       className={`p-2 block ${
                         pathname === "/contact"
-                          ? "text-[#059473]"
+                          ? "text-[#890528]"
                           : "text-slate-600"
                       } `}
                     >
-                      Contact Us
+                      Liên hệ
                     </Link>
                   </li>
                 </ul>
@@ -214,7 +235,7 @@ const Header = () => {
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
                     <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
-                      <span className="text-xl text-green-500">
+                      <span className="text-xl text-[#890528]">
                         <FaHeart />
                       </span>
 
@@ -229,7 +250,7 @@ const Header = () => {
                       onClick={redirect_card_page}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
-                      <span className="text-xl text-green-500">
+                      <span className="text-xl text-[#890528]">
                         <FaCartShopping />
                       </span>
 
@@ -266,13 +287,31 @@ const Header = () => {
             </Link>
             <div className="flex justify-start items-center gap-10">
               <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute ">
-                <img src="http://localhost:3000/images/language.png" alt="" />
+                <img
+                  src={
+                    currentLanguage === "vietnamese"
+                      ? "http://localhost:3000/images/language_vietnamese.png"
+                      : "http://localhost:3000/images/language_english.png"
+                  }
+                  alt=""
+                  className="w-[20px] h-[15px]"
+                />
                 <span>
                   <IoMdArrowDropdown />
                 </span>
                 <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                  <li>Hindi</li>
-                  <li>English</li>
+                  <li
+                    onClick={() => handleLanguageChange("vietnamese")}
+                    className="cursor-pointer hover:text-[#890528]"
+                  >
+                    Tiếng Việt
+                  </li>
+                  <li
+                    onClick={() => handleLanguageChange("english")}
+                    className="cursor-pointer hover:text-[#890528]"
+                  >
+                    Tiếng Anh
+                  </li>
                 </ul>
               </div>
               {userInfo ? (
@@ -295,7 +334,7 @@ const Header = () => {
                     {" "}
                     <FaLock />{" "}
                   </span>
-                  <span>Login </span>
+                  <span>Đăng nhập</span>
                 </Link>
               )}
             </div>
@@ -304,10 +343,10 @@ const Header = () => {
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/" ? "text-[#890528]" : "text-slate-600"
                   } `}
                 >
-                  Home
+                  Trang chủ
                 </Link>
               </li>
 
@@ -315,16 +354,16 @@ const Header = () => {
                 <Link
                   to="/shops"
                   className={`py-2 block ${
-                    pathname === "/shops" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/shops" ? "text-[#890528]" : "text-slate-600"
                   } `}
                 >
-                  Shop
+                  Cửa hàng
                 </Link>
               </li>
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/blog" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/blog" ? "text-[#890528]" : "text-slate-600"
                   } `}
                 >
                   Blog
@@ -333,21 +372,21 @@ const Header = () => {
               <li>
                 <Link
                   className={`py-2 block ${
-                    pathname === "/about" ? "text-[#059473]" : "text-slate-600"
+                    pathname === "/about" ? "text-[#890528]" : "text-slate-600"
                   } `}
                 >
-                  About Us
+                  Về chúng tôi
                 </Link>
               </li>
               <li>
                 <Link
                   className={`py-2 block ${
                     pathname === "/contact"
-                      ? "text-[#059473]"
+                      ? "text-[#890528]"
                       : "text-slate-600"
                   } `}
                 >
-                  Contact Us
+                  Liên hệ
                 </Link>
               </li>
             </ul>
@@ -356,7 +395,10 @@ const Header = () => {
                 <FaFacebookF />
               </a>
               <a href="#">
-                <FaTwitter />{" "}
+                <FaYoutube />
+              </a>
+              <a href="#">
+                <FaInstagram />
               </a>
               <a href="#">
                 <FaLinkedin />
@@ -385,7 +427,7 @@ const Header = () => {
                 <span>
                   <MdEmail />
                 </span>
-                <span>support@gmail.com</span>
+                <span>khoinguyenminhk37@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -398,13 +440,13 @@ const Header = () => {
             <div className="bg-white relative">
               <div
                 onClick={() => setCategoryShow(!categoryShow)}
-                className="h-[50px] bg-[#059473] text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
+                className="h-[50px] bg-[#890528] text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
               >
                 <div className="flex justify-center items-center gap-3">
                   <span>
                     <FaList />
                   </span>
-                  <span>All Category </span>
+                  <span>Tất cả danh mục</span>
                 </div>
                 <span className="pt-1">
                   <IoIosArrowDown />
@@ -453,11 +495,10 @@ const Header = () => {
                       name=""
                       id=""
                     >
-                      <option value="">Select Category</option>
+                      <option value="">Danh mục</option>
                       {categorys.map((c, i) => (
                         <option key={i} value={c.name}>
-                          {" "}
-                          {c.name}{" "}
+                          {c.name}
                         </option>
                       ))}
                     </select>
@@ -468,13 +509,13 @@ const Header = () => {
                     type="text"
                     name=""
                     id=""
-                    placeholder="What do you need"
+                    placeholder="Bạn cần tìm gì?"
                   />
                   <button
                     onClick={search}
-                    className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                    className="bg-[#890528] right-0 absolute px-8 h-full font-semibold uppercase text-white"
                   >
-                    Search
+                    Tìm kiếm
                   </button>
                 </div>
               </div>
@@ -488,9 +529,9 @@ const Header = () => {
                   </div>
                   <div className="flex justify-end flex-col gap-1">
                     <h2 className="text-md font-medium text-slate-700">
-                      +1343-43233455
+                      +84 868951933
                     </h2>
-                    <span className="text-sm">Support 24/7</span>
+                    <span className="text-sm">Hỗ trợ 24/7</span>
                   </div>
                 </div>
               </div>
