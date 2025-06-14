@@ -36,8 +36,8 @@ class paymentController {
                     // If account exists but not fully set up, create a new onboarding link
                     const accountLink = await stripe.accountLinks.create({
                         account: stripeInfo.stripeId,
-                        refresh_url: 'http://localhost:3001/refresh',
-                        return_url: `http://localhost:3001/success?activeCode=${uid}`,
+                        refresh_url: 'http://localhost:3000/refresh',
+                        return_url: `http://localhost:3000/success?activeCode=${uid}`,
                         type: 'account_onboarding'
                     })
                     return responseReturn(res, 201, { url: accountLink.url })
@@ -60,8 +60,8 @@ class paymentController {
             // Create account link
             const accountLink = await stripe.accountLinks.create({
                 account: account.id,
-                refresh_url: 'http://localhost:3001/refresh',
-                return_url: `http://localhost:3001/success?activeCode=${uid}`,
+                refresh_url: 'http://localhost:3000/refresh',
+                return_url: `http://localhost:3000/success?activeCode=${uid}`,
                 type: 'account_onboarding'
             })
 
@@ -264,8 +264,8 @@ class paymentController {
                     // Create a new account link for the seller to complete their setup
                     const accountLink = await stripe.accountLinks.create({
                         account: stripeAccount.stripeId,
-                        refresh_url: 'http://localhost:3001/refresh',
-                        return_url: 'http://localhost:3001/success',
+                        refresh_url: 'http://localhost:3000/refresh',
+                        return_url: 'http://localhost:3000/success',
                         type: 'account_onboarding'
                     })
 

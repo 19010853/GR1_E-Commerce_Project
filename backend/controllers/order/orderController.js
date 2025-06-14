@@ -81,7 +81,7 @@ class orderController {
                     products: storePor,
                     price: pri,
                     payment_status: 'unpaid',
-                    shippingInfo: 'Easy Main Warehouse',
+                    shippingInfo: 'MK Main Warehouse',
                     delivery_status: 'pending',
                     date: tempDate
                 })

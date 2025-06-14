@@ -291,13 +291,13 @@ const Details = () => {
                 </button>
                 <button
                   onClick={buynow}
-                  className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                  className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-[#890528] text-white"
                 >
                   Mua ngay
                 </button>
                 <button
                   onClick={add_wishlist}
-                  className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                  className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-[#890528] text-white"
                 >
                   <FaHeart />
                 </button>

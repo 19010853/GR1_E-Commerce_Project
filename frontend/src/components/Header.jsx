@@ -48,6 +48,14 @@ const Header = () => {
     }
   };
 
+  const redirect_wishlist_page = () => {
+    if (userInfo) {
+      navigate("/dashboard/my-wishlist");
+    } else {
+      navigate("/login");
+    }
+  };
+
   const handleLanguageChange = (language) => {
     setCurrentLanguage(language);
   };
@@ -97,8 +105,8 @@ const Header = () => {
                   <img
                     src={
                       currentLanguage === "vietnamese"
-                        ? "http://localhost:3000/images/language_vietnamese.png"
-                        : "http://localhost:3000/images/language_english.png"
+                        ? "/images/language_vietnamese.png"
+                        : "/images/language_english.png"
                     }
                     alt=""
                     className="w-[20px] h-[15px]"
@@ -234,7 +242,10 @@ const Header = () => {
 
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirect_wishlist_page}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-[#890528]">
                         <FaHeart />
                       </span>
@@ -290,8 +301,8 @@ const Header = () => {
                 <img
                   src={
                     currentLanguage === "vietnamese"
-                      ? "http://localhost:3000/images/language_vietnamese.png"
-                      : "http://localhost:3000/images/language_english.png"
+                      ? "/images/language_vietnamese.png"
+                      : "/images/language_english.png"
                   }
                   alt=""
                   className="w-[20px] h-[15px]"

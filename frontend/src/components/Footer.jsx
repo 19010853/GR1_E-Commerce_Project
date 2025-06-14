@@ -136,7 +136,7 @@ const Footer = () => {
             onClick={() => navigate(userInfo ? "/card" : "/login")}
             className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
           >
-            <span className="text-xl text-green-500">
+            <span className="text-xl text-[#890528]">
               <FaCartShopping />
             </span>
             {card_product_count !== 0 && (
@@ -152,7 +152,7 @@ const Footer = () => {
             }
             className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
           >
-            <span className="text-xl text-green-500">
+            <span className="text-xl text-[#890528]">
               <FaHeart />
             </span>
             {wishlist_count !== 0 && (
