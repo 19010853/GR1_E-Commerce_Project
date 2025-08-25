@@ -35,8 +35,8 @@ const Header = ({ showSideBar, setShowSideBar }) => {
               </div>
               <img
                 className="w-[45px] h-[45px] rounded-full overflow-hidden"
-                src={userInfo?.image || "http://localhost:3000/images/admin.jpg"}
-                alt=""
+                src={userInfo?.role === 'admin' ? "http://localhost:3000/images/admin.jpg" : (userInfo?.image || "http://localhost:3000/images/admin.jpg")}
+                alt={userInfo?.name || "User avatar"}
               />
             </div>
           </div>

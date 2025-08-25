@@ -98,14 +98,24 @@ export const get_deactive_sellers = createAsyncThunk(
 
 export const create_stripe_connect_account = createAsyncThunk(
     'seller/create_stripe_connect_account',
-    async () => {
+    async (_, { rejectWithValue, fulfillWithValue }) => {
         try {
-            const { data: { url } } = await api.get(`/payment/create-stripe-connect-account`, { withCredentials: true })
-            console.log(url)
-            window.location.href = url
+            const { data } = await api.get(`/payment/create-stripe-connect-account`, { withCredentials: true })
+            console.log('Stripe account response:', data)
 
+            if (data.isComplete) {
+                // Account is already complete, just return success
+                return fulfillWithValue(data)
+            } else if (data.url) {
+                // Redirect to Stripe onboarding
+                window.location.href = data.url
+                return fulfillWithValue(data)
+            } else {
+                return fulfillWithValue(data)
+            }
         } catch (error) {
-            console.log(error.response.data)
+            console.error('Error creating Stripe account:', error.response?.data || error)
+            return rejectWithValue(error.response?.data || { message: 'Lỗi tạo tài khoản Stripe' })
         }
     }
 )
@@ -127,6 +137,19 @@ export const active_stripe_connect_account = createAsyncThunk(
 
 // End Method 
 
+export const check_stripe_account_status = createAsyncThunk(
+    'seller/check_stripe_account_status',
+    async (_, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/payment/check-account-status`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+// End Method 
 
 export const sellerReducer = createSlice({
     name: 'seller',
@@ -136,7 +159,8 @@ export const sellerReducer = createSlice({
         loader: false,
         sellers: [],
         totalSeller: 0,
-        seller: ''
+        seller: '',
+        stripeStatus: null
     },
     reducers: {
 
@@ -158,7 +182,7 @@ export const sellerReducer = createSlice({
             })
             .addCase(seller_status_update.fulfilled, (state, { payload }) => {
                 state.seller = payload.seller;
-                state.successMessage = payload.message;
+                state.successMessage = payload.message === "Cập nhật trạng thái của người bán thành công" ? "Cập nhật trạng thái của người bán thành công" : payload.message;
             })
             .addCase(get_active_sellers.fulfilled, (state, { payload }) => {
                 state.sellers = payload.sellers;
@@ -178,6 +202,31 @@ export const sellerReducer = createSlice({
             .addCase(active_stripe_connect_account.fulfilled, (state, { payload }) => {
                 state.loader = false;
                 state.successMessage = payload.message;
+            })
+            .addCase(check_stripe_account_status.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(check_stripe_account_status.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.message;
+            })
+            .addCase(check_stripe_account_status.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                state.stripeStatus = payload.status;
+                state.successMessage = 'Đã kiểm tra trạng thái tài khoản Stripe';
+            })
+            .addCase(create_stripe_connect_account.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(create_stripe_connect_account.rejected, (state, { payload }) => {
+                state.loader = false;
+                state.errorMessage = payload.message;
+            })
+            .addCase(create_stripe_connect_account.fulfilled, (state, { payload }) => {
+                state.loader = false;
+                if (payload.isComplete) {
+                    state.successMessage = payload.message;
+                }
             })
 
     }

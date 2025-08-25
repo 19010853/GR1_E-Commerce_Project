@@ -23,7 +23,7 @@ const CheckoutForm = ({ orderId }) => {
             const { error } = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: 'http://localhost:3000/order/confirm'
+                    return_url: 'http://localhost:3001/order/confirm'
                 }
             })
             if (error.type === 'card_error' || error.type === 'validation_error') {
@@ -47,7 +47,7 @@ const CheckoutForm = ({ orderId }) => {
             <button disabled={isLoading || !stripe || !elements} id='submit' className='px-10 py-[6px] rounded-sm hover:shadow-green-700/30 hover:shadow-lg bg-green-700 text-white'>
                 <span id='button-text'>
                     {
-                        isLoading ? <div>Loading...</div> : "Pay Now"
+                        isLoading ? <div>Loading...</div> : "Xác nhận thanh toán"
                     }
                 </span>
             </button>

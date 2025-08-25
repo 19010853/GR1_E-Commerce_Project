@@ -102,7 +102,7 @@ const AddBanner = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Add Banner"
+                  "Bổ sung banner"
                 )}
               </button>
             </form>

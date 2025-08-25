@@ -256,7 +256,7 @@ const AdminDashboard = () => {
             </thead>
 
             <tbody>
-              {recentOrder.map((d, i) => (
+              {recentOrder && recentOrder.map((d, i) => (
                 <tr key={i}>
                   <td
                     scope="row"

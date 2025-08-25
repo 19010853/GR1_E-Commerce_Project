@@ -3,6 +3,7 @@ import { FaImages } from "react-icons/fa6";
 import { FadeLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
   profile_image_upload,
   messageClear,
@@ -12,7 +13,15 @@ import {
 import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
-import { create_stripe_connect_account } from "../../store/Reducers/sellerReducer";
+import {
+  get_seller_info,
+  update_seller_image,
+  update_seller_info,
+  update_seller_password,
+  create_stripe_connect_account,
+  check_stripe_account_status,
+  active_stripe_connect_account,
+} from "../../store/Reducers/sellerReducer";
 
 const Profile = () => {
   const [state, setState] = useState({
@@ -24,13 +33,30 @@ const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingShop, setIsEditingShop] = useState(false);
+  const [showStripeStatus, setShowStripeStatus] = useState(false);
 
   const dispatch = useDispatch();
+  const location = useLocation();
   const { userInfo, loader, successMessage, errorMessage } = useSelector(
     (state) => state.auth
   );
+  const { stripeStatus } = useSelector((state) => state.seller);
 
   const status = "active";
+
+  // Xử lý URL parameters khi quay lại từ Stripe
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const activeCode = urlParams.get('activeCode');
+    
+    if (activeCode) {
+      console.log('Found activeCode in URL:', activeCode);
+      dispatch(active_stripe_connect_account(activeCode));
+      
+      // Clean up URL
+      window.history.replaceState({}, document.title, location.pathname);
+    }
+  }, [location.search, dispatch]);
 
   useEffect(() => {
     if (successMessage && successMessage !== "Login successful") {
@@ -171,12 +197,93 @@ const Profile = () => {
                         {userInfo?.payment}
                       </span>
                     ) : (
-                      <span onClick={() => dispatch(create_stripe_connect_account())} className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                        Nhấp để kích hoạt
+                      <span 
+                        onClick={() => {
+                          if (!loader) {
+                            dispatch(create_stripe_connect_account());
+                          }
+                        }} 
+                        className={`${loader ? 'bg-gray-500' : 'bg-blue-500'} text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded flex items-center gap-2`}
+                      >
+                        {loader ? (
+                          <>
+                            <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+                            Đang xử lý...
+                          </>
+                        ) : (
+                          'Nhấp để kích hoạt'
+                        )}
                       </span>
                     )}
                   </p>
                 </div>
+                
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => {
+                      if (showStripeStatus) {
+                        // Nếu đang hiển thị thì ẩn đi
+                        setShowStripeStatus(false);
+                      } else {
+                        // Nếu đang ẩn thì kiểm tra và hiển thị
+                        dispatch(check_stripe_account_status());
+                        setShowStripeStatus(true);
+                      }
+                    }}
+                    className="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded"
+                  >
+                    {showStripeStatus ? 'Ẩn trạng thái Stripe' : 'Kiểm tra trạng thái Stripe'}
+                  </button>
+                  
+                  {/* Nút tiếp tục hoàn thành thiết lập nếu tài khoản chưa hoàn chỉnh */}
+                  {stripeStatus && !stripeStatus.isFullyActivated && (
+                    <button
+                      onClick={() => {
+                        dispatch(create_stripe_connect_account());
+                      }}
+                      className="bg-orange-500 hover:bg-orange-600 text-white text-xs px-3 py-1 rounded"
+                    >
+                      Tiếp tục thiết lập
+                    </button>
+                  )}
+                </div>
+                
+                {/* Hiển thị thông tin trạng thái Stripe chỉ khi showStripeStatus = true */}
+                {showStripeStatus && stripeStatus && (
+                  <div className="mt-3 p-3 bg-slate-700 rounded-md">
+                    <h4 className="text-sm font-medium mb-2">Trạng thái tài khoản Stripe:</h4>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between">
+                        <span>Thanh toán được kích hoạt:</span>
+                        <span className={stripeStatus.charges_enabled ? 'text-green-400' : 'text-red-400'}>
+                          {stripeStatus.charges_enabled ? '✓' : '✗'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Chuyển khoản được kích hoạt:</span>
+                        <span className={stripeStatus.payouts_enabled ? 'text-green-400' : 'text-red-400'}>
+                          {stripeStatus.payouts_enabled ? '✓' : '✗'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Thông tin đã được gửi:</span>
+                        <span className={stripeStatus.details_submitted ? 'text-green-400' : 'text-red-400'}>
+                          {stripeStatus.details_submitted ? '✓' : '✗'}
+                        </span>
+                      </div>
+                      {stripeStatus.pendingRequirements && stripeStatus.pendingRequirements.length > 0 && (
+                        <div className="mt-2">
+                          <span className="text-yellow-400">Yêu cầu chưa hoàn thành:</span>
+                          <ul className="mt-1 text-yellow-300">
+                            {stripeStatus.pendingRequirements.map((req, index) => (
+                              <li key={index}>• {req}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

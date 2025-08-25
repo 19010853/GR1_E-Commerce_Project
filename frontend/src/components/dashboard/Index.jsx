@@ -40,7 +40,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{totalOrder}</h2>
-            <span>Orders </span>
+            <span>Tổng đơn hàng</span>
           </div>
         </div>
 
@@ -52,7 +52,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{pendingOrder}</h2>
-            <span>Pending Orders </span>
+            <span>Đơn hàng chờ xử lý</span>
           </div>
         </div>
 
@@ -64,32 +64,32 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{cancelledOrder}</h2>
-            <span>Cancelled Orders </span>
+            <span>Đơn hàng đã huỷ</span>
           </div>
         </div>
       </div>
 
       <div className="bg-white p-5 mt-5 rounded-md">
-        <h2>Recent Orders</h2>
+        <h2>Đơn hàng gần đây</h2>
         <div className="pt-4">
           <div className="relative overflow-x-auto rounded-md">
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Order Id
+                    Mã đơn hàng
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Price
+                    Giá trị
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Payment Status
+                    Trạng thái thanh toán
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Order Status
+                    Trạng thái đơn hàng
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Action
+                    Thao tác
                   </th>
                 </tr>
               </thead>
@@ -106,19 +106,23 @@ const Index = () => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      ${o.price}
+                      {o.price}₫
                     </td>
                     <td
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      {o.payment_status}
+                      {o.payment_status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
                     </td>
                     <td
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      {o.delivery_status}
+                      {o.delivery_status === "pending" ? "Đang chờ xử lý" :
+                        o.delivery_status === "processing" ? "Đang xử lý" :
+                        o.delivery_status === "warehouse" ? "Đang ở kho" :
+                        o.delivery_status === "placed" ? "Đã đặt hàng" :
+                        o.delivery_status === "cancelled" ? "Đã huỷ" : o.delivery_status}
                     </td>
                     <td
                       scope="row"
@@ -126,7 +130,7 @@ const Index = () => {
                     >
                       <Link to={`/dashboard/order/details/${o._id}`}>
                         <span className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded">
-                          View
+                          Xem
                         </span>
                       </Link>
 
@@ -135,7 +139,7 @@ const Index = () => {
                           onClick={() => redirect(o)}
                           className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded cursor-pointer"
                         >
-                          Pay Now
+                          Thanh toán ngay
                         </span>
                       )}
                     </td>

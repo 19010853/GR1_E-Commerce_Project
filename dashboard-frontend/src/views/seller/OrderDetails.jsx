@@ -40,9 +40,9 @@ const OrderDetails = () => {
     return (
         <div className='px-2 lg:px-7 pt-5'>
         <div className='w-full p-4 bg-[#6a5fdf] rounded-md'>
-            <div className='flex justify-between items-center p-4'>
+            <div className='flex flex-col md:flex-row md:justify-between md:items-center p-4 gap-2'>
                 <h2 className='text-xl text-[#d0d2d6]'>Chi tiết đơn hàng</h2>
-                <select onChange={status_update} value={status} name="" id="" className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#475569] border border-slate-700 rounded-md text-[#d0d2d6]'>
+                <select onChange={status_update} value={status} name="" id="" className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#475569] border border-slate-700 rounded-md text-[#d0d2d6] w-full md:w-auto'>
                 <option value="pending">đang chờ xử lý</option>
                 <option value="processing">đang xử lý</option>
                 <option value="warehouse">đang ở kho</option>
@@ -52,19 +52,13 @@ const OrderDetails = () => {
             </div>
 
         <div className='p-4'>
-            <div className='flex gap-2 text-lg text-[#d0d2d6]'>
-                <h2>#{order._id}</h2>
-                <span>{order.date}</span> 
-            </div>
-             
-            <div className='flex flex-wrap'>
-                <div className='w-[30%]'>
-                    <div className='pr-3 text-[#d0d2d6] text-lg'>
+            <div className='flex flex-col md:flex-row gap-4 text-lg text-[#d0d2d6]'>
+                <div className='w-full md:w-1/3'>
+                    <div className='pr-0 md:pr-3 text-[#d0d2d6] text-lg'>
                         <div className='flex flex-col gap-1'>
                             <h2 className='pb-2 font-semibold'>Giao đến : {order.shippingInfo} </h2>
-                             
                         </div>
-            <div className='flex justify-start items-center gap-3'>
+            <div className='flex justify-start items-center gap-3 mt-2'>
                 <h2>Trạng thái thanh toán: </h2>
                 <span className='text-base'>{order.payment_status}</span>
              </div>  
@@ -73,15 +67,16 @@ const OrderDetails = () => {
          {
             order?.products?.map((p,i) => <div key={i} className='mt-4 flex flex-col gap-4 bg-[#8288ed] rounded-md'>
             <div className='text-[#d0d2d6]'> 
-                <div className='flex gap-3 text-md'>
-                    <img className='w-[50px] h-[50px]' src={p.images[0]} alt="" />
+                <div className='flex flex-col sm:flex-row gap-3 text-md items-start sm:items-center'>
+                    <img className='w-[50px] h-[50px] object-cover' src={p.images[0]} alt="" />
 
                     <div>
                         <h2>{p.name}</h2>
                         <p>
-                            <span>Thương hiệu : </span>
-                            <span>{p.brand}</span>
-                            <span className='text-lg'>Số lượng : {p.quantity} </span>
+                            <span>Thương hiệu : {p.brand}</span>
+                        </p>
+                        <p>
+                            <span>Số lượng : {p.quantity}</span>
                         </p>
                     </div> 
                 </div> 
@@ -92,11 +87,9 @@ const OrderDetails = () => {
 
  
 
-
                     </div>
                 </div> 
  
-
 
             </div>
 

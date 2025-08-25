@@ -57,14 +57,14 @@ export const allNav = [
     },
     {
         id: 7,
-        title: 'Yêu cầu người bán',
+        title: 'Yêu cầu từ người bán',
         icon: <FaCodePullRequest />,
         role: 'admin',
         path: '/admin/dashboard/sellers-request'
     },
     {
         id: 8,
-        title: 'Trò chuyện trực tiếp',
+        title: 'Chat với người bán',
         icon: <IoIosChatbubbles />,
         role: 'admin',
         path: '/admin/dashboard/chat-sellers'
@@ -90,13 +90,13 @@ export const allNav = [
         role: 'seller',
         path: '/seller/dashboard/products'
     },
-    {
-        id: 12,
-        title: 'Sản phẩm giảm giá',
-        icon: <TbBasketDiscount />,
-        role: 'seller',
-        path: '/seller/dashboard/discount-product'
-    },
+    // {
+    //     id: 12,
+    //     title: 'Sản phẩm giảm giá',
+    //     icon: <TbBasketDiscount />,
+    //     role: 'seller',
+    //     path: '/seller/dashboard/discount-product'
+    // },
     {
         id: 13,
         title: 'Đơn hàng',

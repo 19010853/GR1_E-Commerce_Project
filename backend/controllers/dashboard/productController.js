@@ -58,7 +58,7 @@ class productController {
           images: allImageUrl,
           brand: brand.trim(),
         });
-        responseReturn(res, 201, { message: "Product Added Successfully" });
+        responseReturn(res, 201, { message: "Thêm sản phẩm thành công" });
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
       }
@@ -139,7 +139,7 @@ class productController {
       });
       const product = await productModel.findById(productId);
       responseReturn(res, 200, {
-        message: "Product Updated Successfully",
+        message: "Cập nhật sản phẩm thành công",
         product,
       });
     } catch (error) {
@@ -180,10 +180,10 @@ class productController {
             const product = await productModel.findById(productId);
             responseReturn(res, 200, {
               product,
-              message: "Product Image Updated Successfully",
+              message: "Cập nhật ảnh sản phẩm thành công",
             });
           } else {
-            responseReturn(res, 404, { error: "Image Upload Failed" });
+            responseReturn(res, 404, { error: "Tải ảnh thất bại" });
           }
         } catch (error) {
           responseReturn(res, 404, { error: error.message });
@@ -192,6 +192,59 @@ class productController {
     });
   };
   // End product image update method
+
+  // Add new product image method
+  add_product_image = async (req, res) => {
+    const form = formidable({ multiples: false });
+    form.parse(req, async (err, field, files) => {
+      const { productId } = field;
+      const { newImage } = files;
+      if (err) {
+        responseReturn(res, 400, { error: err.message });
+      } else {
+        try {
+          cloudinary.config({
+            cloud_name: process.env.cloud_name,
+            api_key: process.env.api_key,
+            api_secret: process.env.api_secret,
+            secure: true,
+          });
+          const result = await cloudinary.uploader.upload(newImage.filepath, {
+            folder: "products",
+          });
+          if (result) {
+            let product = await productModel.findById(productId);
+            product.images.push(result.url);
+            await product.save();
+            responseReturn(res, 200, {
+              product,
+              message: "Thêm ảnh sản phẩm thành công!",
+            });
+          } else {
+            responseReturn(res, 404, { error: "Tải ảnh thất bại" });
+          }
+        } catch (error) {
+          responseReturn(res, 500, { error: error.message });
+        }
+      }
+    });
+  };
+
+  // Remove product image method
+  remove_product_image = async (req, res) => {
+    const { productId, imageUrl } = req.body;
+    try {
+      const product = await productModel.findById(productId);
+      if (!product) {
+        return responseReturn(res, 404, { error: "Không tìm thấy sản phẩm" });
+      }
+      product.images = product.images.filter(img => img !== imageUrl);
+      await product.save();
+      responseReturn(res, 200, { message: "Xoá ảnh thành công", product });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 
 module.exports = new productController();

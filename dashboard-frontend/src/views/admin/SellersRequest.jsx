@@ -27,7 +27,7 @@ const SellerRequest = () => {
 
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <h1 className="text-[20px] font-bold mb-3">Yêu cầu người bán</h1>
+      <h1 className="text-[20px] font-bold mb-3">Yêu cầu từ người bán</h1>
 
       <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
         <Search

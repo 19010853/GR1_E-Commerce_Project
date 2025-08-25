@@ -96,6 +96,18 @@ export const update_product = createAsyncThunk(
 
 // End Method 
 
+export const remove_product_image = createAsyncThunk(
+    'product/remove_product_image',
+    async ({ productId, imageUrl }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/product-remove-image', { productId, imageUrl }, { withCredentials: true });
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
 export const productReducer = createSlice({
     name: 'product',
     initialState: {
@@ -155,6 +167,10 @@ export const productReducer = createSlice({
             .addCase(product_image_update.fulfilled, (state, { payload }) => {
                 state.product = payload.product;
                 state.successMessage = payload.message === "Product image updated successfully" ? "Đã cập nhật hình ảnh sản phẩm thành công" : payload.message;
+            })
+            .addCase(remove_product_image.fulfilled, (state, { payload }) => {
+                state.product = payload.product;
+                state.successMessage = payload.message;
             })
     }
 

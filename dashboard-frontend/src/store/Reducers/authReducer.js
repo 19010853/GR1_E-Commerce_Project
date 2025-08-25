@@ -170,11 +170,14 @@ export const authReducer = createSlice({
                 state.loader = false;
                 state.errorMessage = payload.error === "Invalid credentials" ? "Thông tin đăng nhập không hợp lệ" :
                     payload.error === "User not found" ? "Không tìm thấy người dùng" :
-                        payload.error;
+                        payload.error === "Mật khẩu không đúng" ? "Mật khẩu không đúng" :
+                            payload.error === "Không tìm thấy email" ? "Không tìm thấy email" :
+                                payload.error === "Lỗi server" ? "Lỗi server" :
+                                    payload.error;
             })
             .addCase(admin_login.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message === "Login successful" ? "Đăng nhập thành công" : payload.message;
+                state.successMessage = "Đăng nhập thành công";
                 state.token = payload.token;
                 state.role = returnRole(payload.token);
             })
@@ -186,11 +189,14 @@ export const authReducer = createSlice({
                 state.loader = false;
                 state.errorMessage = payload.error === "Invalid credentials" ? "Thông tin đăng nhập không hợp lệ" :
                     payload.error === "User not found" ? "Không tìm thấy người dùng" :
-                        payload.error;
+                        payload.error === "Mật khẩu không đúng" ? "Mật khẩu không đúng" :
+                            payload.error === "Không tìm thấy email" ? "Không tìm thấy email" :
+                                payload.error === "Lỗi server" ? "Lỗi server" :
+                                    payload.error;
             })
             .addCase(seller_login.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message === "Login successful" ? "Đăng nhập thành công" : payload.message;
+                state.successMessage = "Đăng nhập thành công";
                 state.token = payload.token;
                 state.role = returnRole(payload.token);
             })
@@ -203,11 +209,12 @@ export const authReducer = createSlice({
                 state.errorMessage = payload.error === "Email already exists" ? "Email đã tồn tại" :
                     payload.error === "Invalid email format" ? "Định dạng email không hợp lệ" :
                         payload.error === "Password must be at least 6 characters" ? "Mật khẩu phải có ít nhất 6 ký tự" :
-                            payload.error;
+                            payload.error === "Lỗi server" ? "Lỗi server" :
+                                payload.error;
             })
             .addCase(seller_register.fulfilled, (state, { payload }) => {
                 state.loader = false;
-                state.successMessage = payload.message === "Registration successful" ? "Đăng ký thành công" : payload.message;
+                state.successMessage = "Đăng ký thành công";
                 state.token = payload.token;
                 state.role = returnRole(payload.token);
             })

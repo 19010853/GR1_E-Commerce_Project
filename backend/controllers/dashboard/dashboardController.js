@@ -54,7 +54,7 @@ class dashboardController {
   get_seller_dashboard_data = async (req, res) => {
     const { id } = req;
     if (!id) {
-      return responseReturn(res, 401, { error: "Unauthorized access" });
+      return responseReturn(res, 401, { error: "Không có quyền truy cập" });
     }
 
     try {
@@ -109,8 +109,8 @@ class dashboardController {
         totalSale: totalSale.length > 0 ? totalSale[0].totalAmount : 0
       });
     } catch (error) {
-      console.error("Dashboard data error:", error);
-      responseReturn(res, 500, { error: "Internal server error" });
+      console.error("Lỗi dữ liệu dashboard:", error);
+      responseReturn(res, 500, { error: "Lỗi máy chủ" });
     }
   };
   // End get seller dashboard data method
@@ -139,7 +139,7 @@ class dashboardController {
           banner: result.url,
           link: slug,
         });
-        responseReturn(res, 200, { banner, message: "Banner Add Success" });
+        responseReturn(res, 200, { banner, message: "Thêm banner thành công" });
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
       }
@@ -192,7 +192,7 @@ class dashboardController {
         });
 
         banner = await bannerModel.findById(bannerId);
-        responseReturn(res, 200, { banner, message: "Banner Updated Success" });
+        responseReturn(res, 200, { banner, message: "Cập nhật banner thành công" });
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
       }

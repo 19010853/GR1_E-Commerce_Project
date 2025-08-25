@@ -21,8 +21,8 @@ const Footer = () => {
         <div className="w-3/12 lg:w-4/12 sm:w-full">
           <div className="flex flex-col gap-3">
             <img
-              className="w-[190px] h-[70px]"
-              src="http://localhost:3000/images/logo.png"
+              className="w-[180px] h-[50px] object-contain"
+              src="http://localhost:3000/images/mkwineshop.png"
               alt="logo"
             />
             <ul className="flex flex-col gap-2 text-slate-600">
@@ -124,10 +124,6 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-      </div>
-
-      <div className="w-[90%] flex flex-wrap justify-center items-center text-slate-600 mx-auto py-5 text-center">
-        <span>Bản quyền © 2025 Đã đăng ký</span>
       </div>
 
       <div className="hidden fixed md-lg:block w-[50px] h-[110px] bottom-3 right-2 bg-white rounded-full p-2">

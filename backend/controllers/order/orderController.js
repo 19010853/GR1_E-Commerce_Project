@@ -96,7 +96,7 @@ class orderController {
                 this.paymentCheck(order.id)
             }, 300000)
 
-            responseReturn(res, 200, { message: "Order Placed Success", orderId: order.id })
+            responseReturn(res, 200, { message: "Đặt hàng thành công", orderId: order.id })
 
 
         } catch (error) {
@@ -261,7 +261,7 @@ class orderController {
             responseReturn(res, 200, { message: 'order Status change success' })
         } catch (error) {
             console.log('get admin status error' + error.message)
-            responseReturn(res, 500, { message: 'internal server error' })
+            responseReturn(res, 500, { message: 'lỗi máy chủ' })
         }
 
     }
@@ -291,7 +291,7 @@ class orderController {
 
         } catch (error) {
             console.log('get seller Order error' + error.message)
-            responseReturn(res, 500, { message: 'internal server error' })
+            responseReturn(res, 500, { message: 'lỗi máy chủ' })
         }
 
     }
@@ -319,10 +319,10 @@ class orderController {
             await authOrderModel.findByIdAndUpdate(orderId, {
                 delivery_status: status
             })
-            responseReturn(res, 200, { message: 'order status updated successfully' })
+            responseReturn(res, 200, { message: 'Cập nhật trạng thái đơn hàng thành công' })
         } catch (error) {
             console.log('get seller Order error' + error.message)
-            responseReturn(res, 500, { message: 'internal server error' })
+            responseReturn(res, 500, { message: 'lỗi máy chủ' })
         }
 
 
@@ -343,7 +343,7 @@ class orderController {
             responseReturn(res, 200, { clientSecret: payment.client_secret })
         } catch (error) {
             console.log(error.message)
-            responseReturn(res, 500, { message: 'Internal Server Error' })
+            responseReturn(res, 500, { message: 'lỗi máy chủ' })
         }
     }
     // End create payment method
@@ -383,7 +383,7 @@ class orderController {
                     year: splitTime[2]
                 })
             }
-            responseReturn(res, 200, { message: 'success' })
+            responseReturn(res, 200, { message: 'Xác nhận thanh toán thành công' })
 
         } catch (error) {
             console.log(error.message)

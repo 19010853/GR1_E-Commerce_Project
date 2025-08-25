@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -15,6 +15,8 @@ const AddProduct = () => {
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.product
   );
+  const nameInputRef = useRef(null);
+  const [justSubmitted, setJustSubmitted] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -117,8 +119,15 @@ const AddProduct = () => {
   // console.log(imageShow)
 
   useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
+    // Clear both success and error messages on mount
+    dispatch(messageClear());
+    setJustSubmitted(false);
+  }, []);
+
+  useEffect(() => {
+    // Chỉ hiển thị toast khi vừa submit thành công
+    if (successMessage && /success|thành công/i.test(successMessage) && justSubmitted) {
+      toast.success("Đã thêm sản phẩm thành công!");
       dispatch(messageClear());
       setState({
         name: "",
@@ -131,12 +140,15 @@ const AddProduct = () => {
       setImageShow([]);
       setImages([]);
       setCategory("");
+      setJustSubmitted(false);
+      if (nameInputRef.current) nameInputRef.current.focus();
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
+      setJustSubmitted(false);
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, justSubmitted]);
 
   const changeImage = (img, index) => {
     if (img) {
@@ -181,12 +193,14 @@ const AddProduct = () => {
     }
 
     // Validate discount
-    if (state.discount) {
-      const discountValue = parseFloat(state.discount);
+    let discountValue = state.discount;
+    if (discountValue === "" || discountValue === undefined || discountValue === null) {
+      discountValue = 0;
+    }
+    discountValue = parseFloat(discountValue);
       if (discountValue < 0 || discountValue > 100) {
         toast.error('Giảm giá phải từ 0 đến 100%');
         return;
-      }
     }
 
     // Validate images
@@ -200,7 +214,7 @@ const AddProduct = () => {
     formData.append("description", state.description);
     formData.append("price", state.price);
     formData.append("stock", state.stock);
-    formData.append("discount", state.discount);
+    formData.append("discount", discountValue);
     formData.append("brand", state.brand);
     formData.append("shopName", "MKShop");
     formData.append("category", category);
@@ -210,6 +224,7 @@ const AddProduct = () => {
     }
 
     dispatch(add_product(formData));
+    setJustSubmitted(true);
   };
 
   useEffect(() => {
@@ -241,6 +256,7 @@ const AddProduct = () => {
                   name="name"
                   id="name"
                   placeholder="Nhập tên sản phẩm"
+                  ref={nameInputRef}
                 />
               </div>
 

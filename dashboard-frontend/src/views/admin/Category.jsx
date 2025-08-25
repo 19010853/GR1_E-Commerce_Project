@@ -20,7 +20,7 @@ import Search from "../components/Search";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { loader, successMessage, errorMessage, categorys } = useSelector(
+  const { loader, successMessage, errorMessage, categorys, totalCategory } = useSelector(
     (state) => state.category
   );
 
@@ -75,6 +75,14 @@ const Category = () => {
       dispatch(messageClear());
     }
   }, [successMessage, errorMessage, dispatch]);
+
+  // Clear messages when component mounts and unmounts
+  useEffect(() => {
+    dispatch(messageClear());
+    return () => {
+      dispatch(messageClear());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     const obj = {
@@ -158,8 +166,8 @@ const Category = () => {
                       >
                         <img
                           className="w-[45px] h-[45px]"
-                          src={d.image}
-                          alt=""
+                          src={d.image || null}
+                          alt={d.name || "Category image"}
                         />
                       </td>
                       <td
@@ -200,7 +208,7 @@ const Category = () => {
               <Pagination
                 pageNumber={currentPage}
                 setPageNumber={setCurrentPage}
-                totalItem={50}
+                totalItem={totalCategory}
                 parPage={parPage}
                 showItem={3}
               />
@@ -247,7 +255,7 @@ const Category = () => {
                     htmlFor="image"
                   >
                     {imageShow ? (
-                      <img className="w-full h-full" src={imageShow} />
+                      <img className="w-full h-full object-contain" src={imageShow} alt="Preview" />
                     ) : (
                       <>
                         <span>

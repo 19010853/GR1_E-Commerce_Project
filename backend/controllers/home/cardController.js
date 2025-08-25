@@ -25,14 +25,14 @@ class cardController {
             })
 
             if (product) {
-                responseReturn(res, 404, { error: "Product Already Added To Card" })
+                responseReturn(res, 404, { error: "Sản phẩm đã có trong giỏ hàng" })
             } else {
                 const product = await cardModel.create({
                     userId,
                     productId,
                     quantity
                 })
-                responseReturn(res, 201, { message: "Added To Card Successfully", product })
+                responseReturn(res, 201, { message: "Thêm vào giỏ hàng thành công", product })
             }
 
         } catch (error) {
@@ -140,7 +140,7 @@ class cardController {
         const { card_id } = req.params
         try {
             await cardModel.findByIdAndDelete(card_id)
-            responseReturn(res, 200, { message: "Product Remove Successfully" })
+            responseReturn(res, 200, { message: "Xóa sản phẩm thành công" })
 
         } catch (error) {
             console.log(error.message)
@@ -156,7 +156,7 @@ class cardController {
             const product = await cardModel.findById(card_id)
             const { quantity } = product
             await cardModel.findByIdAndUpdate(card_id, { quantity: quantity + 1 })
-            responseReturn(res, 200, { message: "Qty Updated" })
+            responseReturn(res, 200, { message: "Bổ sung số lượng thành công" })
 
         } catch (error) {
             console.log(error.message)
@@ -172,7 +172,7 @@ class cardController {
             const product = await cardModel.findById(card_id)
             const { quantity } = product
             await cardModel.findByIdAndUpdate(card_id, { quantity: quantity - 1 })
-            responseReturn(res, 200, { message: "Qty Updated" })
+            responseReturn(res, 200, { message: "Giảm số lượng thành công" })
 
         } catch (error) {
             console.log(error.message)
@@ -188,12 +188,12 @@ class cardController {
             const product = await wishlistModel.findOne({ slug })
             if (product) {
                 responseReturn(res, 404, {
-                    error: 'Product Is Already In Wishlist'
+                    error: 'Sản phẩm đã có trong danh sách yêu thích'
                 })
             } else {
                 await wishlistModel.create(req.body)
                 responseReturn(res, 201, {
-                    message: 'Product Add to Wishlist Success'
+                    message: 'Thêm vào danh sách yêu thích thành công'
                 })
             }
         } catch (error) {
@@ -227,7 +227,7 @@ class cardController {
         try {
             const wishlist = await wishlistModel.findByIdAndDelete(wishlistId)
             responseReturn(res, 200, {
-                message: 'Wishlist Product Remove',
+                message: 'Xóa sản phẩm khỏi danh sách yêu thích',
                 wishlistId
             })
 

@@ -4,7 +4,9 @@ import { getNav } from "../navigation/index";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/Reducers/authReducer";
-import logo from '../assets/logo.png'
+import logo from '../assets/mkwineshop.png'
+
+
 
 const SideBar = ({ showSideBar, setShowSideBar }) => {
   const dispatch = useDispatch();

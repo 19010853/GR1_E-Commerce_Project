@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,13 +9,16 @@ import {
   update_product,
   messageClear,
   product_image_update,
+  remove_product_image,
 } from "../../store/Reducers/productReducer";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const EditProduct = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
@@ -72,6 +75,7 @@ const EditProduct = () => {
   };
 
   const [imageShow, setImageShow] = useState([]);
+  const [newImages, setNewImages] = useState([]);
 
   const changeImage = (img, files) => {
     if (files.length > 0) {
@@ -104,18 +108,30 @@ const EditProduct = () => {
     }
   }, [categorys]);
 
+  const [justSubmitted, setJustSubmitted] = useState(false);
+
   useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
+    dispatch(messageClear());
+    setJustSubmitted(false);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (successMessage && /success|thành công/i.test(successMessage) && justSubmitted) {
+      toast.success("Cập nhật sản phẩm thành công!");
       dispatch(messageClear());
+      setJustSubmitted(false);
+      setTimeout(() => {
+        navigate("/seller/dashboard/products");
+      }, 1000);
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
+      setJustSubmitted(false);
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, justSubmitted, dispatch, navigate]);
 
-  const update = (e) => {
+  const update = async (e) => {
     e.preventDefault();
     const obj = {
       name: state.name,
@@ -127,7 +143,54 @@ const EditProduct = () => {
       category: category,
       productId: productId,
     };
-    dispatch(update_product(obj));
+    await dispatch(update_product(obj));
+    if (newImages.length > 0) {
+      for (let i = 0; i < newImages.length; i++) {
+        const formData = new FormData();
+        formData.append("productId", productId);
+        formData.append("newImage", newImages[i]);
+        try {
+          await axios.post("/api/product-add-image", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          });
+        } catch (err) {
+          toast.error("Lỗi khi upload ảnh mới!");
+        }
+      }
+      setNewImages([]);
+    }
+    dispatch(get_product(productId));
+    setJustSubmitted(true);
+  };
+
+  const imageHandle = (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      setNewImages([...newImages, ...files]);
+    }
+  };
+
+  const removeExistingImage = (imgUrl) => {
+    dispatch(remove_product_image({ productId, imageUrl: imgUrl }))
+      .unwrap()
+      .then(() => {
+        dispatch(get_product(productId));
+        toast.success("Đã xoá ảnh thành công!");
+      })
+      .catch((err) => {
+        toast.error(err?.error || "Lỗi khi xoá ảnh!");
+      });
+  };
+
+  const removeNewImage = (i) => {
+    const filterImage = newImages.filter((img, index) => index !== i);
+    setNewImages(filterImage);
+    setImageShow(imageShow.slice(0, imageShow.length - 1));
+  };
+
+  const changeExistingImage = (imgUrl, file) => {
+    setImageShow(imageShow.map((img) => (img === imgUrl ? URL.createObjectURL(file) : img)));
   };
 
   return (
@@ -228,7 +291,7 @@ const EditProduct = () => {
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
                   value={state.stock}
-                  type="text"
+                  type="number"
                   name="stock"
                   id="stock"
                   placeholder="Số lượng"
@@ -281,21 +344,67 @@ const EditProduct = () => {
             </div>
 
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
-              {imageShow &&
-                imageShow.length > 0 &&
-                imageShow.map((img, i) => (
-                  <div>
-                    <label htmlFor={i}>
-                      <img src={img} alt="" />
-                    </label>
-                    <input
-                      onChange={(e) => changeImage(img, e.target.files)}
-                      type="file"
-                      id={i}
-                      className="hidden"
-                    />
-                  </div>
-                ))}
+              {imageShow && imageShow.length > 0 && imageShow.map((img, i) => (
+                <div className="h-[180px] relative" key={i}>
+                  <label htmlFor={`edit-img-${i}`}>
+                    <img className="w-full h-full rounded-sm" src={img} alt="" />
+                  </label>
+                  <input
+                    onChange={(e) => changeExistingImage(img, e.target.files[0])}
+                    type="file"
+                    id={`edit-img-${i}`}
+                    className="hidden"
+                  />
+                  <span
+                    onClick={() => removeExistingImage(img)}
+                    className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
+                  >
+                    <IoMdCloseCircle />
+                  </span>
+                </div>
+              ))}
+              {newImages && newImages.length > 0 && Array.from(newImages).map((file, i) => (
+                <div className="h-[180px] relative" key={`new-${i}`}> 
+                  <label htmlFor={`new-img-${i}`}>
+                    <img className="w-full h-full rounded-sm" src={URL.createObjectURL(file)} alt="" />
+                  </label>
+                  <input
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      if (files.length > 0) {
+                        const updated = Array.from(newImages);
+                        updated[i] = files[0];
+                        setNewImages(updated);
+                      }
+                    }}
+                    type="file"
+                    id={`new-img-${i}`}
+                    className="hidden"
+                  />
+                  <span
+                    onClick={() => removeNewImage(i)}
+                    className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
+                  >
+                    <IoMdCloseCircle />
+                  </span>
+                </div>
+              ))}
+              <label
+                className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-red-500 w-full text-[#d0d2d6]"
+                htmlFor="edit-image"
+              >
+                <span>
+                  <IoMdImages />
+                </span>
+                <span>Chọn hình ảnh</span>
+              </label>
+              <input
+                className="hidden"
+                onChange={imageHandle}
+                multiple
+                type="file"
+                id="edit-image"
+              />
             </div>
 
             <div className="flex">
@@ -306,7 +415,7 @@ const EditProduct = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Save Changes"
+                  "Lưu thay đổi"
                 )}
               </button>
             </div>

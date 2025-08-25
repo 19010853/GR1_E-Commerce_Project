@@ -32,17 +32,17 @@ const Orders = () => {
   return (
     <div className="bg-white p-4 rounded-md">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-slate-600">My Orders </h2>
+        <h2 className="text-xl font-semibold text-slate-600">Đơn hàng của tôi</h2>
         <select
           className="outline-none px-3 py-1 border rounded-md text-slate-600"
           value={state}
           onChange={(e) => setState(e.target.value)}
         >
-          <option value="all">--ordre status--</option>
-          <option value="placed">Placed</option>
-          <option value="pending">Pending</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="warehouse">Warehouse</option>
+          <option value="all">--Trạng thái đơn hàng--</option>
+          <option value="placed">Đã đặt hàng</option>
+          <option value="pending">Đang chờ xử lý</option>
+          <option value="cancelled">Đã huỷ</option>
+          <option value="warehouse">Đang ở kho</option>
         </select>
       </div>
 
@@ -52,25 +52,25 @@ const Orders = () => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-200">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Order Id
+                  Mã đơn hàng
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
+                  Giá trị
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Payment Status
+                  Trạng thái thanh toán
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Order Status
+                  Trạng thái đơn hàng
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Action
+                  Thao tác
                 </th>
               </tr>
             </thead>
             <tbody>
               {myOrders.map((o, i) => (
-                <tr className="bg-white border-b">
+                <tr className="bg-white border-b" key={o._id}>
                   <td
                     scope="row"
                     className="px-6 py-4 font-medium whitespace-nowrap"
@@ -81,19 +81,23 @@ const Orders = () => {
                     scope="row"
                     className="px-6 py-4 font-medium whitespace-nowrap"
                   >
-                    ${o.price}
+                    {o.price}₫
                   </td>
                   <td
                     scope="row"
                     className="px-6 py-4 font-medium whitespace-nowrap"
                   >
-                    {o.payment_status}
+                    {o.payment_status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
                   </td>
                   <td
                     scope="row"
                     className="px-6 py-4 font-medium whitespace-nowrap"
                   >
-                    {o.delivery_status}
+                    {o.delivery_status === "pending" ? "Đang chờ xử lý" :
+                      o.delivery_status === "processing" ? "Đang xử lý" :
+                      o.delivery_status === "warehouse" ? "Đang ở kho" :
+                      o.delivery_status === "placed" ? "Đã đặt hàng" :
+                      o.delivery_status === "cancelled" ? "Đã huỷ" : o.delivery_status}
                   </td>
                   <td
                     scope="row"
@@ -101,7 +105,7 @@ const Orders = () => {
                   >
                     <Link to={`/dashboard/order/details/${o._id}`}>
                       <span className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded">
-                        View
+                        Xem
                       </span>
                     </Link>
 
@@ -110,7 +114,7 @@ const Orders = () => {
                         onClick={() => redirect(o)}
                         className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded cursor-pointer"
                       >
-                        Pay Now
+                        Xác nhận thanh toán
                       </span>
                     )}
                   </td>

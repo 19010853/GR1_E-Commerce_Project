@@ -206,7 +206,7 @@ class homeControllers {
                 rating: productRating
             })
             responseReturn(res, 201, {
-                message: "Review Added Successfully"
+                message: "Đánh giá thành công"
             })
 
 
@@ -288,7 +288,7 @@ class homeControllers {
 
         } catch (error) {
             console.log(error.message)
-            responseReturn(res, 500, { error: "Internal server error" })
+            responseReturn(res, 500, { error: "Lỗi máy chủ" })
         }
     }
     // End get reviews method

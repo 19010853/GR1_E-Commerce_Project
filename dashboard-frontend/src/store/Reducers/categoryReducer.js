@@ -88,56 +88,76 @@ export const categoryReducer = createSlice({
     totalCategory: 0,
   },
   reducers: {
-    messageClear: (state, _) => {
+    messageClear: (state) => {
       state.errorMessage = "";
+      state.successMessage = "";
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(categoryAdd.pending, (state, { payload }) => {
+      .addCase(categoryAdd.pending, (state) => {
         state.loader = true;
+        state.successMessage = "";
+        state.errorMessage = "";
       })
       .addCase(categoryAdd.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = payload.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
-          payload.error === "Invalid category data" ? "Dữ liệu danh mục không hợp lệ" :
-            payload.error;
+        state.errorMessage = payload?.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
+          payload?.error === "Invalid category data" ? "Dữ liệu danh mục không hợp lệ" :
+            payload?.error === "Lỗi tải lên hình ảnh" ? "Lỗi tải lên hình ảnh" :
+              payload?.error === "Lỗi server" ? "Lỗi server" :
+                payload?.error || "Đã xảy ra lỗi";
+        state.successMessage = "";
       })
       .addCase(categoryAdd.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.successMessage = payload.message === "Category added successfully" ? "Đã thêm danh mục thành công" : payload.message;
+        state.successMessage = "Đã thêm danh mục thành công";
         state.categorys = [...state.categorys, payload.category];
+        state.errorMessage = "";
       })
       .addCase(get_category.fulfilled, (state, { payload }) => {
         state.totalCategory = payload.totalCategory;
         state.categorys = payload.categorys;
+        state.successMessage = "";
+        state.errorMessage = "";
       })
-      .addCase(updateCategory.pending, (state, { payload }) => {
+      .addCase(updateCategory.pending, (state) => {
+        state.loader = true;
+        state.successMessage = "";
+        state.errorMessage = "";
+      })
+      .addCase(updateCategory.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.successMessage = payload.message === "Category updated successfully" ? "Đã cập nhật danh mục thành công" : payload.message;
+        state.successMessage = "Đã cập nhật danh mục thành công";
         const index = state.categorys.findIndex(
           (category) => category._id === payload.category._id
         );
         if (index !== -1) {
           state.categorys[index] = payload.category;
         }
+        state.errorMessage = "";
       })
       .addCase(updateCategory.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = payload.error === "Category not found" ? "Không tìm thấy danh mục" :
-          payload.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
-            payload.error;
+        state.errorMessage = payload?.error === "Category not found" ? "Không tìm thấy danh mục" :
+          payload?.error === "Category name already exists" ? "Tên danh mục đã tồn tại" :
+            payload?.error === "Lỗi server" ? "Lỗi server" :
+              payload?.error || "Đã xảy ra lỗi";
+        state.successMessage = "";
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.categorys = state.categorys.filter(
           (cat) => cat._id !== action.meta.arg
         );
-        state.successMessage = action.payload.message === "Category deleted successfully" ? "Đã xóa danh mục thành công" : action.payload.message;
+        state.successMessage = "Đã xóa danh mục thành công";
+        state.errorMessage = "";
       })
       .addCase(deleteCategory.rejected, (state, action) => {
-        state.errorMessage = action.payload === "Category not found" ? "Không tìm thấy danh mục" :
-          action.payload === "Cannot delete category with products" ? "Không thể xóa danh mục có sản phẩm" :
-            action.payload;
+        state.errorMessage = action.payload?.error === "Category not found" ? "Không tìm thấy danh mục" :
+          action.payload?.error === "Cannot delete category with products" ? "Không thể xóa danh mục có sản phẩm" :
+            action.payload?.error === "Lỗi server" ? "Lỗi server" :
+              action.payload?.error || "Đã xảy ra lỗi";
+        state.successMessage = "";
       });
   },
 });

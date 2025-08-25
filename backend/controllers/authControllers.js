@@ -26,16 +26,16 @@ class authControllers {
                     res.cookie('accessToken', token, {
                         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                     })
-                    responseReturn(res, 200, { token, message: "Login Success" })
+                    responseReturn(res, 200, { token, message: "Đăng nhập thành công" })
                 } else {
-                    responseReturn(res, 404, { error: "Password Wrong" })
+                    responseReturn(res, 404, { error: "Mật khẩu không đúng" })
                 }
             } else {
-                responseReturn(res, 404, { error: "Email not Found" })
+                responseReturn(res, 404, { error: "Không tìm thấy email" })
             }
 
         } catch (error) {
-            responseReturn(res, 500, { error: error.message })
+            responseReturn(res, 500, { error: "Lỗi server" })
         }
     }
     // End admin login method
@@ -56,18 +56,18 @@ class authControllers {
                     res.cookie('accessToken', token, {
                         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                     })
-                    responseReturn(res, 200, { token, message: "Login Success" })
+                    responseReturn(res, 200, { token, message: "Đăng nhập thành công" })
                 } else {
-                    responseReturn(res, 404, { error: "Password Wrong" })
+                    responseReturn(res, 404, { error: "Mật khẩu không đúng" })
                 }
 
 
             } else {
-                responseReturn(res, 404, { error: "Email not Found" })
+                responseReturn(res, 404, { error: "Không tìm thấy email" })
             }
 
         } catch (error) {
-            responseReturn(res, 500, { error: error.message })
+            responseReturn(res, 500, { error: "Lỗi server" })
         }
 
     }
@@ -78,7 +78,7 @@ class authControllers {
         try {
             const getUser = await sellerModel.findOne({ email })
             if (getUser) {
-                responseReturn(res, 404, { error: 'Email Already Exit' })
+                responseReturn(res, 404, { error: 'Email đã tồn tại' })
             } else {
                 const seller = await sellerModel.create({
                     name,
@@ -96,10 +96,10 @@ class authControllers {
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                 })
 
-                responseReturn(res, 201, { token, message: 'Register Success' })
+                responseReturn(res, 201, { token, message: 'Đăng ký thành công' })
             }
         } catch (error) {
-            responseReturn(res, 500, { error: 'Internal Server Error' })
+            responseReturn(res, 500, { error: 'Lỗi máy chủ' })
         }
     }
     // End seller register method
@@ -117,7 +117,7 @@ class authControllers {
             }
 
         } catch (error) {
-            responseReturn(res, 500, { error: 'Internal Server Error' })
+            responseReturn(res, 500, { error: 'Lỗi máy chủ' })
         }
     }
     // End getUser method
@@ -141,9 +141,9 @@ class authControllers {
                         image: result.url
                     })
                     const userInfo = await sellerModel.findById(id)
-                    responseReturn(res, 201, { message: 'Profile Image Upload Successfully', userInfo })
+                    responseReturn(res, 201, { message: 'Tải ảnh thành công', userInfo })
                 } else {
-                    responseReturn(res, 404, { error: 'Image Upload Failed' })
+                    responseReturn(res, 404, { error: 'Tải ảnh thất bại' })
                 }
 
             } catch (error) {
@@ -170,7 +170,7 @@ class authControllers {
                 }
             })
             const userInfo = await sellerModel.findById(id)
-            responseReturn(res, 201, { message: 'Profile info Add Successfully', userInfo })
+            responseReturn(res, 201, { message: 'Thêm thông tin thành công', userInfo })
 
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
@@ -186,7 +186,7 @@ class authControllers {
                 expires: new Date(Date.now()),
                 httpOnly: true
             })
-            responseReturn(res, 200, { message: 'logout Success' })
+            responseReturn(res, 200, { message: 'Đăng xuất thành công' })
         } catch (error) {
             responseReturn(res, 500, { error: error.message })
         }
@@ -199,17 +199,17 @@ class authControllers {
         // console.log(email,old_password,new_password)
         try {
             const user = await sellerModel.findOne({ email }).select('+password');
-            if (!user) return res.status(404).json({ message: 'User not found' });
+            if (!user) return res.status(404).json({ message: 'Không tìm thấy người dùng' });
 
             const isMatch = await bcrpty.compare(old_password, user.password);
-            if (!isMatch) return res.status(400).json({ message: 'Incorrect old password' });
+            if (!isMatch) return res.status(400).json({ message: 'Mật khẩu cũ không đúng' });
 
             user.password = await bcrpty.hash(new_password, 10);
             await user.save();
-            res.json({ message: 'Password changed successfully' });
+            responseReturn(res, 200, { message: 'Đổi mật khẩu thành công' });
 
         } catch (error) {
-            res.status(500).json({ message: 'Server Error' });
+            responseReturn(res, 500, { message: 'Lỗi máy chủ' });
         }
     }
     // End change_password method

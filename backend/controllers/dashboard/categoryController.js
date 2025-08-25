@@ -11,7 +11,7 @@ class categoryController {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        responseReturn(res, 404, { error: "something went wrong" });
+        responseReturn(res, 404, { error: "Lỗi server" });
       } else {
         let { name } = fields;
         let { image } = files;
@@ -38,13 +38,13 @@ class categoryController {
             });
             responseReturn(res, 201, {
               category,
-              message: "Category Added Successfully",
+              message: "Đã thêm danh mục thành công",
             });
           } else {
-            responseReturn(res, 404, { error: "Image Upload File" });
+            responseReturn(res, 404, { error: "Lỗi tải lên hình ảnh" });
           }
         } catch (error) {
-          responseReturn(res, 500, { error: "Internal Server Error" });
+          responseReturn(res, 500, { error: "Lỗi server" });
         }
       }
     });
@@ -60,6 +60,7 @@ class categoryController {
       if (parPage && page) {
         skipPage = (parseInt(page) - 1) * parseInt(parPage);
       }
+
       if (searchValue && page && parPage) {
         const categorys = await categoryModel
           .find({
@@ -79,16 +80,23 @@ class categoryController {
           .countDocuments();
         responseReturn(res, 200, { categorys, totalCategory });
       } else if (searchValue === "" && page && parPage) {
-        const categorys = await categoryModel.find({}).sort({ createdAt: -1 });
+        const categorys = await categoryModel
+          .find({})
+          .skip(skipPage)
+          .limit(parseInt(parPage))
+          .sort({ createdAt: -1 });
         const totalCategory = await categoryModel.find({}).countDocuments();
         responseReturn(res, 200, { categorys, totalCategory });
       } else {
-        const categorys = await categoryModel.find({}).sort({ createdAt: -1 });
+        const categorys = await categoryModel
+          .find({})
+          .sort({ createdAt: -1 });
         const totalCategory = await categoryModel.find({}).countDocuments();
         responseReturn(res, 200, { categorys, totalCategory });
       }
     } catch (error) {
       console.log(error.message);
+      responseReturn(res, 500, { error: "Lỗi server" });
     }
   };
   //end get category method
@@ -98,7 +106,7 @@ class categoryController {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        responseReturn(res, 404, { error: "Something went wrong" });
+        responseReturn(res, 404, { error: "Lỗi server" });
       } else {
         let { name } = fields;
         let { image } = files;
@@ -138,10 +146,10 @@ class categoryController {
           );
           responseReturn(res, 200, {
             category,
-            message: "Category Updated Successfully",
+            message: "Đã cập nhật danh mục thành công",
           });
         } catch (error) {
-          responseReturn(res, 500, { error: "Internal Server Error" });
+          responseReturn(res, 500, { error: "Lỗi server" });
         }
       }
     });
@@ -156,13 +164,13 @@ class categoryController {
 
       if (!deleteCategory) {
         return responseReturn(res, 404, {
-          error: `Category with id ${categoryId} not found`,
+          error: `Không tìm thấy danh mục với id ${categoryId}`,
         });
       }
 
-      responseReturn(res, 200, { message: "Category deleted successfully" });
+      responseReturn(res, 200, { message: "Đã xóa danh mục thành công" });
     } catch (error) {
-      responseReturn(res, 500, { error: "Internal Server Error" });
+      responseReturn(res, 500, { error: "Lỗi server" });
     }
   };
   // end delete category method

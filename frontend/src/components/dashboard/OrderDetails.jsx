@@ -22,11 +22,11 @@ const OrderDetails = () => {
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1">
           <h2 className="text-slate-600 font-semibold font-sans">
-            Deliver To : {myOrder.shippingInfo?.name}{" "}
+            Giao đến : {myOrder.shippingInfo?.name}{" "}
           </h2>
           <p>
             <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-2 rounded">
-              Home
+              Nhà riêng
             </span>
             <span className="text-slate-600 text-sm">
               {myOrder.shippingInfo?.address}
@@ -35,17 +35,17 @@ const OrderDetails = () => {
             </span>
           </p>
           <p className="text-slate-600 text-md font-semibold">
-            Email To {userInfo.email}
+            Email {userInfo.email}
           </p>
         </div>
 
         <div className="text-slate-600">
           <h2 className="font-mono">
-            Price : ${myOrder.price} Include Shipping
+            Giá : ${myOrder.price} Bao gồm phí vận chuyển
           </h2>
           <p className="font-mono">
             {" "}
-            Payment Status :{" "}
+            Trạng thái thanh toán :{" "}
             <span
               className={`py-[1px] text-xs px-3 ${
                 myOrder.payment_status === "paid"
@@ -54,13 +54,13 @@ const OrderDetails = () => {
               } rounded-md`}
             >
               {" "}
-              {myOrder.payment_status}{" "}
+              {myOrder.payment_status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}{" "}
             </span>{" "}
           </p>
 
           <p className="font-mono">
             {" "}
-            Order Status :{" "}
+            Trạng thái đơn hàng :{" "}
             <span
               className={`py-[1px] text-xs px-3 ${
                 myOrder.delivery_status === "paid"
@@ -69,7 +69,7 @@ const OrderDetails = () => {
               } rounded-md`}
             >
               {" "}
-              {myOrder.delivery_status}{" "}
+              {myOrder.delivery_status === "paid" ? "Đã giao" : "Đang xử lý"}{" "}
             </span>{" "}
           </p>
         </div>
@@ -77,7 +77,7 @@ const OrderDetails = () => {
 
       <div className="mt-4">
         <h2 className="text-slate-600 text-lg pb-2 font-sans font-bold">
-          Order Products{" "}
+          Sản phẩm đã đặt{" "}
         </h2>
         <div className="flex gap-5 flex-col">
           {myOrder.products?.map((p, i) => (
@@ -89,10 +89,10 @@ const OrderDetails = () => {
                     <Link> {p.name} </Link>
                     <p>
                       {" "}
-                      <span>Brand : {p.brand}</span>{" "}
+                      <span>Thương hiệu : {p.brand}</span>{" "}
                     </p>
                     <p>
-                      <span>Quantity : {p.quantity}</span>
+                      <span>Số lượng : {p.quantity}</span>
                     </p>
                   </div>
                 </div>

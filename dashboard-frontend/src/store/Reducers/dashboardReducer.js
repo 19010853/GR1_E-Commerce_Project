@@ -41,10 +41,13 @@ export const dashboardReducer = createSlice({
     totalSeller: 0,
     recentOrder: [],
     recentMessage: [],
+    errorMessage: "",
+    successMessage: "",
   },
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = "";
+      state.successMessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -54,8 +57,11 @@ export const dashboardReducer = createSlice({
         state.totalOrder = payload.totalOrder;
         state.totalProduct = payload.totalProduct;
         state.totalSeller = payload.totalSeller;
-        state.recentOrder = payload.recentOrders;
-        state.recentMessage = payload.messages;
+        state.recentOrder = payload.recentOrder || [];
+        state.recentMessage = payload.recentMessage || [];
+      })
+      .addCase(get_admin_dashboard_data.rejected, (state, { payload }) => {
+        state.errorMessage = payload.error;
       })
       .addCase(get_seller_dashboard_data.fulfilled, (state, { payload }) => {
         state.totalSale = payload.totalSale;

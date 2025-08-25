@@ -46,8 +46,14 @@ const Orders = () => {
             <div className=' flex justify-between items-center'>
                 <div className='py-3 w-[25%] font-bold'>Mã đơn hàng</div>
                 <div className='py-3 w-[13%] font-bold'>Giá</div>
-                <div className='py-3 w-[18%] font-bold'>Trạng thái thanh toán</div>
-                <div className='py-3 w-[18%] font-bold'>Trạng thái đơn hàng</div>
+                <div className='py-3 w-[18%] font-bold'>
+                    <div>Trạng thái</div>
+                    <div>thanh toán</div>
+                </div>
+                <div className='py-3 w-[18%] font-bold'>
+                    <div>Trạng thái</div>
+                    <div>đơn hàng</div>
+                </div>
                 <div className='py-3 w-[18%] font-bold'>Thao tác</div>
                 <div className='py-3 w-[8%] font-bold'><LuArrowDown />
          </div> 

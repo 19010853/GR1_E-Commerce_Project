@@ -60,17 +60,15 @@ class customerAuthController {
                     res.cookie('customerToken', token, {
                         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                     })
-                    responseReturn(res, 201, { message: 'User Login Success', token })
-
+                    responseReturn(res, 201, { message: 'Đăng nhập thành công', token })
                 } else {
-                    responseReturn(res, 404, { error: 'Password Wrong' })
+                    responseReturn(res, 404, { error: 'Mật khẩu không đúng' })
                 }
             } else {
-                responseReturn(res, 404, { error: 'Email Not Found' })
+                responseReturn(res, 404, { error: 'Không tìm thấy email' })
             }
-
         } catch (error) {
-            console.log(error.message)
+            responseReturn(res, 500, { error: 'Lỗi server' })
         }
     }
     // End customer login method
@@ -80,11 +78,36 @@ class customerAuthController {
         res.cookie('customerToken', '', {
             expires: new Date(Date.now() - 1000)
         })
-        responseReturn(res, 200, { message: 'Logout Success' })
+        responseReturn(res, 200, { message: 'Đăng xuất thành công' })
     }
     // End customer logout method
 
+    // Customer change password method
+    customer_change_password = async (req, res) => {
+        const { old_password, new_password } = req.body;
+        const { id } = req;
 
+        try {
+            const customer = await customerModel.findById(id).select('+password');
+            if (!customer) {
+                return responseReturn(res, 404, { error: 'Không tìm thấy người dùng' });
+            }
+
+            const isMatch = await bcrypt.compare(old_password, customer.password);
+            if (!isMatch) {
+                return responseReturn(res, 400, { error: 'Mật khẩu cũ không đúng' });
+            }
+
+            customer.password = await bcrypt.hash(new_password, 10);
+            await customer.save();
+
+            responseReturn(res, 200, { message: 'Đổi mật khẩu thành công' });
+        } catch (error) {
+            console.error('Lỗi đổi mật khẩu:', error);
+            responseReturn(res, 500, { error: 'Lỗi server' });
+        }
+    }
+    // End customer change password method
 }
 
 module.exports = new customerAuthController()

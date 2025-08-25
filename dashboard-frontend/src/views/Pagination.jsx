@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
@@ -26,6 +26,11 @@ const Pagination = ({
     startPage = 1;
   }
 
+  // Ensure endPage doesn't exceed totalPage
+  if (endPage > totalPage) {
+    endPage = totalPage + 1;
+  }
+
   const createButtons = () => {
     const buttons = [];
     for (let index = startPage; index < endPage; index++) {
@@ -45,6 +50,11 @@ const Pagination = ({
     }
     return buttons;
   };
+
+  // Don't show pagination if there's only one page
+  if (totalPage <= 1) {
+    return null;
+  }
 
   return (
     <ul className="flex gap-3 ">

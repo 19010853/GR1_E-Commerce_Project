@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 
-module.exports.authMiddleware = async(req, res, next) => {
-    const {accessToken} = req.cookies;
+module.exports.authMiddleware = async (req, res, next) => {
+    const { accessToken } = req.cookies;
 
     if (!accessToken) {
-        return res.status(409).json({ error: "First you need to login"})
+        return res.status(409).json({ error: "Vui lòng đăng nhập" })
     } else {
         try {
             const decodeToken = await jwt.verify(accessToken, process.env.SECRET)
@@ -12,7 +12,7 @@ module.exports.authMiddleware = async(req, res, next) => {
             req.id = decodeToken.id
             next()
         } catch (error) {
-            return res.status(409).json({ error: "First you need to login"})
+            return res.status(409).json({ error: "Vui lòng đăng nhập" })
         }
     }
 }
